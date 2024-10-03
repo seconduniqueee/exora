@@ -1,0 +1,10 @@
+{
+  "name": "exora-web-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/exora-web-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["exora-web"],
+  "// targets": "to see all targets run: nx show project exora-web-e2e --web",
+  "targets": {}
+}
