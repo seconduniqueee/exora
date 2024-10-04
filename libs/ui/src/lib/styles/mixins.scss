@@ -1,0 +1,62 @@
+$spacing-values: 0, 5, 10, 15, 20, 25, 30;
+
+@each $value in $spacing-values {
+  .p-#{$value} {
+    padding: #{$value}px;
+  }
+
+  .p-t-#{$value} {
+    padding-top: #{$value}px;
+  }
+
+  .p-r-#{$value} {
+    padding-right: #{$value}px;
+  }
+
+  .p-b-#{$value} {
+    padding-bottom: #{$value}px;
+  }
+
+  .p-l-#{$value} {
+    padding-left: #{$value}px;
+  }
+
+  .m-#{$value} {
+    margin: #{$value}px;
+  }
+
+  .m-t-#{$value} {
+    margin-top: #{$value}px;
+  }
+
+  .m-r-#{$value} {
+    margin-right: #{$value}px;
+  }
+
+  .m-b-#{$value} {
+    margin-bottom: #{$value}px;
+  }
+
+  .m-l-#{$value} {
+    margin-left: #{$value}px;
+  }
+}
+
+@each $v1 in $spacing-values {
+  @each $v2 in $spacing-values {
+    .p-#{$v1}-#{$v2} {
+      padding: #{$v1}px #{$v2}px;
+    }
+
+    .m-#{$v1}-#{$v2} {
+      margin: #{$v1}px #{$v2}px;
+    }
+  }
+}
+
+@mixin d-flex($justify-content: flex-start, $align-items: stretch, $flex-direction: row) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-items;
+  flex-direction: $flex-direction;
+}
