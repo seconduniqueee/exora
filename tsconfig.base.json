@@ -6,6 +6,7 @@
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
+    "strictNullChecks": false,
     "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -16,7 +17,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@./ui": ["libs/ui/src/index.ts"]
+      "@exora/shared-models": ["libs/shared-models/src/index.ts"],
+      "@exora/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

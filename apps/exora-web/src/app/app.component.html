@@ -1,1 +1,14 @@
 <div class="m-30 title">{{ appName }}</div>
+
+
+<div class="p-30">
+  <div style="display:flex; gap: 20px; justify-content:center; align-items: center">
+    <button (click)="logIn()">Log In</button>
+    <button (click)="signUp()">Sign Up</button>
+    <button (click)="reset()">Reset</button>
+  </div>
+
+  <div class="message">
+    {{ resultMessage || "There is no current response from the server" }}
+  </div>
+</div>

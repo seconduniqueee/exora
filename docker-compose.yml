@@ -1,0 +1,13 @@
+services:
+  dev-db:
+    image: postgres:17
+    ports:
+      - 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: exora
+    networks:
+      - exora
+networks:
+  exora:
