@@ -17,6 +17,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@exora/prisma-schema": ["libs/prisma-schema/src/index.ts"],
       "@exora/shared-models": ["libs/shared-models/src/index.ts"],
       "@exora/ui": ["libs/ui/src/index.ts"]
     }

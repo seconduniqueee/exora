@@ -93,6 +93,7 @@
     },
     "@nx/angular:component": {
       "style": "scss"
-    }
+    },
+    "@nrwl/nest:service": {}
   }
 }

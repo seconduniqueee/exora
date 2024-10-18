@@ -20,11 +20,11 @@ model User {
 
   firstName String
   lastName  String
-  roleId    Int      // Foreign key reference to the role
+  roleId    Int      @default(1) // Foreign key reference to the role
   role      Role     @relation(fields: [roleId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  isDeleted  Boolean  @default(false)  // Boolean field to mark soft delete
+  isDeleted  Boolean @default(false)  // Boolean field to mark soft delete
 
   @@map("users")
 }
