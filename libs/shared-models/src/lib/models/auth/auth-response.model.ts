@@ -1,5 +1,7 @@
+import { TokensModel } from "./tokens.model";
+
 export interface AuthResponseModel {
-  userInfo: UserInfoModel;
+  tokens: TokensModel;
 }
 
 export interface UserInfoModel {
@@ -7,6 +9,7 @@ export interface UserInfoModel {
   firstName: string;
   lastName: string;
   email: string;
+  phone?: string;
   roleID: number;
   role: RoleModel;
 }

@@ -16,10 +16,12 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
-  hash  String
+  hash      String
+  hashedRt  String?
 
   firstName String
   lastName  String
+  phone     String?
   roleId    Int      @default(1) // Foreign key reference to the role
   role      Role     @relation(fields: [roleId], references: [id])
   createdAt DateTime @default(now())

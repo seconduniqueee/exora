@@ -1,5 +1,5 @@
 import { LoginRequestModel, SignupRequestModel } from "@exora/shared-models";
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, Matches } from "class-validator";
 
 export class LoginRequest implements LoginRequestModel {
   @IsEmail()
@@ -9,10 +9,6 @@ export class LoginRequest implements LoginRequestModel {
   @IsString()
   @IsNotEmpty()
   password: string;
-
-  get passwordLength(): number {
-    return this.password.length;
-  }
 }
 
 export class SignupRequest implements SignupRequestModel {
@@ -22,6 +18,7 @@ export class SignupRequest implements SignupRequestModel {
 
   @IsString()
   @IsNotEmpty()
+  @Matches(/^(?=.*[A-Z])(?=.*\d).{8,}$/, { message: "Password doesn't match the requirements" })
   password: string;
 
   @IsNotEmpty()
@@ -29,5 +26,7 @@ export class SignupRequest implements SignupRequestModel {
 
   @IsNotEmpty()
   lastName: string;
+
+  @IsString()
   phone?: string;
 }
