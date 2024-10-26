@@ -1,17 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseIntPipe,
-  Post,
-  Req,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, HttpCode, HttpStatus, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { AuthResponseModel, TokensModel, UserInfoModel } from "@exora/shared-models";
+import { AuthResponseModel, TokensModel } from "@exora/shared-models";
 import { LoginRequest, SignupRequest, UpdatePasswordRequest } from "./dto";
 import { Request } from "express";
 import { RefreshTokenGuard } from "./common/guards";
@@ -54,10 +43,5 @@ export class AuthController {
   refreshToken(@Req() request: Request): Promise<TokensModel> {
     let user = request.user;
     return this.authService.refreshToken(user["sub"], user["refreshToken"]);
-  }
-
-  @Get("user/:id")
-  getUser(@Param("id", ParseIntPipe) id: number): Promise<UserInfoModel> {
-    return this.authService.getUser(id);
   }
 }

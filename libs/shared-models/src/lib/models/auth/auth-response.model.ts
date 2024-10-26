@@ -4,7 +4,7 @@ export interface AuthResponseModel {
   tokens: TokensModel;
 }
 
-export interface UserInfoModel {
+export interface UserModel {
   id: number;
   firstName: string;
   lastName: string;

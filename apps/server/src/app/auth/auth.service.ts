@@ -6,18 +6,20 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { DataAccessService } from "../data-access/data-access.service";
-import { AuthResponseModel, TokensModel, UserInfoModel } from "@exora/shared-models";
+import { AuthResponseModel, TokensModel } from "@exora/shared-models";
 import { LoginRequest, SignupRequest, UpdatePasswordRequest } from "./dto";
 import { User } from "@prisma/client";
 import * as argon from "argon2";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
+import { UserMapper } from "../common/mapping/user/user.mapper";
 
 @Injectable()
 export class AuthService {
   constructor(
     private dbService: DataAccessService,
     private jwtService: JwtService,
+    private userMapper: UserMapper,
     private configService: ConfigService
   ) {}
 
@@ -66,7 +68,7 @@ export class AuthService {
 
   async updatePassword(userID: number, request: UpdatePasswordRequest): Promise<void> {
     let user = await this.getUserByID(userID);
-    let passwordMatch = !!user && (await argon.verify(user.hash, request.currentPassword));
+    let passwordMatch = await argon.verify(user.hash, request.currentPassword);
 
     if (!passwordMatch) throw new ForbiddenException("Access Denied");
 
@@ -90,28 +92,6 @@ export class AuthService {
     await this.updateRefreshTokenHash(tokens.refreshToken, user.id);
 
     return tokens;
-  }
-
-  async getUser(userID: number): Promise<UserInfoModel> {
-    let user = await this.dbService.user.findUnique({ where: { id: userID } });
-
-    if (!user) throw new NotFoundException("User does not exist");
-
-    return await this.getUserInfo(user);
-  }
-
-  private async getUserInfo(user: User): Promise<UserInfoModel> {
-    let role = await this.dbService.role.findUnique({ where: { id: user.roleId } });
-
-    return {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      phone: user.phone,
-      roleID: user.roleId,
-      role: role,
-    };
   }
 
   private async getTokens(userID: number, email: string): Promise<TokensModel> {
@@ -140,8 +120,14 @@ export class AuthService {
     await this.dbService.user.update({ where: { id: userID }, data: { hashedRt } });
   }
 
-  private getUserByID(userID: number): Promise<User> {
-    console.log(userID, "MLEEEEEEEEEEEEEEEEEEEEEM");
-    return this.dbService.user.findUnique({ where: { id: userID } });
+  private getUserByID(userID: number, includeRole = true): Promise<User> {
+    let user = this.dbService.user.findUnique({
+      where: { id: userID },
+      include: { role: includeRole },
+    });
+
+    if (!user) throw new NotFoundException("User does not exist");
+
+    return user;
   }
 }
