@@ -5,7 +5,9 @@ import { LoginRequest, SignupRequest, UpdatePasswordRequest } from "./dto";
 import { Request } from "express";
 import { RefreshTokenGuard } from "./common/guards";
 import { Public, UserID } from "./common/decorators";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("Auth")
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}

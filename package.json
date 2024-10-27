@@ -21,6 +21,7 @@
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/swagger": "^7.4.2",
     "@ngrx/component-store": "^18.0.2",
     "@ngrx/effects": "^18.0.2",
     "@ngrx/entity": "^18.0.2",
