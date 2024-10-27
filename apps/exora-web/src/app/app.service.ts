@@ -1,19 +1,24 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
-import { SimpleMessageModel } from "@exora/shared-models";
+import { AuthResponseModel, LoginRequestModel } from "@exora/shared-models";
+import { AuthClient } from "./core/api/api-client";
 
 @Injectable()
 export class AppService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private authClient: AuthClient) {}
 
-  async signUp(): Promise<SimpleMessageModel> {
-    let request = this.httpClient.post<SimpleMessageModel>("http://localhost:4242/api/sign-up", {});
-    return await firstValueFrom(request);
+  async updatePassword(currentPassword: string, newPassword: string): Promise<void> {
+    let payload = { currentPassword, newPassword };
+    let request = this.authClient.updatePassword(payload);
+
+    await firstValueFrom(request);
   }
 
-  async logIn(): Promise<SimpleMessageModel> {
-    let request = this.httpClient.post<SimpleMessageModel>("http://localhost:4242/api/log-in", {});
-    return await firstValueFrom(request);
+  async logIn(email: string, password: string): Promise<AuthResponseModel> {
+    let payload: LoginRequestModel = { email, password };
+    let request = this.authClient.signIn(payload);
+    let result = await firstValueFrom(request);
+
+    return result;
   }
 }

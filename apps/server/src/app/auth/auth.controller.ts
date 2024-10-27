@@ -1,7 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { AuthResponseModel, TokensModel } from "@exora/shared-models";
-import { LoginRequest, SignupRequest, UpdatePasswordRequest } from "./dto";
+import { AuthResponse, LoginRequest, SignupRequest, Tokens, UpdatePasswordRequest } from "./dto";
 import { Request } from "express";
 import { RefreshTokenGuard } from "./common/guards";
 import { Public, UserID } from "./common/decorators";
@@ -15,14 +14,14 @@ export class AuthController {
   @Public()
   @Post("sign-up")
   @HttpCode(HttpStatus.CREATED)
-  signUp(@Body() request: SignupRequest): Promise<AuthResponseModel> {
+  signUp(@Body() request: SignupRequest): Promise<AuthResponse> {
     return this.authService.signUp(request);
   }
 
   @Public()
   @Post("sign-in")
   @HttpCode(HttpStatus.OK)
-  login(@Body() request: LoginRequest): Promise<AuthResponseModel> {
+  login(@Body() request: LoginRequest): Promise<AuthResponse> {
     return this.authService.logIn(request);
   }
 
@@ -42,7 +41,7 @@ export class AuthController {
   @UseGuards(RefreshTokenGuard)
   @Post("refresh")
   @HttpCode(HttpStatus.OK)
-  refreshToken(@Req() request: Request): Promise<TokensModel> {
+  refreshToken(@Req() request: Request): Promise<Tokens> {
     let user = request.user;
     return this.authService.refreshToken(user["sub"], user["refreshToken"]);
   }

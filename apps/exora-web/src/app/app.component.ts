@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { AppService } from './app.service';
+import { Component } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { AppService } from "./app.service";
 
 @Component({
   standalone: true,
   imports: [RouterModule],
-  selector: 'app-root',
+  selector: "app-root",
   providers: [AppService],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.scss",
 })
 export class AppComponent {
   appName = "Exora Web";
@@ -16,14 +16,12 @@ export class AppComponent {
 
   constructor(private service: AppService) {}
 
-  async logIn(): Promise<void> {
-    let message = await this.service.logIn();
-    this.resultMessage = message.message;
-  }
+  async signIn(): Promise<void> {
+    let result = await this.service.logIn("test@test.com", "Qwerty123");
+    this.resultMessage = "Logged In";
 
-  async signUp(): Promise<void> {
-    let message = await this.service.signUp();
-    this.resultMessage = message.message;
+    localStorage.setItem("access_token", result.tokens.accessToken);
+    console.log(result);
   }
 
   reset(): void {

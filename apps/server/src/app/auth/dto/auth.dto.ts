@@ -1,6 +1,8 @@
 import {
+  AuthResponseModel,
   LoginRequestModel,
   SignupRequestModel,
+  TokensModel,
   UpdatePasswordRequestModel,
 } from "@exora/shared-models";
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
@@ -42,4 +44,13 @@ export class SignupRequest implements SignupRequestModel {
 
   @IsString()
   phone?: string;
+}
+
+export class Tokens implements TokensModel {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export class AuthResponse implements AuthResponseModel {
+  tokens: Tokens;
 }
