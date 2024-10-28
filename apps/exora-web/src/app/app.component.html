@@ -1,12 +1,3 @@
-<div class="app-wrapper">
-  <div class="p-30-0 title text-center">{{ appName }}</div>
-
-  <div>
-    <div class="m-b-10">
-      <button (click)="signIn()">Sign In</button>
-      <button (click)="reset()">Reset</button>
-    </div>
-
-    {{ resultMessage || "There is no current response from the server" }}
-  </div>
-</div>
+<app-layout>
+  <router-outlet />
+</app-layout>

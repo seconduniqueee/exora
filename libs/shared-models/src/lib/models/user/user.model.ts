@@ -1,4 +1,4 @@
-import { RoleModel } from "./role.model";
+import { NamedEntityModel } from "../common";
 
 export interface UserModel {
   id: number;
@@ -7,5 +7,5 @@ export interface UserModel {
   email: string;
   phone?: string;
   roleID: number;
-  role: RoleModel;
+  role: NamedEntityModel;
 }

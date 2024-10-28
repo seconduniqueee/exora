@@ -1,9 +1,11 @@
 import {
   AuthResponseModel,
   LoginRequestModel,
+  NamedEntityModel,
   SignupRequestModel,
   TokensModel,
   UpdatePasswordRequestModel,
+  UserModel,
 } from "@exora/shared-models";
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 
@@ -51,6 +53,21 @@ export class Tokens implements TokensModel {
   refreshToken: string;
 }
 
+export class NamedEntity implements NamedEntityModel {
+  id: number;
+  name: string;
+}
+
 export class AuthResponse implements AuthResponseModel {
   tokens: Tokens;
+}
+
+export class UserData implements UserModel {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  roleID: number;
+  role: NamedEntity;
 }

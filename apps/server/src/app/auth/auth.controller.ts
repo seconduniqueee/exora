@@ -1,6 +1,13 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { AuthResponse, LoginRequest, SignupRequest, Tokens, UpdatePasswordRequest } from "./dto";
+import {
+  AuthResponse,
+  LoginRequest,
+  SignupRequest,
+  Tokens,
+  UpdatePasswordRequest,
+  UserData,
+} from "./dto";
 import { Request } from "express";
 import { RefreshTokenGuard } from "./common/guards";
 import { Public, UserID } from "./common/decorators";
@@ -35,6 +42,12 @@ export class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   updatePassword(@UserID() userID: number, @Body() request: UpdatePasswordRequest): Promise<void> {
     return this.authService.updatePassword(userID, request);
+  }
+
+  @Get("user-info")
+  @HttpCode(HttpStatus.OK)
+  getUserInfo(@UserID() userID: number): Promise<UserData> {
+    return this.authService.getUserInfo(userID);
   }
 
   @Public()

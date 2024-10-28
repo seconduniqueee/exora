@@ -7,7 +7,7 @@ import {
 } from "@nestjs/common";
 import { DataAccessService } from "../data-access/data-access.service";
 import { AuthResponseModel, TokensModel } from "@exora/shared-models";
-import { LoginRequest, SignupRequest, UpdatePasswordRequest } from "./dto";
+import { LoginRequest, SignupRequest, UpdatePasswordRequest, UserData } from "./dto";
 import { User } from "@prisma/client";
 import * as argon from "argon2";
 import { JwtService } from "@nestjs/jwt";
@@ -64,6 +64,11 @@ export class AuthService {
       where: { id: userID, hashedRt: { not: null } },
       data: { hashedRt: null },
     });
+  }
+
+  async getUserInfo(userID: number): Promise<UserData> {
+    let user = await this.getUserByID(userID);
+    return this.userMapper.map(user);
   }
 
   async updatePassword(userID: number, request: UpdatePasswordRequest): Promise<void> {

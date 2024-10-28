@@ -322,6 +322,79 @@ export class AuthClient {
     return _observableOf(null as any);
   }
 
+  userInfo(): Observable<UserData> {
+    let url_ = this.baseUrl + "/api/auth/user-info";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        Accept: "application/json",
+      }),
+    };
+
+    return this.http
+      .request("get", url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUserInfo(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUserInfo(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<UserData>;
+            }
+          } else return _observableThrow(response_) as any as Observable<UserData>;
+        })
+      );
+  }
+
+  protected processUserInfo(response: HttpResponseBase): Observable<UserData> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ""
+              ? null
+              : (JSON.parse(_responseText, this.jsonParseReviver) as UserData);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          return throwException(
+            "An unexpected server error occurred.",
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf(null as any);
+  }
+
   refresh(): Observable<Tokens> {
     let url_ = this.baseUrl + "/api/auth/refresh";
     url_ = url_.replace(/[?&]$/, "");
@@ -522,6 +595,25 @@ export interface LoginRequest {
 export interface UpdatePasswordRequest {
   currentPassword: string;
   newPassword: string;
+
+  [key: string]: any;
+}
+
+export interface NamedEntity {
+  id: number;
+  name: string;
+
+  [key: string]: any;
+}
+
+export interface UserData {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  roleID: number;
+  role: NamedEntity;
 
   [key: string]: any;
 }

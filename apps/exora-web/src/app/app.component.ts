@@ -1,10 +1,12 @@
 import { Component } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { AppService } from "./app.service";
+import { LayoutComponent } from "./features/layout/layout.component";
+import { HomeComponent } from "./features/home/home.component";
 
 @Component({
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, LayoutComponent, HomeComponent],
   selector: "app-root",
   providers: [AppService],
   templateUrl: "./app.component.html",

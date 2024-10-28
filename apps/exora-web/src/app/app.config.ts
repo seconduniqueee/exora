@@ -7,6 +7,7 @@ import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { API_BASE_URL } from "./core/api/api-client";
 import { environment } from "../environments/environment";
 import { authInterceptor } from "./core/interceptors/auth.interceptor";
+import { HashLocationStrategy, LocationStrategy } from "@angular/common";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,5 +20,6 @@ export const appConfig: ApplicationConfig = {
       provide: API_BASE_URL,
       useValue: environment.apiUrl,
     },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
   ],
 };
