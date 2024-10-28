@@ -1,0 +1,29 @@
+@import "mixins";
+
+.home-page {
+  .title {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+
+  .sub-title {
+    font-size: 22px;
+    color: var(--font-color-secondary);
+    font-weight: normal;
+  }
+
+  .links {
+    @include d-flex(center, center, 40px);
+
+    .link {
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

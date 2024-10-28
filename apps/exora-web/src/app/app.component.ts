@@ -1,32 +1,23 @@
-import { Component } from "@angular/core";
-import { RouterModule } from "@angular/router";
-import { AppService } from "./app.service";
+import { Component, OnInit } from "@angular/core";
 import { LayoutComponent } from "./features/layout/layout.component";
-import { HomeComponent } from "./features/home/home.component";
+import { RouterModule } from "@angular/router";
 
 @Component({
   standalone: true,
-  imports: [RouterModule, LayoutComponent, HomeComponent],
+  imports: [RouterModule, LayoutComponent],
   selector: "app-root",
-  providers: [AppService],
   templateUrl: "./app.component.html",
-  styleUrl: "./app.component.scss",
 })
-export class AppComponent {
-  appName = "Exora Web";
-  resultMessage: string;
-
-  constructor(private service: AppService) {}
-
-  async signIn(): Promise<void> {
-    let result = await this.service.logIn("test@test.com", "Qwerty123");
-    this.resultMessage = "Logged In";
-
-    localStorage.setItem("access_token", result.tokens.accessToken);
-    console.log(result);
+export class AppComponent implements OnInit {
+  ngOnInit(): void {
+    this.setTheme();
   }
 
-  reset(): void {
-    this.resultMessage = null;
+  private setTheme(): void {
+    let themeClass = localStorage.getItem("theme");
+    let htmlElement = document.documentElement;
+
+    themeClass && htmlElement.classList.add(themeClass);
+    // htmlElement.classList.add("transition-enabled");
   }
 }

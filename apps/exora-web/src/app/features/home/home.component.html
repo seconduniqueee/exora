@@ -1,5 +1,8 @@
 <div class="home-page">
-  <h1 class="text-center">Welcome to EXORA!</h1>
-  <button (click)="logOut()">Log Out</button>
-  <button (click)="goToLogin()">Go To Login</button>
+  <h1 class="title">Welcome, {{ userName }}! 🖐️</h1>
+
+  <div class="links">
+    <div class="link" (click)="toggleTheme()">Toggle Theme</div>
+    <div class="link" (click)="logOut()">Log Out</div>
+  </div>
 </div>

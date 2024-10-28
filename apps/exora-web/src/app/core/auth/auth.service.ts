@@ -6,7 +6,7 @@ import { firstValueFrom } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-  userData: UserModel;
+  private userData: UserModel;
 
   constructor(private authClient: AuthClient) {}
 
