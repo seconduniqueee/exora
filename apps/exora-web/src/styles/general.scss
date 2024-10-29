@@ -1,27 +1,7 @@
-html {
-  --font-color-primary: #121212;
-  --font-color-secondary: #1F1F1F;
-  --bg-color-primary: #fff;
-  --bg-color-secondary: #eee;
-  --box-shadow-primary: rgba(0, 0, 0, 0.1);
-}
-
-html.dark {
-  --font-color-primary: #fff;
-  --font-color-secondary: #eee;
-  --bg-color-primary: #121212;
-  --bg-color-secondary: #1F1F1F;
-  --box-shadow-primary: rgba(255, 255, 255, 0.1);
-}
-
 html, body {
   min-height: 100vh;
   width: 100%;
   font-family: Poppins, sans-serif;
-}
-
-:root {
-  transition: background-color .2s ease-in-out, color .2s ease-in-out;
 }
 
 *, ::before, ::after {

@@ -1,5 +1,20 @@
+html {
+  --font-color-primary: #121212;
+  --font-color-secondary: #1F1F1F;
+  --bg-color-primary: #fff;
+  --bg-color-secondary: #eee;
+  --box-shadow-primary: rgba(0, 0, 0, 0.1);
+}
+
+html.dark {
+  --font-color-primary: #fff;
+  --font-color-secondary: #eee;
+  --bg-color-primary: #121212;
+  --bg-color-secondary: #1F1F1F;
+  --box-shadow-primary: rgba(255, 255, 255, 0.1);
+}
+
 $header-height: 80px;
 $app-max-width: 1440px;
 
-// z-index Hierarchy
 $z-overlay: 100;
