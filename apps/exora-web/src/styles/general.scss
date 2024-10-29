@@ -1,6 +1,6 @@
 html {
-  --font-color-primary: #000;
-  --font-color-secondary: #555;
+  --font-color-primary: #121212;
+  --font-color-secondary: #1F1F1F;
   --bg-color-primary: #fff;
   --bg-color-secondary: #eee;
   --box-shadow-primary: rgba(0, 0, 0, 0.1);
@@ -9,8 +9,8 @@ html {
 html.dark {
   --font-color-primary: #fff;
   --font-color-secondary: #eee;
-  --bg-color-primary: #000;
-  --bg-color-secondary: #444;
+  --bg-color-primary: #121212;
+  --bg-color-secondary: #1F1F1F;
   --box-shadow-primary: rgba(255, 255, 255, 0.1);
 }
 

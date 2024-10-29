@@ -20,7 +20,8 @@
       "@exora/prisma-schema": ["libs/prisma-schema/src/index.ts"],
       "@exora/shared-models": ["libs/shared-models/src/index.ts"],
       "@exora/ui": ["libs/ui/src/index.ts"]
-    }
+    },
+    "types": ["node"]
   },
   "exclude": ["node_modules", "tmp"]
 }

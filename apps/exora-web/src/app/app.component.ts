@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { LayoutComponent } from "./features/layout/layout.component";
 import { RouterModule } from "@angular/router";
+import { ThemeService } from "./shared";
 
 @Component({
   standalone: true,
@@ -9,15 +10,9 @@ import { RouterModule } from "@angular/router";
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
+  constructor(private themeService: ThemeService) {}
+
   ngOnInit(): void {
-    this.setTheme();
-  }
-
-  private setTheme(): void {
-    let themeClass = localStorage.getItem("theme");
-    let htmlElement = document.documentElement;
-
-    themeClass && htmlElement.classList.add(themeClass);
-    // htmlElement.classList.add("transition-enabled");
+    this.themeService.setTheme();
   }
 }

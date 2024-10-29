@@ -395,8 +395,8 @@ export class AuthClient {
     return _observableOf(null as any);
   }
 
-  refresh(): Observable<Tokens> {
-    let url_ = this.baseUrl + "/api/auth/refresh";
+  refreshToken(): Observable<Tokens> {
+    let url_ = this.baseUrl + "/api/auth/refreshToken";
     url_ = url_.replace(/[?&]$/, "");
 
     let options_: any = {
@@ -411,14 +411,14 @@ export class AuthClient {
       .request("post", url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
-          return this.processRefresh(response_);
+          return this.processRefreshToken(response_);
         })
       )
       .pipe(
         _observableCatch((response_: any) => {
           if (response_ instanceof HttpResponseBase) {
             try {
-              return this.processRefresh(response_ as any);
+              return this.processRefreshToken(response_ as any);
             } catch (e) {
               return _observableThrow(e) as any as Observable<Tokens>;
             }
@@ -427,7 +427,7 @@ export class AuthClient {
       );
   }
 
-  protected processRefresh(response: HttpResponseBase): Observable<Tokens> {
+  protected processRefreshToken(response: HttpResponseBase): Observable<Tokens> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse

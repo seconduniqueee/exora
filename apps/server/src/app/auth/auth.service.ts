@@ -125,8 +125,8 @@ export class AuthService {
     await this.dbService.user.update({ where: { id: userID }, data: { hashedRt } });
   }
 
-  private getUserByID(userID: number, includeRole = true): Promise<User> {
-    let user = this.dbService.user.findUnique({
+  private async getUserByID(userID: number, includeRole = true): Promise<User> {
+    let user = await this.dbService.user.findUnique({
       where: { id: userID },
       include: { role: includeRole },
     });

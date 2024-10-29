@@ -1,6 +1,7 @@
 import {
   AuthResponseModel,
   LoginRequestModel,
+  MessageModel,
   NamedEntityModel,
   SignupRequestModel,
   TokensModel,
@@ -8,6 +9,10 @@ import {
   UserModel,
 } from "@exora/shared-models";
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+
+export class MessageDto implements MessageModel {
+  message: string;
+}
 
 export class LoginRequest implements LoginRequestModel {
   @IsEmail()

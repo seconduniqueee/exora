@@ -52,7 +52,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(RefreshTokenGuard)
-  @Post("refresh")
+  @Post("refreshToken")
   @HttpCode(HttpStatus.OK)
   refreshToken(@Req() request: Request): Promise<Tokens> {
     let user = request.user;

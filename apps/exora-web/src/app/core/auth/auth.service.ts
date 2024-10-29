@@ -2,13 +2,16 @@ import { Injectable } from "@angular/core";
 import { AuthClient } from "../api/api-client";
 import { TokensModel, UserModel } from "@exora/shared-models";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./auth.model";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, from, throwError } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private userData: UserModel;
+  private userDataLoading = false;
+  private refreshRequest: Promise<TokensModel>;
 
-  constructor(private authClient: AuthClient) {}
+  constructor(private authClient: AuthClient, private router: Router) {}
 
   get isLoggedIn(): boolean {
     return !!this.userData;
@@ -16,6 +19,10 @@ export class AuthService {
 
   get userInfo(): UserModel {
     return this.userData;
+  }
+
+  get appLoading(): boolean {
+    return this.userDataLoading;
   }
 
   async signIn(email: string, password: string): Promise<void> {
@@ -39,6 +46,48 @@ export class AuthService {
     }
   }
 
+  async checkIfLoggedIn(): Promise<void> {
+    try {
+      let tokens = this.getTokens();
+      let user = this.userData;
+
+      if (user && !tokens.accessToken) {
+        this.clearUserInfo();
+        return;
+      }
+
+      if (!user && tokens.accessToken) {
+        this.userDataLoading = true;
+        await this.loadUserInfo();
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.userDataLoading = false;
+    }
+  }
+
+  refresh(): Observable<TokensModel> {
+    let refreshToken = this.getTokens().refreshToken;
+
+    if (!refreshToken) {
+      return throwError(() => new Error("Refresh token not found"));
+    }
+
+    if (this.refreshRequest) {
+      return from(this.refreshRequest);
+    }
+
+    this.refreshRequest = firstValueFrom(this.authClient.refreshToken());
+    this.refreshRequest
+      .then((tokens) => this.setTokens(tokens))
+      .catch(() => this.router.navigate(["login"]))
+      .finally(() => (this.refreshRequest = null));
+
+    return from(this.refreshRequest);
+  }
+
   private async logIn(email: string, password: string): Promise<void> {
     let payload = { email, password };
     let request = this.authClient.signIn(payload);
@@ -55,8 +104,16 @@ export class AuthService {
   }
 
   private clearUserInfo(): void {
+    console.log("fsm");
     this.clearTokens();
     this.userData = null;
+  }
+
+  private getTokens(): TokensModel {
+    let accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+    let refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+
+    return { accessToken, refreshToken };
   }
 
   private clearTokens(): void {
