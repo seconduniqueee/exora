@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "../../core/auth/auth.service";
+import { ThemeService } from "../../shared";
 
 @Component({
   selector: "app-home",
@@ -10,7 +11,11 @@ import { AuthService } from "../../core/auth/auth.service";
   standalone: true,
 })
 export class HomeComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private themeService: ThemeService
+  ) {}
 
   get userName(): string {
     return this.authService.userInfo.firstName;
@@ -22,14 +27,6 @@ export class HomeComponent {
   }
 
   toggleTheme(): void {
-    let isDarkTheme = localStorage.getItem("theme");
-
-    if (isDarkTheme) {
-      document.documentElement.classList.remove("dark");
-      localStorage.removeItem("theme");
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    }
+    this.themeService.toggleTheme();
   }
 }
