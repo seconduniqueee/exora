@@ -104,7 +104,6 @@ export class AuthService {
   }
 
   private clearUserInfo(): void {
-    console.log("fsm");
     this.clearTokens();
     this.userData = null;
   }

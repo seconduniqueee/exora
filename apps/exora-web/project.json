@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/exora-web",
         "index": "apps/exora-web/src/index.html",
         "main": "apps/exora-web/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [],
         "tsConfig": "apps/exora-web/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
