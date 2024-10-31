@@ -16,7 +16,7 @@ export class LayoutComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   get appLoading(): boolean {
-    return this.authService.appLoading || !this.appInitialized();
+    return this.authService.isLoading || !this.appInitialized();
   }
 
   ngOnInit(): void {

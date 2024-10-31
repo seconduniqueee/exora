@@ -1,28 +1,31 @@
 import { Injectable } from "@angular/core";
 import { AuthClient } from "../api/api-client";
 import { TokensModel, UserModel } from "@exora/shared-models";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./auth.model";
+import { ACCESS_TOKEN_KEY, LOGIN_PAGE_PATH, REFRESH_TOKEN_KEY } from "./auth.model";
 import { firstValueFrom, from, throwError } from "rxjs";
 import { Router } from "@angular/router";
+import { AuthRepository } from "./auth.repository";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-  private userData: UserModel;
-  private userDataLoading = false;
   private refreshRequest: Promise<TokensModel>;
 
-  constructor(private authClient: AuthClient, private router: Router) {}
+  constructor(
+    private authClient: AuthClient,
+    private router: Router,
+    private authRepository: AuthRepository
+  ) {}
 
   get isLoggedIn(): boolean {
-    return !!this.userData;
+    return !!this.authRepository.state.user;
   }
 
   get userInfo(): UserModel {
-    return this.userData;
+    return this.authRepository.state.user;
   }
 
-  get appLoading(): boolean {
-    return this.userDataLoading;
+  get isLoading(): boolean {
+    return this.authRepository.isLoading;
   }
 
   async signIn(email: string, password: string): Promise<void> {
@@ -49,7 +52,7 @@ export class AuthService {
   async checkIfLoggedIn(): Promise<void> {
     try {
       let tokens = this.getTokens();
-      let user = this.userData;
+      let user = this.authRepository.state.user;
 
       if (user && !tokens.accessToken) {
         this.clearUserInfo();
@@ -57,14 +60,14 @@ export class AuthService {
       }
 
       if (!user && tokens.accessToken) {
-        this.userDataLoading = true;
+        this.authRepository.startLoading();
         await this.loadUserInfo();
         return;
       }
     } catch (error) {
       console.error(error);
     } finally {
-      this.userDataLoading = false;
+      this.authRepository.stopLoading();
     }
   }
 
@@ -82,7 +85,7 @@ export class AuthService {
     this.refreshRequest = firstValueFrom(this.authClient.refreshToken());
     this.refreshRequest
       .then((tokens) => this.setTokens(tokens))
-      .catch(() => this.router.navigate(["login"]))
+      .catch(() => this.router.navigate([LOGIN_PAGE_PATH]))
       .finally(() => (this.refreshRequest = null));
 
     return from(this.refreshRequest);
@@ -100,12 +103,12 @@ export class AuthService {
     let request = this.authClient.userInfo();
     let result = await firstValueFrom(request);
 
-    this.userData = result;
+    this.authRepository.setUser(result);
   }
 
   private clearUserInfo(): void {
     this.clearTokens();
-    this.userData = null;
+    this.authRepository.clearUserInfo();
   }
 
   private getTokens(): TokensModel {

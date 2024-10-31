@@ -14,4 +14,8 @@ export class AuthRepository extends PropRepository<AuthState> {
   setUser(user: UserModel) {
     this.update({ user });
   }
+
+  clearUserInfo(): void {
+    this.update({ user: null });
+  }
 }

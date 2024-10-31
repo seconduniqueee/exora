@@ -41,4 +41,12 @@ export abstract class BaseRepository<T> {
   setLoading(isLoading: boolean): void {
     this._isLoading.next(isLoading);
   }
+
+  startLoading(): void {
+    this._isLoading.next(true);
+  }
+
+  stopLoading(): void {
+    this._isLoading.next(false);
+  }
 }
