@@ -1,0 +1,80 @@
+@import "variables";
+@import "mixins";
+
+.login-form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 30px;
+
+  &__controls {
+    @include d-flex(flex-start, stretch, 30px, column);
+
+    .control {
+      text-align: left;
+
+      &.password-control {
+        input {
+          letter-spacing: 3px;
+        }
+      }
+
+      label {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 3px;
+      }
+
+      input {
+        font-family: Poppins, sans-serif;
+        width: 100%;
+        border: 1px solid var(--input-border-color);
+        border-radius: 3px;
+        height: 50px;
+        padding: 0 15px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  &__actions {
+    @include d-flex(center, center);
+
+    margin-top: 10px;
+
+    button {
+      width: 180px;
+      height: 40px;
+      font-size: 14px;
+      border: unset;
+      color: var(--bg-color-primary);
+      background-color: var(--font-color-primary);
+      transition: all .2s ease-in-out;
+      border-radius: 3px;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--bg-color-secondary);
+        background-color: var(--font-color-secondary);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+    }
+  }
+
+  &__form-error {
+    margin-top: 10px;
+    padding: 5px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--error-color);
+    opacity: 0;
+    transitioN: opacity .15s ease-in-out;
+
+    &.show-error {
+      opacity: 1;
+    }
+  }
+}

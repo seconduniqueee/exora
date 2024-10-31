@@ -7,15 +7,14 @@ export const authGuard: CanActivateFn = async (route): Promise<boolean> => {
   let authService = inject(AuthService);
   let router = inject(Router);
   let targetPath = route.routeConfig.path;
+  let isLoggedIn = await authService.checkIfLoggedIn();
 
-  await authService.checkIfLoggedIn();
-
-  if (!authService.isLoggedIn && targetPath !== LOGIN_PAGE_PATH) {
+  if (!isLoggedIn && targetPath !== LOGIN_PAGE_PATH) {
     await router.navigate([LOGIN_PAGE_PATH]);
     return false;
   }
 
-  if (authService.isLoggedIn && targetPath !== HOME_PAGE_PATH) {
+  if (isLoggedIn && targetPath !== HOME_PAGE_PATH) {
     await router.navigate([HOME_PAGE_PATH]);
   }
 

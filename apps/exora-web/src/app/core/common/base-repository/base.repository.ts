@@ -4,7 +4,7 @@ import { PropsFactory } from "@ngneat/elf/src/lib/state";
 
 export abstract class BaseRepository<T> {
   _store: Store<StoreDef<T>>;
-  _isLoading = new BehaviorSubject<boolean>(false);
+  _isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   protected constructor(
     config: StoreConfig,

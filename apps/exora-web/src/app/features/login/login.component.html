@@ -1,11 +1,14 @@
 <div class="login-page">
   <h1 class="title">Welcome to EXORA!</h1>
 
-  <div class="sub-title">
-    Sign In with your email and password below
-  </div>
+  <div class="sub-title">Sign In with your email and password below</div>
 
-  <div class="links">
-    <div class="link" (click)="signIn()">Sign In</div>
-  </div>
+  @if (loginForm) {
+    <app-login-form
+      [loginForm]="loginForm"
+      [showErrorMessage]="showErrorMessage()"
+      [isLoading]="isLoading()"
+      (submitLoginForm)="signIn()"
+    />
+  }
 </div>

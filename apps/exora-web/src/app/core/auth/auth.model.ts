@@ -7,4 +7,5 @@ export const HOME_PAGE_PATH = "";
 
 export interface AuthState {
   user: UserModel;
+  appInitialized: boolean;
 }

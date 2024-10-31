@@ -8,24 +8,8 @@
   }
 
   .sub-title {
-    font-size: 18px;
+    font-size: 14px;
     color: var(--font-color-secondary);
     font-weight: normal;
-  }
-
-  .links {
-    @include d-flex(center, center, 40px);
-
-    padding: 30px 0;
-
-    .link {
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
 }

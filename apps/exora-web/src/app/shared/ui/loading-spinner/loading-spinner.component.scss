@@ -1,9 +1,15 @@
+@import "mixins";
+
 .loading-spinner {
-  height: var(--width);
-  width: var(--width);
-  border: var(--strokeWidth) solid var(--font-color-primary);
-  border-top-color: transparent;
-  border-left-color: transparent;
-  border-radius: 50%;
-  animation: rotation 1s infinite linear;
+  @include d-flex(center, center);
+
+  &__indicator {
+    height: var(--width);
+    width: var(--width);
+    border: var(--strokeWidth) solid var(--font-color-primary);
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-radius: 50%;
+    animation: rotation 1s infinite linear;
+  }
 }

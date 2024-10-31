@@ -1,0 +1,24 @@
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="submitLoginForm.emit()">
+  <div class="login-form__controls">
+    <div class="control">
+      <label>Email</label>
+      <input formControlName="email" />
+    </div>
+
+    <div class="control password-control">
+      <label>Password</label>
+      <input type="password" formControlName="password" />
+    </div>
+  </div>
+
+  <div class="login-form__form-error" [class.show-error]="showErrorMessage">
+    Incorrect email or password. Please check your inputs
+  </div>
+
+  <div class="login-form__actions">
+    <button class="loading-button">
+      @if (isLoading) { <app-loading-spinner size="8" /> }
+      @else { Submit }
+    </button>
+  </div>
+</form>

@@ -16,8 +16,16 @@ export class AuthService {
     private authRepository: AuthRepository
   ) {}
 
+  get appInitialized(): boolean {
+    return this.authRepository.state.appInitialized;
+  }
+
   get isLoggedIn(): boolean {
     return !!this.authRepository.state.user;
+  }
+
+  get isLoading$(): Observable<boolean> {
+    return this.authRepository.isLoading$;
   }
 
   get userInfo(): UserModel {
@@ -28,12 +36,18 @@ export class AuthService {
     return this.authRepository.isLoading;
   }
 
-  async signIn(email: string, password: string): Promise<void> {
+  async signIn(email: string, password: string): Promise<boolean> {
     try {
+      this.authRepository.startLoading();
+
       await this.logIn(email, password);
       await this.loadUserInfo();
+
+      return true;
     } catch (error) {
       console.error(error);
+    } finally {
+      this.authRepository.stopLoading();
     }
   }
 
@@ -49,25 +63,18 @@ export class AuthService {
     }
   }
 
-  async checkIfLoggedIn(): Promise<void> {
+  async checkIfLoggedIn(): Promise<boolean> {
     try {
       let tokens = this.getTokens();
       let user = this.authRepository.state.user;
 
-      if (user && !tokens.accessToken) {
-        this.clearUserInfo();
-        return;
-      }
+      if (!user && tokens.accessToken) await this.loadUserInfo();
 
-      if (!user && tokens.accessToken) {
-        this.authRepository.startLoading();
-        await this.loadUserInfo();
-        return;
-      }
+      return this.isLoggedIn;
     } catch (error) {
       console.error(error);
     } finally {
-      this.authRepository.stopLoading();
+      this.authRepository.update({ appInitialized: true });
     }
   }
 

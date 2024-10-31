@@ -11,5 +11,4 @@ import { CommonModule } from "@angular/common";
 export class LoadingSpinnerComponent {
   @Input() width = 20;
   @Input() strokeWidth = 3;
-  @Input() color = "#333";
 }

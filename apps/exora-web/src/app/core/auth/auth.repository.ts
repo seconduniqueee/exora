@@ -8,7 +8,7 @@ export class AuthRepository extends PropRepository<AuthState> {
   user$ = this.select((state) => state.user);
 
   constructor() {
-    super({ name: "[AUTH]" }, { user: null });
+    super({ name: "[AUTH]" }, { user: null, appInitialized: false });
   }
 
   setUser(user: UserModel) {
