@@ -1,7 +1,8 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "../../core/auth/auth.service";
 import { ThemeService } from "../../shared";
+import { AuthRepository } from "../../core/auth/auth.repository";
 
 @Component({
   selector: "app-home",
@@ -10,10 +11,11 @@ import { ThemeService } from "../../shared";
   imports: [RouterModule],
   standalone: true,
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private authRepository: AuthRepository,
     private themeService: ThemeService
   ) {}
 
@@ -24,6 +26,26 @@ export class HomeComponent {
   async logOut(): Promise<void> {
     await this.authService.logOut();
     await this.router.navigate(["login"]);
+  }
+
+  ngOnInit(): void {
+    this.authRepository.isLoading$.subscribe((isLoading) => console.log("LOADING:", isLoading));
+    this.authRepository.user$.subscribe((user) => console.log("USER", user));
+    this.authRepository.setLoading(true);
+
+    console.log(this.authRepository.state.user);
+
+    setTimeout(() => this.authRepository.setLoading(false), 10000);
+
+    setTimeout(() => {
+      let user = this.authService.userInfo;
+      this.authRepository.setUser(user);
+      console.log("checking user...");
+
+      setTimeout(() => {
+        this.authRepository.setUser(null);
+      }, 300);
+    }, 7000);
   }
 
   toggleTheme(): void {
