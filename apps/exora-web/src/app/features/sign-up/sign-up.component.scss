@@ -1,12 +1,10 @@
 @import "mixins";
 
-.login-page {
+.sign-up-page {
   padding-top: 15px;
   text-align: center;
 
   &__header {
-    margin-bottom: 25px;
-
     .title {
       font-size: 30px;
     }
@@ -24,13 +22,10 @@
     margin: 0 auto;
 
     .disclaimer {
-      @include d-flex(space-between, flex-start);
-
       gap: 10px;
       margin-top: 30px;
       padding: 0 10px;
       font-size: 13px;
-      text-align: left;
 
       a {
         text-decoration: underline;

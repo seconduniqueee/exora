@@ -11,7 +11,7 @@
   .content {
     max-width: $app-max-width;
     margin: 0 auto;
-    padding: calc($header-height + 40px) 20px 30px;
+    padding: $header-height 20px 30px;
   }
 }
 

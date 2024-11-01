@@ -32,7 +32,7 @@ export class AuthClient {
   }
 
   signUp(body: SignupRequest): Observable<AuthResponse> {
-    let url_ = this.baseUrl + "/api/auth/sign-up";
+    let url_ = this.baseUrl + "/api/auth/sign-up-form";
     url_ = url_.replace(/[?&]$/, "");
 
     const content_ = JSON.stringify(body);

@@ -1,19 +1,19 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { LoadingButtonDirective } from "@exora-web/shared/directives";
-import { LoginForm } from "../login.model";
+import { SignUpForm } from "../sign-up.model";
 
 @Component({
-  selector: "app-login-form",
-  templateUrl: "login-form.component.html",
-  styleUrl: "login-form.component.scss",
+  selector: "app-sign-up-form",
+  templateUrl: "sign-up-form.component.html",
+  styleUrl: "sign-up-form.component.scss",
   standalone: true,
   imports: [ReactiveFormsModule, LoadingButtonDirective],
 })
-export class LoginFormComponent {
-  @Input() loginForm: FormGroupTyped<LoginForm>;
+export class SignUpFormComponent {
+  @Input() signUpForm: FormGroupTyped<SignUpForm>;
   @Input() showErrorMessage: boolean;
   @Input() isLoading: boolean;
 
-  @Output() submitLoginForm = new EventEmitter<void>();
+  @Output() submitSignUpForm = new EventEmitter<void>();
 }

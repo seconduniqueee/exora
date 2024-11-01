@@ -19,7 +19,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
-  @Post("sign-up")
+  @Post("sign-up-form")
   @HttpCode(HttpStatus.CREATED)
   signUp(@Body() request: SignupRequest): Promise<AuthResponse> {
     return this.authService.signUp(request);

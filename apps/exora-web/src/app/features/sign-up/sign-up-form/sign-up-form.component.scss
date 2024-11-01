@@ -1,7 +1,7 @@
 @import "variables";
 @import "mixins";
 
-.login-form {
+.sign-up-form {
   &__controls {
     @include d-flex(flex-start, stretch, 15px, column);
 

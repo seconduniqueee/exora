@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AuthClient } from "../api/api-client";
-import { TokensModel, UserModel } from "@exora/shared-models";
+import { SignupRequestModel, TokensModel, UserModel } from "@exora/shared-models";
 import { ACCESS_TOKEN_KEY, LOGIN_PAGE_PATH, REFRESH_TOKEN_KEY } from "./auth.model";
 import { firstValueFrom, from, throwError } from "rxjs";
 import { Router } from "@angular/router";
@@ -36,11 +36,35 @@ export class AuthService {
     return this.authRepository.isLoading;
   }
 
+  async signUp(signUpRequest: SignupRequestModel): Promise<boolean> {
+    try {
+      this.authRepository.startLoading();
+
+      let request = this.authClient.signUp(signUpRequest);
+      let result = await firstValueFrom(request);
+
+      this.setTokens(result.tokens);
+
+      await this.loadUserInfo();
+
+      return true;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.authRepository.stopLoading();
+    }
+  }
+
   async signIn(email: string, password: string): Promise<boolean> {
     try {
       this.authRepository.startLoading();
 
-      await this.logIn(email, password);
+      let payload = { email, password };
+      let request = this.authClient.signIn(payload);
+      let result = await firstValueFrom(request);
+
+      this.setTokens(result.tokens);
+
       await this.loadUserInfo();
 
       return true;
@@ -96,14 +120,6 @@ export class AuthService {
       .finally(() => (this.refreshRequest = null));
 
     return from(this.refreshRequest);
-  }
-
-  private async logIn(email: string, password: string): Promise<void> {
-    let payload = { email, password };
-    let request = this.authClient.signIn(payload);
-    let result = await firstValueFrom(request);
-
-    this.setTokens(result.tokens);
   }
 
   private async loadUserInfo(): Promise<void> {
