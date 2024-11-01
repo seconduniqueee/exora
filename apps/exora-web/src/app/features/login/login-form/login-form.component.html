@@ -16,9 +16,6 @@
   </div>
 
   <div class="login-form__actions">
-    <button class="loading-button">
-      @if (isLoading) { <app-loading-spinner size="8" /> }
-      @else { Submit }
-    </button>
+    <button [loadingButton]="isLoading">Submit</button>
   </div>
 </form>

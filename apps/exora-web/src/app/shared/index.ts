@@ -1,2 +1,3 @@
-export * from "./ui/index";
-export * from "./services/index";
+export * from "./ui";
+export * from "./services";
+export * from "./directives";

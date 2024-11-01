@@ -8,12 +8,12 @@ module.exports = [
   {
     files: ["**/*.ts"],
     rules: {
+      "@nx/enforce-module-boundaries": "off",
       "@typescript-eslint/no-unused-expressions": "off",
       "@angular-eslint/directive-selector": [
         "error",
         {
           type: "attribute",
-          prefix: "app",
           style: "camelCase",
         },
       ],

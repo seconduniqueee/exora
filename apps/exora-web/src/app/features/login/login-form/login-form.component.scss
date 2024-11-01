@@ -56,11 +56,6 @@
         color: var(--bg-color-secondary);
         background-color: var(--font-color-secondary);
       }
-
-      &:disabled {
-        cursor: not-allowed;
-        opacity: 0.6;
-      }
     }
   }
 

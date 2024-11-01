@@ -1,8 +1,33 @@
-.loading-button {
-  .loading-spinner {
-    .loading-spinner__indicator {
-      border-right-color: unset;
-      border-bottom-color: unset;
+@import "mixins";
+
+button.loading-button {
+  @include d-flex(center, center);
+
+  position: relative;
+
+  &.is-loading {
+    color: transparent !important;
+    opacity: .8;
+    pointer-events: none;
+    user-select: none;
+    transition: none;
+
+    &::after {
+      opacity: 1;
     }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    aspect-ratio: 1;
+    display: inline-block;
+    height: 50%;
+    border: 3px solid var(--bg-color-primary);
+    border-radius: 50%;
+    animation: rotation 1s infinite linear;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    opacity: 0;
   }
 }
