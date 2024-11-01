@@ -75,15 +75,16 @@ export class AuthService {
     }
   }
 
-  async logOut(): Promise<void> {
+  logOut(): void {
     try {
       let request = this.authClient.logOut();
 
-      await firstValueFrom(request);
       this.clearUserInfo();
+
+      void this.router.navigate([LOGIN_PAGE_PATH]);
+      void firstValueFrom(request);
     } catch (error) {
       console.error(error);
-      this.clearUserInfo();
     }
   }
 

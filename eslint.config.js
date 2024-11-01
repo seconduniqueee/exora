@@ -8,7 +8,7 @@ module.exports = [
     ignores: ["**/dist"],
   },
   {
-    files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.html"],
+    files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
     rules: {
       "prefer-const": "off",
       "@nx/enforce-module-boundaries": [
@@ -28,6 +28,8 @@ module.exports = [
   },
   {
     files: ["**/*.html"],
-    rules: {},
+    rules: {
+      // htmlWhitespaceSensitivity: "off",
+    },
   },
 ];

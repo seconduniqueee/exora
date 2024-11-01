@@ -10,7 +10,6 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
 @UntilDestroy()
 @Component({
-  selector: "app-login",
   templateUrl: "login.component.html",
   styleUrl: "login.component.scss",
   imports: [RouterModule, ReactiveFormsModule, LoginFormComponent],

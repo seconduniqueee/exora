@@ -1,12 +1,15 @@
 @import "./mixins";
 
-html, body {
+html,
+body {
   min-height: 100vh;
   width: 100%;
   font-family: Poppins, sans-serif;
 }
 
-*, ::before, ::after {
+*,
+::before,
+::after {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -14,15 +17,32 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body, button {
+body,
+button,
+a {
+  font-family: Poppins, sans-serif;
   color: var(--font-color-primary);
   background-color: var(--bg-color-primary);
 }
 
 a {
   color: var(--font-color-primary);
+  text-decoration: none;
 }
 
-body, html {
+body,
+html {
   @include scrollbar();
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+}
+
+h5,
+h6 {
+  font-weight: 400;
 }

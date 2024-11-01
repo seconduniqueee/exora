@@ -10,7 +10,6 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
 @UntilDestroy()
 @Component({
-  selector: "app-sign-up",
   templateUrl: "sign-up.component.html",
   styleUrl: "sign-up.component.scss",
   standalone: true,

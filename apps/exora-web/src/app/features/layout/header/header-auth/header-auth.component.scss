@@ -1,0 +1,45 @@
+@import "mixins";
+
+.header-auth {
+  @include d-flex(center, center);
+
+  &__theme-toggle {
+    padding-right: 20px;
+    margin-right: 10px;
+    border-right: 1px dashed var(--font-color-secondary);
+
+    span {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.1;
+    }
+
+    cursor: pointer;
+  }
+
+  &__user-info {
+    @include d-flex(center, center);
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 0 10px;
+    }
+
+    button {
+      padding: 0 5px;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      color: var(--font-color-secondary);
+    }
+  }
+
+  &__log-in {
+    a {
+      color: var(--font-color-secondary);
+      font-size: 13px;
+      line-height: 1.1;
+    }
+  }
+}

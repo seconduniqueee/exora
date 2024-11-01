@@ -1,0 +1,37 @@
+@import "mixins";
+
+.app-navigation {
+  @include d-flex(center, center, 30px);
+
+  &__item {
+    a {
+      position: relative;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--font-color-secondary);
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: var(--font-color-primary);
+        width: 0;
+        height: 2px;
+      }
+
+      &:hover,
+      &.active {
+        color: var(--font-color-primary);
+      }
+
+      &.active {
+        &::after {
+          width: 15px;
+          transition: width 0.15s ease-out;
+        }
+      }
+    }
+  }
+}

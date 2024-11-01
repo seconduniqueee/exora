@@ -1,22 +1,22 @@
 html {
   --font-color-primary: #121212;
-  --font-color-secondary: #1F1F1F;
+  --font-color-secondary: #555;
   --bg-color-primary: #fff;
   --bg-color-secondary: #eee;
   --box-shadow-primary: rgba(0, 0, 0, 0.1);
   --input-border-color: #eee;
-  --error-color: #F9423A;
+  --error-color: #f9423a;
 }
 
 html.dark {
   --font-color-primary: #fff;
   --font-color-secondary: #eee;
   --bg-color-primary: #121212;
-  --bg-color-secondary: #1F1F1F;
+  --bg-color-secondary: #1f1f1f;
   --box-shadow-primary: rgba(255, 255, 255, 0.1);
 }
 
-$header-height: 80px;
+$header-height: 60px;
 $app-max-width: 1440px;
 
 $z-overlay: 100;

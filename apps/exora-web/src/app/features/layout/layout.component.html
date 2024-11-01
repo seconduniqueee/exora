@@ -1,6 +1,11 @@
 <div class="app-wrapper">
   <div class="header-wrapper">
-    <app-header />
+    <app-header
+      [user]="user()"
+      [isDarkTheme]="isDarkTheme"
+      (logOut)="logOut()"
+      (toggleTheme)="toggleTheme()"
+    />
   </div>
 
   <div class="content">

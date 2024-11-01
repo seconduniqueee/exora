@@ -4,18 +4,9 @@
   padding-top: 15px;
   text-align: center;
 
-  &__header {
-    margin-bottom: 25px;
-
-    .title {
-      font-size: 30px;
-    }
-
-    .sub-title {
-      font-size: 14px;
-      color: var(--font-color-secondary);
-      font-weight: normal;
-    }
+  h1 {
+    font-size: 30px;
+    text-align: center;
   }
 
   &__form {
@@ -27,7 +18,7 @@
       @include d-flex(space-between, flex-start);
 
       gap: 10px;
-      margin-top: 30px;
+      margin-top: 20px;
       padding: 0 10px;
       font-size: 13px;
       text-align: left;

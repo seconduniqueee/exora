@@ -1,0 +1,18 @@
+<div class="header-auth">
+  <div class="header-auth__theme-toggle" (click)="toggleTheme.emit()">
+    <span> {{ isDarkTheme ? "Dark" : "Light" }}</span>
+  </div>
+
+  @if (user) {
+    <div class="header-auth__user-info">
+      <span class="user-name">{{ user.firstName }}</span>
+      <button (click)="logOut.emit()">Log Out</button>
+    </div>
+  }
+
+  @if (!user) {
+    <div class="header-auth__log-in">
+      <a routerLink="login">Log In</a>
+    </div>
+  }
+</div>

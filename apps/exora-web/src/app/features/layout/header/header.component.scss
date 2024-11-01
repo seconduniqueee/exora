@@ -13,16 +13,35 @@
     padding: 0 20px;
     height: 100%;
 
-    .logo {
-      @include d-flex(center, center);
+    .auth-section {
+      @include d-flex(flex-end, center);
 
-      padding: 0 10px;
-      height: 40px;
-      border-left: 4px solid var(--font-color-primary);
-      cursor: pointer;
-      text-transform: uppercase;
-      font-size: 16px;
-      font-weight: 600;
+      width: 200px;
+    }
+
+    .logo-section {
+      width: 200px;
+
+      .logo {
+        @include d-flex(center, center);
+
+        width: fit-content;
+        padding: 0 10px;
+        height: 40px;
+        border-left: 4px solid var(--font-color-primary);
+        cursor: pointer;
+
+        a {
+          text-decoration: none;
+          text-transform: uppercase;
+          font-size: 16px;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .navigation {
+      flex-grow: 1;
     }
   }
 }

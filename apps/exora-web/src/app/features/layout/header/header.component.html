@@ -1,5 +1,22 @@
 <header class="header">
   <div class="header__content">
-    <div class="logo">Exora</div>
+    <div class="logo-section">
+      <div class="logo"><a routerLink="/">Exora</a></div>
+    </div>
+
+    <div class="navigation-section">
+      @if (user) {
+        <app-header-navigation />
+      }
+    </div>
+
+    <div class="auth-section">
+      <app-header-auth
+        [user]="user"
+        [isDarkTheme]="isDarkTheme"
+        (logOut)="logOut.emit()"
+        (toggleTheme)="toggleTheme.emit()"
+      />
+    </div>
   </div>
 </header>

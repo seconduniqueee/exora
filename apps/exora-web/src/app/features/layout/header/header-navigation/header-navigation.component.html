@@ -1,0 +1,13 @@
+<nav class="app-navigation">
+  @for (item of navigationItems; track item.label) {
+    <div class="app-navigation__item">
+      <a
+        [routerLink]="item.link"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        {{ item.label }}
+      </a>
+    </div>
+  }
+</nav>
