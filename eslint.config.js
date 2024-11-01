@@ -28,8 +28,6 @@ module.exports = [
   },
   {
     files: ["**/*.html"],
-    rules: {
-      // htmlWhitespaceSensitivity: "off",
-    },
+    rules: {},
   },
 ];
