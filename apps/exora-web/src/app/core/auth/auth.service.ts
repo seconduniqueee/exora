@@ -13,7 +13,7 @@ export class AuthService {
   constructor(
     private authClient: AuthClient,
     private router: Router,
-    private authRepository: AuthRepository
+    private authRepository: AuthRepository,
   ) {}
 
   get appInitialized(): boolean {
@@ -49,7 +49,7 @@ export class AuthService {
 
       return true;
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
       this.authRepository.stopLoading();
     }
@@ -69,7 +69,7 @@ export class AuthService {
 
       return true;
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
       this.authRepository.stopLoading();
     }

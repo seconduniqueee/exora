@@ -12,22 +12,25 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./auth.model";
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
   let authService = inject(AuthService);
   let request = addTokenHeader(req);
 
   return next(request).pipe(
     catchError((response: HttpResponse<unknown>) => {
-      if (response.status !== 401) {
+      let isUnauthorizedException = response.status === 401;
+      let isSignInRequest = request.url?.endsWith("sign-in");
+
+      if (!isUnauthorizedException || isSignInRequest) {
         return throwError(() => response);
       }
 
       return authService.refresh().pipe(
         switchMap(() => next(addTokenHeader(request))),
-        catchError((err) => throwError(() => new Error(err)))
+        catchError((err) => throwError(() => new Error(err))),
       );
-    })
+    }),
   );
 };
 
