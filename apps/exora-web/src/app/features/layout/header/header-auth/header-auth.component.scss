@@ -6,7 +6,7 @@
   &__theme-toggle {
     padding-right: 20px;
     margin-right: 10px;
-    border-right: 1px dashed var(--font-color-secondary);
+    border-right: 1px dashed var(--text-color-secondary);
 
     span {
       font-size: 13px;
@@ -31,13 +31,13 @@
       font-size: 13px;
       border: none;
       cursor: pointer;
-      color: var(--font-color-secondary);
+      color: var(--text-color-secondary);
     }
   }
 
   &__log-in {
     a {
-      color: var(--font-color-secondary);
+      color: var(--text-color-secondary);
       font-size: 13px;
       line-height: 1.1;
     }

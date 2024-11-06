@@ -7,7 +7,7 @@ button.loading-button {
 
   &.is-loading {
     color: transparent !important;
-    opacity: .8;
+    opacity: 0.8;
     pointer-events: none;
     user-select: none;
     transition: none;
@@ -23,7 +23,7 @@ button.loading-button {
     aspect-ratio: 1;
     display: inline-block;
     height: 50%;
-    border: 3px solid var(--bg-color-primary);
+    border: 3px solid var(--text-color-primary);
     border-radius: 50%;
     animation: rotation 1s infinite linear;
     border-left-color: transparent;

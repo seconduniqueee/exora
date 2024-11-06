@@ -1,22 +1,95 @@
 html {
-  --font-color-primary: #121212;
-  --font-color-secondary: #555;
-  --bg-color-primary: #fff;
-  --bg-color-secondary: #eee;
-  --box-shadow-primary: rgba(0, 0, 0, 0.1);
-  --input-border-color: #eee;
-  --error-color: #f9423a;
+  /* Background */
+  --background-color: #ffffff;
+  --background-color-secondary: #f7f7f7;
+  --background-color-accent: #f1f1f1;
+
+  /* Text */
+  --text-color-primary: #1e1e1e;
+  --text-color-secondary: #4a4a4a;
+  --text-color-muted: #888888;
+
+  /* Accent Colors */
+  --accent-color-primary: #ff3b30;
+  --accent-color-secondary: #ff9500;
+
+  /* Button */
+  --button-background: #e6e6e6;
+  --button-text-color: #1e1e1e;
+  --button-background-hover: #f3f3f3;
+  --button-text-color-hover: #1e1e1e;
+
+  /* Borders */
+  --border-color: #dddddd;
+  --border-color-accent: #ff3b30;
+  --border-color-muted: #cccccc;
+
+  /* Shadows */
+  --box-shadow-light: rgba(0, 0, 0, 0.1) 0px 1px 3px;
+  --box-shadow-medium: rgba(0, 0, 0, 0.2) 0px 3px 6px;
+
+  /* Status Colors */
+  --status-color-info: #4a90e2;
+  --status-color-success: #4caf50;
+  --status-color-warning: #ff9800;
+  --status-color-danger: #f44336;
+
+  /* Input */
+  --input-bg-color: #ffffff;
+  --input-border-color: #dddddd;
+  --input-text-color: #1e1e1e;
+  --input-placeholder-color: #4a4a4a;
+  --input-focus-border-color: #ff3b30;
+  --input-focus-text-color: #1e1e1e;
 }
 
 html.dark {
-  --font-color-primary: #fff;
-  --font-color-secondary: #eee;
-  --bg-color-primary: #121212;
-  --bg-color-secondary: #1f1f1f;
-  --box-shadow-primary: rgba(255, 255, 255, 0.1);
+  /* Background */
+  --background-color: #181818;
+  --background-color-secondary: #212121;
+  --background-color-accent: #2c2c2c;
+
+  /* Text */
+  --text-color-primary: #e5e5e5;
+  --text-color-secondary: #b0b0b0;
+  --text-color-muted: #888888;
+
+  /* Accent Colors */
+  --accent-color-primary: #ff3b30;
+  --accent-color-secondary: #ff9500;
+
+  /* Button */
+  --button-background: #444444;
+  --button-text-color: #ffffff;
+  --button-background-hover: #555555;
+  --button-text-color-hover: #ffffff;
+
+  /* Borders */
+  --border-color: #3a3a3a;
+  --border-color-accent: #ff3b30;
+  --border-color-muted: #555555;
+
+  /* Shadows */
+  --box-shadow-light: rgba(0, 0, 0, 0.2) 0px 1px 3px;
+  --box-shadow-medium: rgba(0, 0, 0, 0.4) 0px 3px 6px;
+
+  /* Status Colors */
+  --status-color-info: #4a90e2;
+  --status-color-success: #4caf50;
+  --status-color-warning: #ff9800;
+  --status-color-danger: #f44336;
+
+  /* Input */
+  --input-bg-color: #2a2a2a;
+  --input-border-color: #3a3a3a;
+  --input-text-color: #ffffff;
+  --input-placeholder-color: #888888;
+  --input-focus-border-color: #ff3b30;
+  --input-focus-text-color: #ffffff;
 }
 
 $header-height: 60px;
 $app-max-width: 1440px;
 
+/* Z-index hierarchy */
 $z-overlay: 100;

@@ -9,21 +9,21 @@
       font-size: 14px;
       text-decoration: none;
       font-weight: 600;
-      color: var(--font-color-secondary);
+      color: var(--text-color-secondary);
 
       &::after {
         content: "";
         position: absolute;
         bottom: 0;
         left: 0;
-        background-color: var(--font-color-primary);
+        background-color: var(--text-color-primary);
         width: 0;
         height: 2px;
       }
 
       &:hover,
       &.active {
-        color: var(--font-color-primary);
+        color: var(--text-color-primary);
       }
 
       &.active {

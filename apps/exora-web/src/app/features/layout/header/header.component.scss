@@ -2,7 +2,7 @@
 @import "mixins";
 
 .header {
-  background-color: var(--bg-color-primary);
+  background-color: var(--background-color);
   height: $header-height;
 
   &__content {
@@ -28,7 +28,7 @@
         width: fit-content;
         padding: 0 10px;
         height: 40px;
-        border-left: 4px solid var(--font-color-primary);
+        border-left: 4px solid var(--text-color-primary);
         cursor: pointer;
 
         a {

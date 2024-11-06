@@ -21,13 +21,18 @@ body,
 button,
 a {
   font-family: Poppins, sans-serif;
-  color: var(--font-color-primary);
-  background-color: var(--bg-color-primary);
+  color: var(--text-color-primary);
+  background-color: var(--background-color);
 }
 
 a {
-  color: var(--font-color-primary);
+  color: var(--text-color-primary);
   text-decoration: none;
+}
+
+input {
+  background-color: transparent;
+  color: var(--text-color-primary);
 }
 
 body,
