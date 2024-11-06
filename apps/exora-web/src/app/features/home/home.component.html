@@ -1,3 +1,7 @@
 <div class="home-page">
-  <h1 class="title">Welcome, {{ userName }}! 🖐️</h1>
+  @if (isLoggedIn) {
+    <h1 class="title">Welcome, {{ userName }}! 🖐️</h1>
+  } @else {
+    <h1 class="title">Welcome to Exora! 🖐️</h1>
+  }
 </div>

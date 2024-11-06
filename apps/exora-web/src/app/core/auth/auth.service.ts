@@ -9,6 +9,7 @@ import { AuthRepository } from "./auth.repository";
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private refreshRequest: Promise<TokensModel>;
+  private userInfoRequest: Promise<UserModel>;
 
   constructor(
     private authClient: AuthClient,
@@ -124,8 +125,10 @@ export class AuthService {
   }
 
   private async loadUserInfo(): Promise<void> {
-    let request = this.authClient.userInfo();
-    let result = await firstValueFrom(request);
+    if (this.userInfoRequest) return;
+
+    this.userInfoRequest = firstValueFrom(this.authClient.userInfo());
+    let result = await this.userInfoRequest;
 
     this.authRepository.setUser(result);
   }
