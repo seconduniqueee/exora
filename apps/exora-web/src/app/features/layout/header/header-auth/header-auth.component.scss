@@ -4,16 +4,14 @@
   @include d-flex(center, center);
 
   &__theme-toggle {
-    padding-right: 20px;
+    padding: 5px 20px;
     margin-right: 10px;
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.1;
     border-right: 1px dashed var(--text-color-secondary);
-
-    span {
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.1;
-    }
-
     cursor: pointer;
   }
 
@@ -27,19 +25,27 @@
     }
 
     button {
-      padding: 0 5px;
+      padding: 5px;
       font-size: 13px;
       border: none;
       cursor: pointer;
       color: var(--text-color-secondary);
+
+      &:hover {
+        color: var(--text-color-primary);
+      }
     }
   }
 
   &__log-in {
     a {
-      color: var(--text-color-secondary);
       font-size: 13px;
       line-height: 1.1;
+      color: var(--text-color-secondary);
+
+      &:hover {
+        color: var(--text-color-primary);
+      }
     }
   }
 }

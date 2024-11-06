@@ -1,7 +1,7 @@
 <div class="header-auth">
-  <div class="header-auth__theme-toggle" (click)="toggleTheme.emit()">
-    <span> {{ isDarkTheme ? "Dark" : "Light" }}</span>
-  </div>
+  <button class="header-auth__theme-toggle" (click)="toggleTheme.emit()">
+    {{ isDarkTheme ? "dark" : "light" }}
+  </button>
 
   @if (user) {
     <div class="header-auth__user-info">
