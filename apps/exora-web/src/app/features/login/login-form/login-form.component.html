@@ -1,21 +1,21 @@
 <form class="login-form" [formGroup]="loginForm" (ngSubmit)="submitLoginForm.emit()">
   <div class="login-form__controls">
-    <div class="control">
+    <div class="form-control">
       <label>Email</label>
       <input formControlName="email" />
     </div>
 
-    <div class="control password-control">
+    <div class="form-control">
       <label>Password</label>
       <input type="password" autocomplete="new-password" formControlName="password" />
     </div>
   </div>
 
-  <div class="login-form__form-error" [class.show-error]="showErrorMessage">
+  <div class="form-error" [class.show-error]="showErrorMessage">
     Incorrect email or password. Please check your inputs
   </div>
 
   <div class="login-form__actions">
-    <button [loadingButton]="isLoading">Submit</button>
+    <button class="form-submit" [loadingButton]="isLoading">Submit</button>
   </div>
 </form>
