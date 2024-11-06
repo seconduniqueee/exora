@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
@@ -8,11 +9,13 @@ import {
 import { DataAccessService } from "../data-access/data-access.service";
 import { AuthResponseModel, TokensModel } from "@exora/shared-models";
 import { LoginRequest, SignupRequest, UpdatePasswordRequest, UserData } from "./dto";
-import { User } from "@prisma/client";
+import { PasswordHistory, User } from "@prisma/client";
 import * as argon from "argon2";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 import { UserMapper } from "../common/mapping/user/user.mapper";
+import { MAX_PASSWORDS_STORED } from "./auth.model";
+import { Base64Helper } from "../common/helpers/base64.helper";
 
 @Injectable()
 export class AuthService {
@@ -20,7 +23,7 @@ export class AuthService {
     private dbService: DataAccessService,
     private jwtService: JwtService,
     private userMapper: UserMapper,
-    private configService: ConfigService
+    private configService: ConfigService,
   ) {}
 
   async signUp(request: SignupRequest): Promise<AuthResponseModel> {
@@ -40,6 +43,7 @@ export class AuthService {
     let tokens = await this.getTokens(user.id, user.email);
 
     await this.updateRefreshTokenHash(tokens.refreshToken, user.id);
+    await this.updatePasswordHistory(user.id, hash);
 
     return { tokens };
   }
@@ -81,9 +85,16 @@ export class AuthService {
     // TODO make sure password is not present in password history
     // TODO implement max changePassword attempts
 
-    let hash = await argon.hash(request.newPassword);
+    let passwordHash = await argon.hash(request.newPassword);
+    let passwordUnused = await this.isUnusedPassword(userID, request.newPassword);
 
-    await this.dbService.user.update({ where: { id: user.id }, data: { hash } });
+    if (!passwordUnused) {
+      let message = "This password has been used recently. Please choose a different password.";
+      throw new BadRequestException(message);
+    }
+
+    await this.updatePasswordHistory(userID, passwordHash);
+    await this.dbService.user.update({ where: { id: user.id }, data: { hash: passwordHash } });
   }
 
   async refreshToken(userID: number, refreshToken: string): Promise<TokensModel> {
@@ -134,5 +145,39 @@ export class AuthService {
     if (!user) throw new NotFoundException("User does not exist");
 
     return user;
+  }
+
+  private async updatePasswordHistory(
+    userID: number,
+    passwordHash: string,
+  ): Promise<PasswordHistory> {
+    let entity = await this.dbService.passwordHistory.findUnique({ where: { userId: userID } });
+    let history: string[] = entity ? Base64Helper.parse<string[]>(entity.passwordHistory) : [];
+
+    history.push(passwordHash);
+
+    if (history.length > MAX_PASSWORDS_STORED) {
+      history = history.slice(-MAX_PASSWORDS_STORED);
+    }
+
+    let encoded = Base64Helper.encode(history);
+    let data = { passwordHistory: encoded, userId: userID };
+    let result = entity
+      ? await this.dbService.passwordHistory.update({ where: { userId: userID }, data })
+      : await this.dbService.passwordHistory.create({ data });
+
+    return result;
+  }
+
+  private async isUnusedPassword(userId: number, password: string): Promise<boolean> {
+    let entity = await this.dbService.passwordHistory.findUnique({ where: { userId } });
+
+    if (!entity) return true;
+
+    let history = Base64Helper.parse<string[]>(entity.passwordHistory);
+    let passwordsCheck = history.map((hash) => argon.verify(hash, password));
+    let passwordUsed = (await Promise.all(passwordsCheck)).some(Boolean);
+
+    return !passwordUsed;
   }
 }

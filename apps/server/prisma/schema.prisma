@@ -14,21 +14,28 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int           @id @default(autoincrement())
+  email     String        @unique
   hash      String
   hashedRt  String?
 
   firstName String
   lastName  String
   phone     String?
-  roleId    Int      @default(1) // Foreign key reference to the role
-  role      Role     @relation(fields: [roleId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  isDeleted  Boolean @default(false)  // Boolean field to mark soft delete
+  roleId    Int           @default(1)
+  role      Role          @relation(fields: [roleId], references: [id])
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  isDeleted  Boolean      @default(false)
 
   @@map("users")
+}
+
+model PasswordHistory {
+  userId Int @unique
+  passwordHistory String
+
+  @@map ("password-history")
 }
 
 model Role {
