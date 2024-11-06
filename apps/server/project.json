@@ -28,6 +28,14 @@
       "options": {
         "jestConfig": "apps/server/jest.config.ts"
       }
+    },
+    "prisma-seed": {
+      "executor": "@nx-tools/nx-prisma:seed",
+      "options": {
+        "tsConfig": "apps/cyber-ed-backend/tsconfig.app.json",
+        "script": "apps/cyber-ed-backend/prisma/seed.ts",
+        "schema": "apps/cyber-ed-backend/prisma/schema.prisma"
+      }
     }
   }
 }

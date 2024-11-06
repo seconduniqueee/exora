@@ -5,6 +5,10 @@
   "scripts": {
     "prisma:studio": "npx prisma studio --schema=apps/server/prisma/schema.prisma"
   },
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/seeds/seed.mjs",
+    "type": "module"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~18.2.0",
