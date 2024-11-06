@@ -131,6 +131,7 @@ export class AuthService {
     let result = await this.userInfoRequest;
 
     this.authRepository.setUser(result);
+    this.userInfoRequest = null;
   }
 
   private clearUserInfo(): void {
