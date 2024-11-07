@@ -2,8 +2,8 @@
 
 ## Current Progress
 
-- [x] **[__] Setup NX.**
-- [x] **[__] Implement lib with shared interfaces.**
+- [x] **[NA] Setup NX.**
+- [x] **[NA] Implement lib with shared interfaces.**
 - [x] **[BE] Setup NestJS backend with basic controllers.**
 - [x] **[FE] Setup Angular client app with basic structure.**
 - [x] **[BE] Configure JWT Auth.**
