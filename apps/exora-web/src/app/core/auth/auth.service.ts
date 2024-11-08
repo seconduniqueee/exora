@@ -38,10 +38,6 @@ export class AuthService {
     return this.authRepository.state.user;
   }
 
-  get isLoading(): boolean {
-    return this.authRepository.isLoading;
-  }
-
   async signUp(signUpRequest: SignupRequestModel): Promise<AuthResponseModel> {
     try {
       this.authRepository.startLoading();
@@ -97,16 +93,15 @@ export class AuthService {
     }
   }
 
-  logOut(): void {
+  async logOut(): Promise<void> {
     try {
       let request = this.authClient.logOut();
-
-      this.clearUserInfo();
-
-      void this.router.navigate([LOGIN_PAGE_PATH]);
-      void firstValueFrom(request);
+      await firstValueFrom(request);
     } catch (error) {
       console.error(error);
+    } finally {
+      this.clearUserInfo();
+      void this.router.navigate([LOGIN_PAGE_PATH]);
     }
   }
 
