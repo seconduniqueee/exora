@@ -1,17 +1,18 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import {
-  AuthResponse,
-  LoginRequest,
-  SignupRequest,
-  Tokens,
-  UpdatePasswordRequest,
-  UserData,
+  AuthResponseDto,
+  LoginRequestDto,
+  SignupRequestDto,
+  TokensDto,
+  UpdatePasswordRequestDto,
+  UserDataDto,
 } from "./dto";
 import { Request } from "express";
 import { RefreshTokenGuard } from "./common/guards";
 import { Public, UserID } from "./common/decorators";
 import { ApiTags } from "@nestjs/swagger";
+import { ActionResultDto } from "../common/dto";
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -19,16 +20,16 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
-  @Post("sign-up-form")
+  @Post("sign-up")
   @HttpCode(HttpStatus.CREATED)
-  signUp(@Body() request: SignupRequest): Promise<AuthResponse> {
+  signUp(@Body() request: SignupRequestDto): Promise<AuthResponseDto> {
     return this.authService.signUp(request);
   }
 
   @Public()
   @Post("sign-in")
   @HttpCode(HttpStatus.OK)
-  login(@Body() request: LoginRequest): Promise<AuthResponse> {
+  login(@Body() request: LoginRequestDto): Promise<AuthResponseDto> {
     return this.authService.logIn(request);
   }
 
@@ -40,13 +41,16 @@ export class AuthController {
 
   @Post("update-password")
   @HttpCode(HttpStatus.NO_CONTENT)
-  updatePassword(@UserID() userID: number, @Body() request: UpdatePasswordRequest): Promise<void> {
+  updatePassword(
+    @UserID() userID: number,
+    @Body() request: UpdatePasswordRequestDto,
+  ): Promise<ActionResultDto> {
     return this.authService.updatePassword(userID, request);
   }
 
   @Get("user-info")
   @HttpCode(HttpStatus.OK)
-  getUserInfo(@UserID() userID: number): Promise<UserData> {
+  getUserInfo(@UserID() userID: number): Promise<UserDataDto> {
     return this.authService.getUserInfo(userID);
   }
 
@@ -54,7 +58,7 @@ export class AuthController {
   @UseGuards(RefreshTokenGuard)
   @Post("refreshToken")
   @HttpCode(HttpStatus.OK)
-  refreshToken(@Req() request: Request): Promise<Tokens> {
+  refreshToken(@Req() request: Request): Promise<TokensDto> {
     let user = request.user;
     return this.authService.refreshToken(user["sub"], user["refreshToken"]);
   }

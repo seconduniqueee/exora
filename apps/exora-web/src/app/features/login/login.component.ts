@@ -17,7 +17,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroupTyped<LoginForm>;
-  showErrorMessage = signal(false);
+  errorMessage = signal("");
   isLoading: Signal<boolean>;
 
   constructor(
@@ -36,10 +36,10 @@ export class LoginComponent implements OnInit {
     let formValue = this.loginForm.value;
     let result = await this.authService.signIn(formValue.email, formValue.password);
 
-    if (result) {
+    if (result?.isSuccess) {
       await this.router.navigate([HOME_PAGE_PATH]);
     } else {
-      this.showErrorMessage.set(!result);
+      this.errorMessage.set(result.errorMessage);
     }
   }
 
@@ -51,6 +51,6 @@ export class LoginComponent implements OnInit {
 
     this.loginForm.valueChanges
       .pipe(untilDestroyed(this))
-      .subscribe(() => this.showErrorMessage.set(false));
+      .subscribe(() => this.errorMessage.set(""));
   }
 }

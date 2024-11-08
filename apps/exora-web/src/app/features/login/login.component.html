@@ -5,7 +5,7 @@
     @if (loginForm) {
       <app-login-form
         [loginForm]="loginForm"
-        [showErrorMessage]="showErrorMessage()"
+        [errorMessage]="errorMessage()"
         [isLoading]="isLoading()"
         (submitLoginForm)="signIn()"
       />

@@ -1,14 +1,7 @@
-import {
-  BadRequestException,
-  ConflictException,
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { DataAccessService } from "../data-access/data-access.service";
 import { AuthResponseModel, TokensModel } from "@exora/shared-models";
-import { LoginRequest, SignupRequest, UpdatePasswordRequest, UserData } from "./dto";
+import { LoginRequestDto, SignupRequestDto, UpdatePasswordRequestDto, UserDataDto } from "./dto";
 import { PasswordHistory, User } from "@prisma/client";
 import * as argon from "argon2";
 import { JwtService } from "@nestjs/jwt";
@@ -16,6 +9,7 @@ import { ConfigService } from "@nestjs/config";
 import { UserMapper } from "../common/mapping/user/user.mapper";
 import { MAX_PASSWORDS_STORED } from "./auth.model";
 import { Base64Helper } from "../common/helpers/base64.helper";
+import { ActionResultDto } from "../common/dto";
 
 @Injectable()
 export class AuthService {
@@ -26,8 +20,10 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async signUp(request: SignupRequest): Promise<AuthResponseModel> {
-    await this.checkIfUserExists(request.email);
+  async signUp(request: SignupRequestDto): Promise<AuthResponseModel> {
+    let userExists = await this.checkIfUserExists(request.email);
+
+    if (userExists) return this.getAuthResponse(null, "User with provided email already exists");
 
     let hash = await argon.hash(request.password);
     let user = await this.dbService.user.create({
@@ -45,22 +41,22 @@ export class AuthService {
     await this.updateRefreshTokenHash(tokens.refreshToken, user.id);
     await this.updatePasswordHistory(user.id, hash);
 
-    return { tokens };
+    return this.getAuthResponse(tokens);
   }
 
-  async logIn(request: LoginRequest): Promise<AuthResponseModel> {
+  async logIn(request: LoginRequestDto): Promise<AuthResponseModel> {
     let user = await this.dbService.user.findUnique({ where: { email: request.email } });
     let passwordMatch = !!user && (await argon.verify(user.hash, request.password));
 
-    if (!passwordMatch) throw new UnauthorizedException("Invalid credentials");
-
-    // TODO implement max login attempts
+    if (!passwordMatch) {
+      return this.getAuthResponse(null, "Provided email or password is incorrect");
+    }
 
     let tokens = await this.getTokens(user.id, user.email);
 
     await this.updateRefreshTokenHash(tokens.refreshToken, user.id);
 
-    return { tokens };
+    return this.getAuthResponse(tokens);
   }
 
   async logOut(userID: number): Promise<void> {
@@ -70,31 +66,27 @@ export class AuthService {
     });
   }
 
-  async getUserInfo(userID: number): Promise<UserData> {
-    let user = await this.getUserByID(userID);
-    return this.userMapper.map(user);
-  }
-
-  async updatePassword(userID: number, request: UpdatePasswordRequest): Promise<void> {
+  async updatePassword(
+    userID: number,
+    request: UpdatePasswordRequestDto,
+  ): Promise<ActionResultDto> {
     let user = await this.getUserByID(userID);
     let passwordMatch = await argon.verify(user.hash, request.currentPassword);
 
     if (!passwordMatch) throw new ForbiddenException("Access Denied");
-
-    // TODO implement password history (length 5?)
-    // TODO make sure password is not present in password history
-    // TODO implement max changePassword attempts
 
     let passwordHash = await argon.hash(request.newPassword);
     let passwordUnused = await this.isUnusedPassword(userID, request.newPassword);
 
     if (!passwordUnused) {
       let message = "This password has been used recently. Please choose a different password.";
-      throw new BadRequestException(message);
+      return { isSuccess: false, errorMessage: message };
     }
 
     await this.updatePasswordHistory(userID, passwordHash);
     await this.dbService.user.update({ where: { id: user.id }, data: { hash: passwordHash } });
+
+    return { isSuccess: true };
   }
 
   async refreshToken(userID: number, refreshToken: string): Promise<TokensModel> {
@@ -108,6 +100,11 @@ export class AuthService {
     await this.updateRefreshTokenHash(tokens.refreshToken, user.id);
 
     return tokens;
+  }
+
+  async getUserInfo(userID: number): Promise<UserDataDto> {
+    let user = await this.getUserByID(userID);
+    return this.userMapper.map(user);
   }
 
   private async getTokens(userID: number, email: string): Promise<TokensModel> {
@@ -126,9 +123,9 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  private async checkIfUserExists(email: string): Promise<void> {
+  private async checkIfUserExists(email: string): Promise<boolean> {
     let user = await this.dbService.user.findUnique({ where: { email: email } });
-    if (user) throw new ConflictException("User with provided email already exists");
+    return !!user;
   }
 
   private async updateRefreshTokenHash(refreshToken: string, userID: number): Promise<void> {
@@ -179,5 +176,9 @@ export class AuthService {
     let passwordUsed = (await Promise.all(passwordsCheck)).some(Boolean);
 
     return !passwordUsed;
+  }
+
+  private getAuthResponse(tokens: TokensModel, errorMessage?: string): AuthResponseModel {
+    return { tokens, errorMessage, isSuccess: !!tokens };
   }
 }

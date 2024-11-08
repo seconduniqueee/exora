@@ -26,8 +26,8 @@
     </div>
   </div>
 
-  <div class="form-error" [class.show-error]="showErrorMessage">
-    Account with provided email already exists
+  <div class="form-error" [class.show-error]="errorMessage">
+    {{ errorMessage }}
   </div>
 
   <div class="sign-up-form__actions">

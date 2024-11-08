@@ -14,7 +14,7 @@ export class MessageDto implements MessageModel {
   message: string;
 }
 
-export class LoginRequest implements LoginRequestModel {
+export class LoginRequestDto implements LoginRequestModel {
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -24,7 +24,7 @@ export class LoginRequest implements LoginRequestModel {
   password: string;
 }
 
-export class UpdatePasswordRequest implements UpdatePasswordRequestModel {
+export class UpdatePasswordRequestDto implements UpdatePasswordRequestModel {
   @IsNotEmpty()
   @IsString()
   currentPassword: string;
@@ -34,7 +34,7 @@ export class UpdatePasswordRequest implements UpdatePasswordRequestModel {
   newPassword: string;
 }
 
-export class SignupRequest implements SignupRequestModel {
+export class SignupRequestDto implements SignupRequestModel {
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -53,26 +53,28 @@ export class SignupRequest implements SignupRequestModel {
   phone?: string;
 }
 
-export class Tokens implements TokensModel {
+export class TokensDto implements TokensModel {
   accessToken: string;
   refreshToken: string;
 }
 
-export class NamedEntity implements NamedEntityModel {
+export class NamedEntityDto implements NamedEntityModel {
   id: number;
   name: string;
 }
 
-export class AuthResponse implements AuthResponseModel {
-  tokens: Tokens;
+export class AuthResponseDto implements AuthResponseModel {
+  tokens: TokensDto;
+  isSuccess: boolean;
+  errorMessage: string;
 }
 
-export class UserData implements UserModel {
+export class UserDataDto implements UserModel {
   id: number;
   firstName: string;
   lastName: string;
   email: string;
   phone?: string;
   roleID: number;
-  role: NamedEntity;
+  role: NamedEntityDto;
 }

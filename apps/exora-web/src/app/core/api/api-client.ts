@@ -25,14 +25,14 @@ export class AuthClient {
 
   constructor(
     @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(API_BASE_URL) baseUrl?: string
+    @Optional() @Inject(API_BASE_URL) baseUrl?: string,
   ) {
     this.http = http;
     this.baseUrl = baseUrl ?? "";
   }
 
-  signUp(body: SignupRequest): Observable<AuthResponse> {
-    let url_ = this.baseUrl + "/api/auth/sign-up-form";
+  signUp(body: SignupRequestDto): Observable<AuthResponseDto> {
+    let url_ = this.baseUrl + "/api/auth/sign-up";
     url_ = url_.replace(/[?&]$/, "");
 
     const content_ = JSON.stringify(body);
@@ -52,7 +52,7 @@ export class AuthClient {
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processSignUp(response_);
-        })
+        }),
       )
       .pipe(
         _observableCatch((response_: any) => {
@@ -60,21 +60,21 @@ export class AuthClient {
             try {
               return this.processSignUp(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<AuthResponse>;
+              return _observableThrow(e) as any as Observable<AuthResponseDto>;
             }
-          } else return _observableThrow(response_) as any as Observable<AuthResponse>;
-        })
+          } else return _observableThrow(response_) as any as Observable<AuthResponseDto>;
+        }),
       );
   }
 
-  protected processSignUp(response: HttpResponseBase): Observable<AuthResponse> {
+  protected processSignUp(response: HttpResponseBase): Observable<AuthResponseDto> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
         ? response.body
         : (response as any).error instanceof Blob
-        ? (response as any).error
-        : undefined;
+          ? (response as any).error
+          : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -89,9 +89,9 @@ export class AuthClient {
           result201 =
             _responseText === ""
               ? null
-              : (JSON.parse(_responseText, this.jsonParseReviver) as AuthResponse);
+              : (JSON.parse(_responseText, this.jsonParseReviver) as AuthResponseDto);
           return _observableOf(result201);
-        })
+        }),
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
@@ -100,15 +100,15 @@ export class AuthClient {
             "An unexpected server error occurred.",
             status,
             _responseText,
-            _headers
+            _headers,
           );
-        })
+        }),
       );
     }
     return _observableOf(null as any);
   }
 
-  signIn(body: LoginRequest): Observable<AuthResponse> {
+  signIn(body: LoginRequestDto): Observable<AuthResponseDto> {
     let url_ = this.baseUrl + "/api/auth/sign-in";
     url_ = url_.replace(/[?&]$/, "");
 
@@ -129,7 +129,7 @@ export class AuthClient {
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processSignIn(response_);
-        })
+        }),
       )
       .pipe(
         _observableCatch((response_: any) => {
@@ -137,21 +137,21 @@ export class AuthClient {
             try {
               return this.processSignIn(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<AuthResponse>;
+              return _observableThrow(e) as any as Observable<AuthResponseDto>;
             }
-          } else return _observableThrow(response_) as any as Observable<AuthResponse>;
-        })
+          } else return _observableThrow(response_) as any as Observable<AuthResponseDto>;
+        }),
       );
   }
 
-  protected processSignIn(response: HttpResponseBase): Observable<AuthResponse> {
+  protected processSignIn(response: HttpResponseBase): Observable<AuthResponseDto> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
         ? response.body
         : (response as any).error instanceof Blob
-        ? (response as any).error
-        : undefined;
+          ? (response as any).error
+          : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -166,9 +166,9 @@ export class AuthClient {
           result200 =
             _responseText === ""
               ? null
-              : (JSON.parse(_responseText, this.jsonParseReviver) as AuthResponse);
+              : (JSON.parse(_responseText, this.jsonParseReviver) as AuthResponseDto);
           return _observableOf(result200);
-        })
+        }),
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
@@ -177,9 +177,9 @@ export class AuthClient {
             "An unexpected server error occurred.",
             status,
             _responseText,
-            _headers
+            _headers,
           );
-        })
+        }),
       );
     }
     return _observableOf(null as any);
@@ -200,7 +200,7 @@ export class AuthClient {
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processLogOut(response_);
-        })
+        }),
       )
       .pipe(
         _observableCatch((response_: any) => {
@@ -211,7 +211,7 @@ export class AuthClient {
               return _observableThrow(e) as any as Observable<void>;
             }
           } else return _observableThrow(response_) as any as Observable<void>;
-        })
+        }),
       );
   }
 
@@ -221,8 +221,8 @@ export class AuthClient {
       response instanceof HttpResponse
         ? response.body
         : (response as any).error instanceof Blob
-        ? (response as any).error
-        : undefined;
+          ? (response as any).error
+          : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -234,7 +234,7 @@ export class AuthClient {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           return _observableOf(null as any);
-        })
+        }),
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
@@ -243,15 +243,15 @@ export class AuthClient {
             "An unexpected server error occurred.",
             status,
             _responseText,
-            _headers
+            _headers,
           );
-        })
+        }),
       );
     }
     return _observableOf(null as any);
   }
 
-  updatePassword(body: UpdatePasswordRequest): Observable<void> {
+  updatePassword(body: UpdatePasswordRequestDto): Observable<ActionResultDto> {
     let url_ = this.baseUrl + "/api/auth/update-password";
     url_ = url_.replace(/[?&]$/, "");
 
@@ -263,6 +263,7 @@ export class AuthClient {
       responseType: "blob",
       headers: new HttpHeaders({
         "Content-Type": "application/json",
+        Accept: "application/json",
       }),
     };
 
@@ -271,7 +272,7 @@ export class AuthClient {
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processUpdatePassword(response_);
-        })
+        }),
       )
       .pipe(
         _observableCatch((response_: any) => {
@@ -279,21 +280,21 @@ export class AuthClient {
             try {
               return this.processUpdatePassword(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
+              return _observableThrow(e) as any as Observable<ActionResultDto>;
             }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
+          } else return _observableThrow(response_) as any as Observable<ActionResultDto>;
+        }),
       );
   }
 
-  protected processUpdatePassword(response: HttpResponseBase): Observable<void> {
+  protected processUpdatePassword(response: HttpResponseBase): Observable<ActionResultDto> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
         ? response.body
         : (response as any).error instanceof Blob
-        ? (response as any).error
-        : undefined;
+          ? (response as any).error
+          : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -304,8 +305,13 @@ export class AuthClient {
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
-          return _observableOf(null as any);
-        })
+          let result204: any = null;
+          result204 =
+            _responseText === ""
+              ? null
+              : (JSON.parse(_responseText, this.jsonParseReviver) as ActionResultDto);
+          return _observableOf(result204);
+        }),
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
@@ -314,15 +320,15 @@ export class AuthClient {
             "An unexpected server error occurred.",
             status,
             _responseText,
-            _headers
+            _headers,
           );
-        })
+        }),
       );
     }
     return _observableOf(null as any);
   }
 
-  userInfo(): Observable<UserData> {
+  userInfo(): Observable<UserDataDto> {
     let url_ = this.baseUrl + "/api/auth/user-info";
     url_ = url_.replace(/[?&]$/, "");
 
@@ -339,7 +345,7 @@ export class AuthClient {
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processUserInfo(response_);
-        })
+        }),
       )
       .pipe(
         _observableCatch((response_: any) => {
@@ -347,21 +353,21 @@ export class AuthClient {
             try {
               return this.processUserInfo(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<UserData>;
+              return _observableThrow(e) as any as Observable<UserDataDto>;
             }
-          } else return _observableThrow(response_) as any as Observable<UserData>;
-        })
+          } else return _observableThrow(response_) as any as Observable<UserDataDto>;
+        }),
       );
   }
 
-  protected processUserInfo(response: HttpResponseBase): Observable<UserData> {
+  protected processUserInfo(response: HttpResponseBase): Observable<UserDataDto> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
         ? response.body
         : (response as any).error instanceof Blob
-        ? (response as any).error
-        : undefined;
+          ? (response as any).error
+          : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -376,9 +382,9 @@ export class AuthClient {
           result200 =
             _responseText === ""
               ? null
-              : (JSON.parse(_responseText, this.jsonParseReviver) as UserData);
+              : (JSON.parse(_responseText, this.jsonParseReviver) as UserDataDto);
           return _observableOf(result200);
-        })
+        }),
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
@@ -387,15 +393,15 @@ export class AuthClient {
             "An unexpected server error occurred.",
             status,
             _responseText,
-            _headers
+            _headers,
           );
-        })
+        }),
       );
     }
     return _observableOf(null as any);
   }
 
-  refreshToken(): Observable<Tokens> {
+  refreshToken(): Observable<TokensDto> {
     let url_ = this.baseUrl + "/api/auth/refreshToken";
     url_ = url_.replace(/[?&]$/, "");
 
@@ -412,7 +418,7 @@ export class AuthClient {
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processRefreshToken(response_);
-        })
+        }),
       )
       .pipe(
         _observableCatch((response_: any) => {
@@ -420,21 +426,21 @@ export class AuthClient {
             try {
               return this.processRefreshToken(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<Tokens>;
+              return _observableThrow(e) as any as Observable<TokensDto>;
             }
-          } else return _observableThrow(response_) as any as Observable<Tokens>;
-        })
+          } else return _observableThrow(response_) as any as Observable<TokensDto>;
+        }),
       );
   }
 
-  protected processRefreshToken(response: HttpResponseBase): Observable<Tokens> {
+  protected processRefreshToken(response: HttpResponseBase): Observable<TokensDto> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
         ? response.body
         : (response as any).error instanceof Blob
-        ? (response as any).error
-        : undefined;
+          ? (response as any).error
+          : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -449,9 +455,9 @@ export class AuthClient {
           result200 =
             _responseText === ""
               ? null
-              : (JSON.parse(_responseText, this.jsonParseReviver) as Tokens);
+              : (JSON.parse(_responseText, this.jsonParseReviver) as TokensDto);
           return _observableOf(result200);
-        })
+        }),
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
@@ -460,9 +466,9 @@ export class AuthClient {
             "An unexpected server error occurred.",
             status,
             _responseText,
-            _headers
+            _headers,
           );
-        })
+        }),
       );
     }
     return _observableOf(null as any);
@@ -479,7 +485,7 @@ export class UsersClient {
 
   constructor(
     @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(API_BASE_URL) baseUrl?: string
+    @Optional() @Inject(API_BASE_URL) baseUrl?: string,
   ) {
     this.http = http;
     this.baseUrl = baseUrl ?? "";
@@ -507,7 +513,7 @@ export class UsersClient {
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processUser(response_);
-        })
+        }),
       )
       .pipe(
         _observableCatch((response_: any) => {
@@ -518,7 +524,7 @@ export class UsersClient {
               return _observableThrow(e) as any as Observable<any>;
             }
           } else return _observableThrow(response_) as any as Observable<any>;
-        })
+        }),
       );
   }
 
@@ -528,8 +534,8 @@ export class UsersClient {
       response instanceof HttpResponse
         ? response.body
         : (response as any).error instanceof Blob
-        ? (response as any).error
-        : undefined;
+          ? (response as any).error
+          : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -544,7 +550,7 @@ export class UsersClient {
           result200 =
             _responseText === "" ? null : (JSON.parse(_responseText, this.jsonParseReviver) as any);
           return _observableOf(result200);
-        })
+        }),
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
@@ -553,16 +559,16 @@ export class UsersClient {
             "An unexpected server error occurred.",
             status,
             _responseText,
-            _headers
+            _headers,
           );
-        })
+        }),
       );
     }
     return _observableOf(null as any);
   }
 }
 
-export interface SignupRequest {
+export interface SignupRequestDto {
   email: string;
   password: string;
   firstName: string;
@@ -572,48 +578,57 @@ export interface SignupRequest {
   [key: string]: any;
 }
 
-export interface Tokens {
+export interface TokensDto {
   accessToken: string;
   refreshToken: string;
 
   [key: string]: any;
 }
 
-export interface AuthResponse {
-  tokens: Tokens;
+export interface AuthResponseDto {
+  tokens: TokensDto;
+  isSuccess: boolean;
+  errorMessage: string;
 
   [key: string]: any;
 }
 
-export interface LoginRequest {
+export interface LoginRequestDto {
   email: string;
   password: string;
 
   [key: string]: any;
 }
 
-export interface UpdatePasswordRequest {
+export interface UpdatePasswordRequestDto {
   currentPassword: string;
   newPassword: string;
 
   [key: string]: any;
 }
 
-export interface NamedEntity {
+export interface ActionResultDto {
+  errorMessage?: string;
+  isSuccess: boolean;
+
+  [key: string]: any;
+}
+
+export interface NamedEntityDto {
   id: number;
   name: string;
 
   [key: string]: any;
 }
 
-export interface UserData {
+export interface UserDataDto {
   id: number;
   firstName: string;
   lastName: string;
   email: string;
   phone?: string;
   roleID: number;
-  role: NamedEntity;
+  role: NamedEntityDto;
 
   [key: string]: any;
 }
@@ -630,7 +645,7 @@ export class ApiException extends Error {
     status: number,
     response: string,
     headers: { [key: string]: any },
-    result: any
+    result: any,
   ) {
     super();
 
@@ -653,7 +668,7 @@ function throwException(
   status: number,
   response: string,
   headers: { [key: string]: any },
-  result?: any
+  result?: any,
 ): Observable<any> {
   if (result !== null && result !== undefined) return _observableThrow(result);
   else return _observableThrow(new ApiException(message, status, response, headers, null));

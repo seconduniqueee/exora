@@ -12,7 +12,7 @@ import { LoginForm } from "../login.model";
 })
 export class LoginFormComponent {
   @Input() loginForm: FormGroupTyped<LoginForm>;
-  @Input() showErrorMessage: boolean;
+  @Input() errorMessage: string;
   @Input() isLoading: boolean;
 
   @Output() submitLoginForm = new EventEmitter<void>();

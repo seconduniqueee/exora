@@ -1,6 +1,11 @@
 import { Injectable } from "@angular/core";
 import { AuthClient } from "../api/api-client";
-import { SignupRequestModel, TokensModel, UserModel } from "@exora/shared-models";
+import {
+  AuthResponseModel,
+  SignupRequestModel,
+  TokensModel,
+  UserModel,
+} from "@exora/shared-models";
 import { ACCESS_TOKEN_KEY, LOGIN_PAGE_PATH, REFRESH_TOKEN_KEY } from "./auth.model";
 import { firstValueFrom, from, throwError } from "rxjs";
 import { Router } from "@angular/router";
@@ -37,26 +42,34 @@ export class AuthService {
     return this.authRepository.isLoading;
   }
 
-  async signUp(signUpRequest: SignupRequestModel): Promise<boolean> {
+  async signUp(signUpRequest: SignupRequestModel): Promise<AuthResponseModel> {
     try {
       this.authRepository.startLoading();
 
       let request = this.authClient.signUp(signUpRequest);
       let result = await firstValueFrom(request);
 
+      if (!result.isSuccess) return result;
+
       this.setTokens(result.tokens);
 
       await this.loadUserInfo();
 
-      return true;
+      return result;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+
+      return {
+        tokens: null,
+        isSuccess: false,
+        errorMessage: "Something went wrong. Please, try again later",
+      };
     } finally {
       this.authRepository.stopLoading();
     }
   }
 
-  async signIn(email: string, password: string): Promise<boolean> {
+  async signIn(email: string, password: string): Promise<AuthResponseModel> {
     try {
       this.authRepository.startLoading();
 
@@ -64,13 +77,21 @@ export class AuthService {
       let request = this.authClient.signIn(payload);
       let result = await firstValueFrom(request);
 
+      if (!result.isSuccess) return result;
+
       this.setTokens(result.tokens);
 
       await this.loadUserInfo();
 
-      return true;
+      return result;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+
+      return {
+        tokens: null,
+        isSuccess: false,
+        errorMessage: "Something went wrong. Please, try again later",
+      };
     } finally {
       this.authRepository.stopLoading();
     }

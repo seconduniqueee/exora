@@ -11,8 +11,8 @@
     </div>
   </div>
 
-  <div class="form-error" [class.show-error]="showErrorMessage">
-    Incorrect email or password. Please check your inputs
+  <div class="form-error" [class.show-error]="errorMessage">
+    {{ errorMessage }}
   </div>
 
   <div class="login-form__actions">
