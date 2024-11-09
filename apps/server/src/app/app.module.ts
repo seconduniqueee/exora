@@ -6,6 +6,7 @@ import { AccessTokenGuard } from "./auth/common/guards";
 import { APP_GUARD } from "@nestjs/core";
 import { UsersModule } from "./users/users.module";
 import { DataMappingModule } from "./common/mapping/data-mapping.module";
+import { ServicesModule } from "./services/services.module";
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { DataMappingModule } from "./common/mapping/data-mapping.module";
     DataMappingModule,
     AuthModule,
     UsersModule,
+    ServicesModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: AccessTokenGuard }],
 })

@@ -1,3 +1,4 @@
-export * from "./common/index";
-export * from "./auth/index";
-export * from "./user/index";
+export * from "./common";
+export * from "./auth";
+export * from "./user";
+export * from "./service";

@@ -1,4 +1,18 @@
 <div class="services-page">
   <h1 class="title">Services</h1>
   <h2 class="subtitle">This page is in development...</h2>
+
+  <div class="service-page__content">
+    <div class="service-types">
+      <h3 style="margin-bottom: 15px">Service Types</h3>
+
+      <div class="list" style="padding-left: 10px">
+        @for (serviceType of serviceTypes(); track serviceType.id) {
+          <div class="list-item">{{ serviceType.id }} -- {{ serviceType.name }}</div>
+        } @empty {
+          There are no service types specified
+        }
+      </div>
+    </div>
+  </div>
 </div>

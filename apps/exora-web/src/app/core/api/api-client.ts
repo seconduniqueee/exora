@@ -568,6 +568,96 @@ export class UsersClient {
   }
 }
 
+@Injectable({
+  providedIn: "root",
+})
+export class ServiceTypesClient {
+  private http: HttpClient;
+  private baseUrl: string;
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+  constructor(
+    @Inject(HttpClient) http: HttpClient,
+    @Optional() @Inject(API_BASE_URL) baseUrl?: string,
+  ) {
+    this.http = http;
+    this.baseUrl = baseUrl ?? "";
+  }
+
+  serviceTypes(): Observable<NamedEntityDto[]> {
+    let url_ = this.baseUrl + "/api/service-types";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        Accept: "application/json",
+      }),
+    };
+
+    return this.http
+      .request("get", url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processServiceTypes(response_);
+        }),
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processServiceTypes(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<NamedEntityDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<NamedEntityDto[]>;
+        }),
+      );
+  }
+
+  protected processServiceTypes(response: HttpResponseBase): Observable<NamedEntityDto[]> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+          ? (response as any).error
+          : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ""
+              ? null
+              : (JSON.parse(_responseText, this.jsonParseReviver) as NamedEntityDto[]);
+          return _observableOf(result200);
+        }),
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          return throwException(
+            "An unexpected server error occurred.",
+            status,
+            _responseText,
+            _headers,
+          );
+        }),
+      );
+    }
+    return _observableOf(null as any);
+  }
+}
+
 export interface SignupRequestDto {
   email: string;
   password: string;
