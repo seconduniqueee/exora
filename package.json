@@ -6,7 +6,7 @@
     "prisma:studio": "npx prisma studio --schema=apps/server/prisma/schema.prisma"
   },
   "prisma": {
-    "seed": "ts-node --transpile-only prisma/seeds/seed.mjs",
+    "seed": "npx ts-node --transpile-only prisma/seeds/seed.mjs",
     "type": "module"
   },
   "private": true,
