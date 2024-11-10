@@ -144,7 +144,7 @@ export class AuthService {
   private async loadUserInfo(): Promise<void> {
     if (this.userInfoRequest) return;
 
-    this.userInfoRequest = firstValueFrom(this.usersClient.userInfo());
+    this.userInfoRequest = firstValueFrom(this.usersClient.userInfo(true));
     let result = await this.userInfoRequest;
 
     this.authRepository.setUser(result);

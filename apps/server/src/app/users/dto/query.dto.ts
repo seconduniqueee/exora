@@ -1,8 +1,8 @@
 import { IsOptional } from "class-validator";
-import { Type } from "class-transformer";
+import { CoerceToBoolean } from "../../common/decorators";
 
 export class GetUserQuery {
-  @Type(() => Boolean)
+  @CoerceToBoolean()
   @IsOptional()
   includeRole?: boolean = false;
 }
