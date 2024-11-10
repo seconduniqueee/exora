@@ -13,7 +13,6 @@ export class UsersController {
   @Get("user-info")
   @HttpCode(HttpStatus.OK)
   getUserInfo(@UserID() userID: number, @Query() query: GetUserQuery): Promise<UserDto> {
-    console.log(query.includeRole);
     return this.usersService.getUserByID(userID, query.includeRole);
   }
 }
