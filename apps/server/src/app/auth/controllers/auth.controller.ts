@@ -1,18 +1,17 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from "@nestjs/common";
-import { AuthService } from "./auth.service";
+import { Body, Controller, HttpCode, HttpStatus, Post, Req, UseGuards } from "@nestjs/common";
+import { AuthService } from "../services/auth.service";
 import {
   AuthResponseDto,
   LoginRequestDto,
   SignupRequestDto,
   TokensDto,
   UpdatePasswordRequestDto,
-  UserDataDto,
-} from "./dto";
+} from "../dto";
 import { Request } from "express";
-import { RefreshTokenGuard } from "./common/guards";
-import { Public, UserID } from "./common/decorators";
+import { RefreshTokenGuard } from "../guards";
+import { Public, UserID } from "../decorators";
 import { ApiTags } from "@nestjs/swagger";
-import { ActionResultDto } from "../common/dto";
+import { ActionResultDto } from "../../common/dto";
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -46,12 +45,6 @@ export class AuthController {
     @Body() request: UpdatePasswordRequestDto,
   ): Promise<ActionResultDto> {
     return this.authService.updatePassword(userID, request);
-  }
-
-  @Get("user-info")
-  @HttpCode(HttpStatus.OK)
-  getUserInfo(@UserID() userID: number): Promise<UserDataDto> {
-    return this.authService.getUserInfo(userID);
   }
 
   @Public()

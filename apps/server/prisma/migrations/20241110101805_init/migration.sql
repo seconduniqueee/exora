@@ -7,7 +7,7 @@ CREATE TABLE "users" (
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "phone" TEXT,
-    "roleId" INTEGER NOT NULL DEFAULT 1,
+    "roleID" INTEGER NOT NULL DEFAULT 1,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isDeleted" BOOLEAN NOT NULL DEFAULT false,
@@ -17,7 +17,7 @@ CREATE TABLE "users" (
 
 -- CreateTable
 CREATE TABLE "password-history" (
-    "userId" INTEGER NOT NULL,
+    "userID" INTEGER NOT NULL,
     "passwordHistory" TEXT NOT NULL
 );
 
@@ -32,18 +32,18 @@ CREATE TABLE "roles" (
 -- CreateTable
 CREATE TABLE "events" (
     "id" SERIAL NOT NULL,
-    "user_id" INTEGER NOT NULL,
+    "userID" INTEGER NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "description" TEXT NOT NULL,
-    "event_type_id" INTEGER NOT NULL,
+    "eventTypeID" INTEGER NOT NULL,
     "date" TIMESTAMP(6) NOT NULL,
-    "status_id" INTEGER NOT NULL,
+    "statusID" INTEGER NOT NULL,
     "location" VARCHAR(255) NOT NULL,
     "budget" DECIMAL(10,2) NOT NULL,
-    "total_spent" DECIMAL(10,2) NOT NULL,
-    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(6) NOT NULL,
-    "is_deleted" BOOLEAN NOT NULL DEFAULT false,
+    "totalSpent" DECIMAL(10,2) NOT NULL,
+    "createdAt" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(6) NOT NULL,
+    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "events_pkey" PRIMARY KEY ("id")
 );
@@ -52,7 +52,7 @@ CREATE TABLE "events" (
 CREATE TABLE "EventType" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "is_deleted" BOOLEAN NOT NULL DEFAULT false,
+    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "EventType_pkey" PRIMARY KEY ("id")
 );
@@ -61,7 +61,7 @@ CREATE TABLE "EventType" (
 CREATE TABLE "EventStatus" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "is_deleted" BOOLEAN NOT NULL DEFAULT false,
+    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "EventStatus_pkey" PRIMARY KEY ("id")
 );
@@ -71,11 +71,11 @@ CREATE TABLE "Service" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "service_type_id" INTEGER NOT NULL,
+    "serviceTypeID" INTEGER NOT NULL,
     "price" DECIMAL NOT NULL,
-    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(6) NOT NULL,
-    "is_deleted" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(6) NOT NULL,
+    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Service_pkey" PRIMARY KEY ("id")
 );
@@ -84,7 +84,7 @@ CREATE TABLE "Service" (
 CREATE TABLE "ServiceType" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "is_deleted" BOOLEAN NOT NULL DEFAULT false,
+    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "ServiceType_pkey" PRIMARY KEY ("id")
 );
@@ -92,11 +92,11 @@ CREATE TABLE "ServiceType" (
 -- CreateTable
 CREATE TABLE "event-services" (
     "id" SERIAL NOT NULL,
-    "event_id" INTEGER NOT NULL,
-    "service_id" INTEGER NOT NULL,
-    "start_date" TIMESTAMP NOT NULL,
-    "end_date" TIMESTAMP NOT NULL,
-    "is_deleted" BOOLEAN NOT NULL DEFAULT false,
+    "eventID" INTEGER NOT NULL,
+    "serviceID" INTEGER NOT NULL,
+    "startDate" TIMESTAMP NOT NULL,
+    "endDate" TIMESTAMP NOT NULL,
+    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "event-services_pkey" PRIMARY KEY ("id")
 );
@@ -105,13 +105,13 @@ CREATE TABLE "event-services" (
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "password-history_userId_key" ON "password-history"("userId");
+CREATE UNIQUE INDEX "password-history_userID_key" ON "password-history"("userID");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "roles_name_key" ON "roles"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "events_user_id_key" ON "events"("user_id");
+CREATE UNIQUE INDEX "events_userID_key" ON "events"("userID");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "EventType_name_key" ON "EventType"("name");
@@ -123,22 +123,22 @@ CREATE UNIQUE INDEX "EventStatus_name_key" ON "EventStatus"("name");
 CREATE UNIQUE INDEX "ServiceType_name_key" ON "ServiceType"("name");
 
 -- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "users" ADD CONSTRAINT "users_roleID_fkey" FOREIGN KEY ("roleID") REFERENCES "roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "events" ADD CONSTRAINT "events_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "events" ADD CONSTRAINT "events_userID_fkey" FOREIGN KEY ("userID") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "events" ADD CONSTRAINT "events_event_type_id_fkey" FOREIGN KEY ("event_type_id") REFERENCES "EventType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "events" ADD CONSTRAINT "events_eventTypeID_fkey" FOREIGN KEY ("eventTypeID") REFERENCES "EventType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "events" ADD CONSTRAINT "events_status_id_fkey" FOREIGN KEY ("status_id") REFERENCES "EventStatus"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "events" ADD CONSTRAINT "events_statusID_fkey" FOREIGN KEY ("statusID") REFERENCES "EventStatus"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Service" ADD CONSTRAINT "Service_service_type_id_fkey" FOREIGN KEY ("service_type_id") REFERENCES "ServiceType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Service" ADD CONSTRAINT "Service_serviceTypeID_fkey" FOREIGN KEY ("serviceTypeID") REFERENCES "ServiceType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "event-services" ADD CONSTRAINT "event-services_service_id_fkey" FOREIGN KEY ("service_id") REFERENCES "Service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "event-services" ADD CONSTRAINT "event-services_serviceID_fkey" FOREIGN KEY ("serviceID") REFERENCES "Service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "event-services" ADD CONSTRAINT "event-services_event_id_fkey" FOREIGN KEY ("event_id") REFERENCES "events"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "event-services" ADD CONSTRAINT "event-services_eventID_fkey" FOREIGN KEY ("eventID") REFERENCES "events"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,16 +1,19 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { UserModel } from "@exora/shared-models";
 import { User } from "@prisma/client";
-import { DataAccessService } from "../data-access/data-access.service";
-import { UserMapper } from "../common/mapping/user/user.mapper";
+import { DataAccessService } from "../../data-access/services";
+import { MappingService } from "../../common/mapping";
+import { UserDto } from "../../common/dto";
 
 @Injectable()
 export class UsersService {
-  constructor(private dbService: DataAccessService, private userMapper: UserMapper) {}
+  constructor(
+    private dbService: DataAccessService,
+    private mapper: MappingService,
+  ) {}
 
-  async getUserByID(userID: number, includeRole = false): Promise<UserModel> {
+  async getUserByID(userID: number, includeRole = false): Promise<UserDto> {
     let user = await this.getUser(userID, includeRole);
-    return this.userMapper.map(user);
+    return this.mapper.map(UserDto, user);
   }
 
   private async getUser(userID: number, includeRole = false): Promise<User> {

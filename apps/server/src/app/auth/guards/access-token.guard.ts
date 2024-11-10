@@ -1,5 +1,5 @@
 import { AuthGuard } from "@nestjs/passport";
-import { JWT_AT_STRATEGY } from "../../auth.model";
+import { JWT_AT_STRATEGY } from "../models";
 import { ExecutionContext, Injectable } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { Reflector } from "@nestjs/core";

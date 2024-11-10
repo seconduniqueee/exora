@@ -49,7 +49,7 @@
       "classTypes": [],
       "extendedClasses": [],
       "extensionCode": null,
-      "generateDefaultValues": false,
+      "generateDefaultValues": true,
       "excludedTypeNames": [],
       "excludedParameterNames": [],
       "handleReferences": false,

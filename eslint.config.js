@@ -11,6 +11,7 @@ module.exports = [
     files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
     rules: {
       "prefer-const": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
       "@nx/enforce-module-boundaries": [
         "error",
         {

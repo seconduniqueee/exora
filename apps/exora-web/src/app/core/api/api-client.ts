@@ -328,79 +328,6 @@ export class AuthClient {
     return _observableOf(null as any);
   }
 
-  userInfo(): Observable<UserDataDto> {
-    let url_ = this.baseUrl + "/api/auth/user-info";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_: any = {
-      observe: "response",
-      responseType: "blob",
-      headers: new HttpHeaders({
-        Accept: "application/json",
-      }),
-    };
-
-    return this.http
-      .request("get", url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processUserInfo(response_);
-        }),
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processUserInfo(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<UserDataDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<UserDataDto>;
-        }),
-      );
-  }
-
-  protected processUserInfo(response: HttpResponseBase): Observable<UserDataDto> {
-    const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
-
-    let _headers: any = {};
-    if (response.headers) {
-      for (let key of response.headers.keys()) {
-        _headers[key] = response.headers.get(key);
-      }
-    }
-    if (status === 200) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          let result200: any = null;
-          result200 =
-            _responseText === ""
-              ? null
-              : (JSON.parse(_responseText, this.jsonParseReviver) as UserDataDto);
-          return _observableOf(result200);
-        }),
-      );
-    } else if (status !== 200 && status !== 204) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          return throwException(
-            "An unexpected server error occurred.",
-            status,
-            _responseText,
-            _headers,
-          );
-        }),
-      );
-    }
-    return _observableOf(null as any);
-  }
-
   refreshToken(): Observable<TokensDto> {
     let url_ = this.baseUrl + "/api/auth/refreshToken";
     url_ = url_.replace(/[?&]$/, "");
@@ -491,13 +418,11 @@ export class UsersClient {
     this.baseUrl = baseUrl ?? "";
   }
 
-  user(id: number, includeRole: boolean): Observable<any> {
-    let url_ = this.baseUrl + "/api/user/{id}?";
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace("{id}", encodeURIComponent("" + id));
-    if (includeRole === undefined || includeRole === null)
-      throw new Error("The parameter 'includeRole' must be defined and cannot be null.");
-    else url_ += "includeRole=" + encodeURIComponent("" + includeRole) + "&";
+  userInfo(includeRole?: boolean | undefined): Observable<UserDto> {
+    let url_ = this.baseUrl + "/api/user/user-info?";
+    if (includeRole === null) throw new Error("The parameter 'includeRole' cannot be null.");
+    else if (includeRole !== undefined)
+      url_ += "includeRole=" + encodeURIComponent("" + includeRole) + "&";
     url_ = url_.replace(/[?&]$/, "");
 
     let options_: any = {
@@ -512,23 +437,23 @@ export class UsersClient {
       .request("get", url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
-          return this.processUser(response_);
+          return this.processUserInfo(response_);
         }),
       )
       .pipe(
         _observableCatch((response_: any) => {
           if (response_ instanceof HttpResponseBase) {
             try {
-              return this.processUser(response_ as any);
+              return this.processUserInfo(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<any>;
+              return _observableThrow(e) as any as Observable<UserDto>;
             }
-          } else return _observableThrow(response_) as any as Observable<any>;
+          } else return _observableThrow(response_) as any as Observable<UserDto>;
         }),
       );
   }
 
-  protected processUser(response: HttpResponseBase): Observable<any> {
+  protected processUserInfo(response: HttpResponseBase): Observable<UserDto> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
@@ -548,7 +473,9 @@ export class UsersClient {
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           result200 =
-            _responseText === "" ? null : (JSON.parse(_responseText, this.jsonParseReviver) as any);
+            _responseText === ""
+              ? null
+              : (JSON.parse(_responseText, this.jsonParseReviver) as UserDto);
           return _observableOf(result200);
         }),
       );
@@ -711,7 +638,7 @@ export interface NamedEntityDto {
   [key: string]: any;
 }
 
-export interface UserDataDto {
+export interface UserDto {
   id: number;
   firstName: string;
   lastName: string;

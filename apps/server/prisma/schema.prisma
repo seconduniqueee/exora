@@ -21,8 +21,8 @@ model User {
   firstName String
   lastName String
   phone String?
-  roleId Int @default(1)
-  role Role @relation(fields: [roleId], references: [id])
+  roleID Int @default(1)
+  role Role @relation(fields: [roleID], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   isDeleted Boolean @default(false)
@@ -33,7 +33,7 @@ model User {
 }
 
 model PasswordHistory {
-  userId Int @unique
+  userID Int @unique
   passwordHistory String
 
   @@map ("password-history")
@@ -50,24 +50,24 @@ model Role {
 
 model Event {
   id Int @id @default(autoincrement())
-  user_id Int @unique
+  userID Int @unique
   name String @db.VarChar(255)
   description String @db.Text
-  event_type_id Int
+  eventTypeID Int
   date DateTime @db.Timestamp(6)
-  status_id Int
+  statusID Int
   location String @db.VarChar(255)
   budget Decimal @db.Decimal(10, 2)
-  total_spent Decimal @db.Decimal(10, 2)
+  totalSpent Decimal @db.Decimal(10, 2)
 
-  created_at DateTime @default(now()) @db.Timestamp(6)
-  updated_at DateTime @updatedAt @db.Timestamp(6)
-  is_deleted Boolean @default(false)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @db.Timestamp(6)
+  isDeleted Boolean @default(false)
 
-  user User @relation(fields: [user_id], references: [id])
-  event_type EventType @relation(fields: [event_type_id], references: [id])
-  event_status EventStatus @relation(fields: [status_id], references: [id])
-  service_bookings EventService[]
+  user User @relation(fields: [userID], references: [id])
+  eventType EventType @relation(fields: [eventTypeID], references: [id])
+  eventStatus EventStatus @relation(fields: [statusID], references: [id])
+  eventServices EventService[]
 
   @@map("events")
 }
@@ -76,7 +76,7 @@ model EventType {
   id Int @id @default(autoincrement())
   name String @unique
 
-  is_deleted Boolean @default(false)
+  isDeleted Boolean @default(false)
 
   events Event[]
 }
@@ -85,7 +85,7 @@ model EventStatus {
   id Int @id @default(autoincrement())
   name String @unique
 
-  is_deleted Boolean @default(false)
+  isDeleted Boolean @default(false)
 
   events Event[]
 }
@@ -94,37 +94,37 @@ model Service {
   id Int @id @default(autoincrement())
   name String
   description String
-  service_type_id Int
+  serviceTypeID Int
   price Decimal @db.Decimal()
 
-  created_at DateTime @default(now()) @db.Timestamp(6)
-  updated_at DateTime @updatedAt @db.Timestamp(6)
-  is_deleted Boolean @default(false)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @db.Timestamp(6)
+  isDeleted Boolean @default(false)
 
-  service_bookings EventService[]
-  service_type ServiceType @relation(fields: [service_type_id], references: [id])
+  eventServices EventService[]
+  serviceType ServiceType @relation(fields: [serviceTypeID], references: [id])
 }
 
 model ServiceType {
   id Int @id @default(autoincrement())
   name String @unique
 
-  is_deleted Boolean @default(false)
+  isDeleted Boolean @default(false)
 
   services Service[]
 }
 
 model EventService {
   id Int @id @default(autoincrement())
-  event_id Int
-  service_id Int
-  start_date DateTime @db.Timestamp()
-  end_date DateTime @db.Timestamp()
+  eventID Int
+  serviceID Int
+  startDate DateTime @db.Timestamp()
+  endDate DateTime @db.Timestamp()
 
-  is_deleted Boolean @default(false)
+  isDeleted Boolean @default(false)
 
-  service Service @relation(fields: [service_id], references: [id])
-  event Event @relation(fields: [event_id], references: [id])
+  service Service @relation(fields: [serviceID], references: [id])
+  event Event @relation(fields: [eventID], references: [id])
 
   @@map("event-services")
 }

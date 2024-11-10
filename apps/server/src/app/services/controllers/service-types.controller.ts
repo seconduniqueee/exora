@@ -1,7 +1,7 @@
 import { Controller, Get } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { ServiceTypesService } from "../services/service-types.service";
-import { NamedEntityDto } from "../../auth/dto";
+import { NamedEntityDto } from "../../common/dto";
 
 @ApiTags("ServiceTypes")
 @Controller("service-types")

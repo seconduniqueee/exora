@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AuthClient } from "../api/api-client";
+import { AuthClient, UsersClient } from "../api/api-client";
 import {
   AuthResponseModel,
   SignupRequestModel,
@@ -18,6 +18,7 @@ export class AuthService {
 
   constructor(
     private authClient: AuthClient,
+    private usersClient: UsersClient,
     private router: Router,
     private authRepository: AuthRepository,
   ) {}
@@ -143,7 +144,7 @@ export class AuthService {
   private async loadUserInfo(): Promise<void> {
     if (this.userInfoRequest) return;
 
-    this.userInfoRequest = firstValueFrom(this.authClient.userInfo());
+    this.userInfoRequest = firstValueFrom(this.usersClient.userInfo());
     let result = await this.userInfoRequest;
 
     this.authRepository.setUser(result);

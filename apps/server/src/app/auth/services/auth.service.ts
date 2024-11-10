@@ -1,26 +1,31 @@
 import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
-import { DataAccessService } from "../data-access/data-access.service";
-import { AuthResponseModel, TokensModel } from "@exora/shared-models";
-import { LoginRequestDto, SignupRequestDto, UpdatePasswordRequestDto, UserDataDto } from "./dto";
+import { DataAccessService } from "../../data-access/services";
+import {
+  AuthResponseDto,
+  LoginRequestDto,
+  SignupRequestDto,
+  TokensDto,
+  UpdatePasswordRequestDto,
+} from "../dto";
 import { PasswordHistory, User } from "@prisma/client";
 import * as argon from "argon2";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
-import { UserMapper } from "../common/mapping/user/user.mapper";
-import { MAX_PASSWORDS_STORED } from "./auth.model";
-import { Base64Helper } from "../common/helpers/base64.helper";
-import { ActionResultDto } from "../common/dto";
+import { MAX_PASSWORDS_STORED } from "../models";
+import { Base64Helper } from "../../common/helpers/base64.helper";
+import { ActionResultDto } from "../../common/dto";
+import { MappingService } from "../../common/mapping";
 
 @Injectable()
 export class AuthService {
   constructor(
     private dbService: DataAccessService,
     private jwtService: JwtService,
-    private userMapper: UserMapper,
+    private authMapper: MappingService,
     private configService: ConfigService,
   ) {}
 
-  async signUp(request: SignupRequestDto): Promise<AuthResponseModel> {
+  async signUp(request: SignupRequestDto): Promise<AuthResponseDto> {
     let userExists = await this.checkIfUserExists(request.email);
 
     if (userExists) return this.getAuthResponse(null, "User with provided email already exists");
@@ -44,7 +49,7 @@ export class AuthService {
     return this.getAuthResponse(tokens);
   }
 
-  async logIn(request: LoginRequestDto): Promise<AuthResponseModel> {
+  async logIn(request: LoginRequestDto): Promise<AuthResponseDto> {
     let user = await this.dbService.user.findUnique({ where: { email: request.email } });
     let passwordMatch = !!user && (await argon.verify(user.hash, request.password));
 
@@ -89,7 +94,7 @@ export class AuthService {
     return { isSuccess: true };
   }
 
-  async refreshToken(userID: number, refreshToken: string): Promise<TokensModel> {
+  async refreshToken(userID: number, refreshToken: string): Promise<TokensDto> {
     let user = await this.getUserByID(userID);
     let refreshTokenMatch = user && (await argon.verify(user.hashedRt, refreshToken));
 
@@ -102,12 +107,7 @@ export class AuthService {
     return tokens;
   }
 
-  async getUserInfo(userID: number): Promise<UserDataDto> {
-    let user = await this.getUserByID(userID);
-    return this.userMapper.map(user);
-  }
-
-  private async getTokens(userID: number, email: string): Promise<TokensModel> {
+  private async getTokens(userID: number, email: string): Promise<TokensDto> {
     let payload = { sub: userID, email };
     let atConfig = { expiresIn: 60 * 15, secret: this.configService.get("JWT_AT_SECRET_KEY") };
     let rtConfig = {
@@ -133,7 +133,7 @@ export class AuthService {
     await this.dbService.user.update({ where: { id: userID }, data: { hashedRt } });
   }
 
-  private async getUserByID(userID: number, includeRole = true): Promise<User> {
+  private async getUserByID(userID: number, includeRole = false): Promise<User> {
     let user = await this.dbService.user.findUnique({
       where: { id: userID },
       include: { role: includeRole },
@@ -148,7 +148,7 @@ export class AuthService {
     userID: number,
     passwordHash: string,
   ): Promise<PasswordHistory> {
-    let entity = await this.dbService.passwordHistory.findUnique({ where: { userId: userID } });
+    let entity = await this.dbService.passwordHistory.findUnique({ where: { userID } });
     let history: string[] = entity ? Base64Helper.parse<string[]>(entity.passwordHistory) : [];
 
     history.push(passwordHash);
@@ -158,16 +158,16 @@ export class AuthService {
     }
 
     let encoded = Base64Helper.encode(history);
-    let data = { passwordHistory: encoded, userId: userID };
+    let data = { passwordHistory: encoded, userID };
     let result = entity
-      ? await this.dbService.passwordHistory.update({ where: { userId: userID }, data })
+      ? await this.dbService.passwordHistory.update({ where: { userID }, data })
       : await this.dbService.passwordHistory.create({ data });
 
     return result;
   }
 
-  private async isUnusedPassword(userId: number, password: string): Promise<boolean> {
-    let entity = await this.dbService.passwordHistory.findUnique({ where: { userId } });
+  private async isUnusedPassword(userID: number, password: string): Promise<boolean> {
+    let entity = await this.dbService.passwordHistory.findUnique({ where: { userID } });
 
     if (!entity) return true;
 
@@ -178,7 +178,7 @@ export class AuthService {
     return !passwordUsed;
   }
 
-  private getAuthResponse(tokens: TokensModel, errorMessage?: string): AuthResponseModel {
+  private getAuthResponse(tokens: TokensDto, errorMessage?: string): AuthResponseDto {
     return { tokens, errorMessage, isSuccess: !!tokens };
   }
 }

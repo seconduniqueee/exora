@@ -1,5 +1,5 @@
 import { ServiceModel } from "@exora/shared-models";
-import { NamedEntityDto } from "../../auth/dto";
+import { NamedEntityDto } from "../../common/dto";
 
 export class ServiceDto implements ServiceModel {
   id: number;
