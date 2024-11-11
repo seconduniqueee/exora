@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "prisma:studio": "npx prisma studio --schema=apps/server/prisma/schema.prisma"
+    "prisma:studio": "npx prisma studio --schema=apps/server/src/database/prisma/schema.prisma",
+    "prisma:migrate": "npx prisma migrate dev --schema=apps/server/src/database/prisma/schema.prisma",
+    "prisma:mig": "npx dotenv -e apps/server/.env -- npx prisma migrate dev --schema=apps/server/src/database/prisma/schema.prisma"
   },
   "prisma": {
-    "seed": "npx ts-node --transpile-only prisma/seeds/seed.mjs",
+    "seed": "npx ts-node --transpile-only apps/server/src/seed.ts",
     "type": "module"
   },
   "private": true,
@@ -71,11 +73,12 @@
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@types/jest": "^29.5.12",
-    "@types/node": "18.16.9",
+    "@types/node": "^18.16.9",
     "@types/passport-jwt": "^4.0.1",
     "@typescript-eslint/utils": "8.0",
     "angular-eslint": "^18.3.0",
     "cypress": "^13.13.0",
+    "dotenv-cli": "^7.4.2",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-cypress": "^3.5.0",

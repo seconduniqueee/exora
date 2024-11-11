@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
-import { DataAccessService } from "../../data-access/services";
+import { DataAccessService } from "../../database/services";
 import {
   AuthResponseDto,
   LoginRequestDto,

@@ -6,4 +6,4 @@ import { DataAccessService } from "./services";
   providers: [DataAccessService],
   exports: [DataAccessService],
 })
-export class DataAccessModule {}
+export class DatabaseModule {}
