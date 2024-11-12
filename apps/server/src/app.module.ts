@@ -4,7 +4,7 @@ import { Module } from "@nestjs/common";
 import { AccessTokenGuard } from "./authentication/guards";
 import { AuthenticationModule } from "./authentication/authentication.module";
 import { FeaturesModule } from "./features/features.module";
-import { CommonModule } from "./common/common.module";
+import { CommonModule } from "./common";
 import { DatabaseModule } from "./database/database.module";
 
 @Module({

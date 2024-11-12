@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { DataAccessService } from "../../data-access/services";
-import { MappingService } from "../../common/mapping";
-import { NamedEntityDto } from "../../common/dto";
+import { MappingService, NamedEntityDto } from "../../../common";
+import { DataAccessService } from "../../../database/services";
 
 @Injectable()
 export class ServiceTypesService {

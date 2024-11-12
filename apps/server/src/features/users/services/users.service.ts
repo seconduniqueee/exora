@@ -1,8 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { User } from "@prisma/client";
-import { DataAccessService } from "../../data-access/services";
-import { MappingService } from "../../common/mapping";
-import { UserDto } from "../../common/dto";
+import { DataAccessService } from "../../../database/services";
+import { MappingService, UserDto } from "../../../common";
 
 @Injectable()
 export class UsersService {

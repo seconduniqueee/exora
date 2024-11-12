@@ -3,13 +3,12 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "prisma:studio": "npx prisma studio --schema=apps/server/src/database/prisma/schema.prisma",
-    "prisma:migrate": "npx prisma migrate dev --schema=apps/server/src/database/prisma/schema.prisma",
-    "prisma:mig": "npx dotenv -e apps/server/.env -- npx prisma migrate dev --schema=apps/server/src/database/prisma/schema.prisma"
+    "set-env": "npx dotenv -e apps/server/.env --",
+    "prisma:studio": "npm run set-env -- npx prisma studio --schema=apps/server/src/database/prisma/schema.prisma",
+    "prisma:migrate-dev": "npm run set-env -- npx prisma migrate dev --schema=apps/server/src/database/prisma/schema.prisma"
   },
   "prisma": {
-    "seed": "npx ts-node --transpile-only apps/server/src/seed.ts",
-    "type": "module"
+    "seed": "npm run set-env -- npx ts-node --compiler-options {\"module\":\"CommonJS\"} apps/server/src/seed.ts"
   },
   "private": true,
   "dependencies": {

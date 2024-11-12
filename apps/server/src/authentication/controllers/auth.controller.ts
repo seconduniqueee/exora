@@ -9,9 +9,8 @@ import {
 } from "../dto";
 import { Request } from "express";
 import { RefreshTokenGuard } from "../guards";
-import { Public, UserID } from "../decorators";
+import { ActionResultDto, Public, UserID } from "../../common";
 import { ApiTags } from "@nestjs/swagger";
-import { ActionResultDto } from "../../common/dto";
 
 @ApiTags("Auth")
 @Controller("auth")
