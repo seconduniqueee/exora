@@ -15,6 +15,11 @@ import { AuthRepository } from "./auth.repository";
 export class AuthService {
   private refreshRequest: Promise<TokensModel>;
   private userInfoRequest: Promise<UserModel>;
+  private genericAuthError: AuthResponseModel = {
+    tokens: null,
+    isSuccess: false,
+    errorMessage: "Something went wrong. Please, try again later",
+  };
 
   constructor(
     private authClient: AuthClient,
@@ -53,14 +58,8 @@ export class AuthService {
       await this.loadUserInfo();
 
       return result;
-    } catch (error) {
-      console.error(error);
-
-      return {
-        tokens: null,
-        isSuccess: false,
-        errorMessage: "Something went wrong. Please, try again later",
-      };
+    } catch {
+      return this.genericAuthError;
     } finally {
       this.authRepository.stopLoading();
     }
@@ -81,44 +80,32 @@ export class AuthService {
       await this.loadUserInfo();
 
       return result;
-    } catch (error) {
-      console.error(error);
-
-      return {
-        tokens: null,
-        isSuccess: false,
-        errorMessage: "Something went wrong. Please, try again later",
-      };
+    } catch {
+      return this.genericAuthError;
     } finally {
       this.authRepository.stopLoading();
     }
   }
 
   async logOut(): Promise<void> {
-    try {
-      let request = this.authClient.logOut();
-      await firstValueFrom(request);
-    } catch (error) {
-      console.error(error);
-    } finally {
+    let request = firstValueFrom(this.authClient.logOut());
+
+    request.finally(() => {
       this.clearUserInfo();
       void this.router.navigate([LOGIN_PAGE_PATH]);
-    }
+    });
+
+    await request;
   }
 
   async checkIfLoggedIn(): Promise<boolean> {
-    try {
-      let tokens = this.getTokens();
-      let user = this.authRepository.state.user;
+    let tokens = this.getTokens();
+    let user = this.authRepository.state.user;
 
-      if (!user && tokens.accessToken) await this.loadUserInfo();
+    if (!user && tokens.accessToken) await this.loadUserInfo();
+    if (!this.appInitialized) this.authRepository.update({ appInitialized: true });
 
-      return this.isLoggedIn;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      this.authRepository.update({ appInitialized: true });
-    }
+    return this.isLoggedIn;
   }
 
   refresh(): Observable<TokensModel> {
@@ -145,10 +132,12 @@ export class AuthService {
     if (this.userInfoRequest) return;
 
     this.userInfoRequest = firstValueFrom(this.usersClient.userInfo(true));
-    let result = await this.userInfoRequest;
+    this.userInfoRequest
+      .then((user) => this.authRepository.setUser(user))
+      .catch(() => this.clearTokens())
+      .finally(() => (this.userInfoRequest = null));
 
-    this.authRepository.setUser(result);
-    this.userInfoRequest = null;
+    await this.userInfoRequest;
   }
 
   private clearUserInfo(): void {
