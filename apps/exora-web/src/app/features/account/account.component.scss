@@ -1,0 +1,18 @@
+.account-page {
+  padding-top: 30px;
+
+  .title {
+    margin-bottom: 5px;
+    font-size: 30px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  &__content {
+    padding-top: 30px;
+
+    .info-item {
+      padding: 4px 10px;
+    }
+  }
+}

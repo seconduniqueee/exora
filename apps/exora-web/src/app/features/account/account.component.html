@@ -1,0 +1,14 @@
+<div class="account-page">
+  <h1 class="title">Account Page</h1>
+
+  @if (userInfo) {
+    <div class="account-page__content">
+      <div class="info-item"><b>Name:</b> {{ userInfo.firstName }} {{ userInfo.lastName }}</div>
+      <div class="info-item"><b>Email:</b> {{ userInfo.email }}</div>
+      <div class="info-item"><b>Phone Number:</b> {{ userInfo.phone || "N/A" }}</div>
+      <div class="info-item"><b>Role: </b> {{ userInfo.role.name }}</div>
+    </div>
+  } @else {
+    <div>User info is not loaded for some reason</div>
+  }
+</div>

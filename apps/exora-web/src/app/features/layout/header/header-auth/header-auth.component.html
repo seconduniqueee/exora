@@ -5,7 +5,7 @@
 
   @if (user) {
     <div class="header-auth__user-info">
-      <span class="user-name">{{ user.firstName }}</span>
+      <a routerLink="account" class="user-name">{{ user.firstName }}</a>
       <button (click)="logOut.emit()">Log Out</button>
     </div>
   }
