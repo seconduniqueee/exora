@@ -4,11 +4,11 @@
 
   <div class="service-page__content">
     <div class="service-types">
-      <h3 style="margin-bottom: 15px">Service Types</h3>
+      <h3 style="margin-bottom: 5px">Service Types</h3>
 
-      <div class="list" style="padding-left: 10px">
+      <div class="list" style="padding-left: 10px; font-family: monospace; font-size: 16px">
         @for (serviceType of serviceTypes(); track serviceType.id) {
-          <div class="list-item">{{ serviceType.id }} -- {{ serviceType.name }}</div>
+          <div class="list-item">{{ serviceType.id }}. {{ serviceType.name }}</div>
         } @empty {
           There are no service types specified
         }

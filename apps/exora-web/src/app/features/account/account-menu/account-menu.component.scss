@@ -1,0 +1,25 @@
+@import "mixins";
+
+.account-menu {
+  &__item {
+    position: relative;
+    margin-bottom: 5px;
+
+    a {
+      @include d-flex(flex-start, center);
+
+      font-size: 20px;
+      margin-bottom: 10px;
+
+      &.active {
+        font-weight: 600;
+
+        &::before {
+          content: ">";
+          position: absolute;
+          left: -15px;
+        }
+      }
+    }
+  }
+}

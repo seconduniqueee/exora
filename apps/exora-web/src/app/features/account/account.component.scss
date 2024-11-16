@@ -1,18 +1,21 @@
-.account-page {
-  padding-top: 30px;
+@import "variables";
+@import "mixins";
 
-  .title {
-    margin-bottom: 5px;
-    font-size: 30px;
-    text-align: center;
-    font-weight: 600;
+.account-page {
+  @include d-flex(flex-start, stretch, 30px);
+
+  padding-top: 30px;
+  min-height: 500px;
+
+  &__menu {
+    padding: 30px;
+    flex: 0 0 300px;
+    background-color: var(--background-color-secondary);
   }
 
-  &__content {
-    padding-top: 30px;
-
-    .info-item {
-      padding: 4px 10px;
-    }
+  &__tabs {
+    padding: 30px;
+    flex-grow: 1;
+    background-color: var(--background-color-secondary);
   }
 }
