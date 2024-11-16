@@ -1,13 +1,20 @@
-<form class="login-form" [formGroup]="loginForm" (ngSubmit)="submitLoginForm.emit()">
+<form class="login-form" [formGroup]="loginForm" (formSubmit)="submitLoginForm.emit()">
   <div class="login-form__controls">
     <div class="form-control">
       <label>Email</label>
-      <input formControlName="email" />
+      <input placeholder="Enter Email" formControlName="email" />
+      <app-input-error controlName="email" />
     </div>
 
     <div class="form-control">
       <label>Password</label>
-      <input type="password" autocomplete="new-password" formControlName="password" />
+      <input
+        placeholder="Enter Password"
+        type="password"
+        autocomplete="new-password"
+        formControlName="password"
+      />
+      <app-input-error controlName="password" />
     </div>
   </div>
 

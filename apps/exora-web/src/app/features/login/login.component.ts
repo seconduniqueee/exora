@@ -44,9 +44,11 @@ export class LoginComponent implements OnInit {
   }
 
   private initLoginForm(): void {
+    let { required, email } = Validators;
+
     this.loginForm = this.fb.group({
-      email: [null, Validators.required],
-      password: [null, Validators.required],
+      email: [null, [required, email]],
+      password: [null, required],
     }) as FormGroupTyped<LoginForm>;
 
     this.loginForm.valueChanges
