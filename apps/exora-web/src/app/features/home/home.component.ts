@@ -26,7 +26,7 @@ export class HomeComponent {
 
   async openRandomDialog(): Promise<void> {
     let ref = this.dialogService.open(RandomDialogComponent, {
-      width: "200px",
+      width: "500px",
       data: {
         title: "Get Answer To Everything",
         submitButtonText: "Submit",
