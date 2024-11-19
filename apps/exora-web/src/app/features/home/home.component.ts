@@ -26,15 +26,18 @@ export class HomeComponent {
 
   async openRandomDialog(): Promise<void> {
     let ref = this.dialogService.open(RandomDialogComponent, {
-      title: "Get Answer To Everything",
-      submitButtonText: "Submit",
-      cancelButtonText: "Cancel",
-      content: `
-        In a vast universe filled with questions,
-        one answer stands as the key to everything.
-        After much searching and contemplation,
-        the truth is finally revealed — the answer to life,
-        the universe, and everything.`,
+      width: "200px",
+      data: {
+        title: "Get Answer To Everything",
+        submitButtonText: "Submit",
+        cancelButtonText: "Cancel",
+        content: `
+          In a vast universe filled with questions,
+          one answer stands as the key to everything.
+          After much searching and contemplation,
+          the truth is finally revealed — the answer to life,
+          the universe, and everything.`,
+      },
     });
 
     let result = (await ref) as RandomDialogResult;
