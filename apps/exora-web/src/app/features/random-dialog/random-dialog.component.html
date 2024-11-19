@@ -1,0 +1,11 @@
+<div class="random-dialog">
+  <h1 class="random-dialog__title">{{ dialogData.title }}</h1>
+
+  <div class="random-dialog__content">
+    {{ dialogData.content }}
+  </div>
+
+  <div class="random-dialog__actions">
+    <button (click)="alertSomething('helloWorld')">{{ dialogData.buttonText }}</button>
+  </div>
+</div>
