@@ -1,5 +1,10 @@
 export interface RandomDialogData {
   title: string;
   content: string;
-  buttonText: string;
+  submitButtonText: string;
+  cancelButtonText: string;
+}
+
+export interface RandomDialogResult {
+  answerToEverything: number;
 }

@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { AuthService } from "../../core/auth/auth.service";
 import { RandomDialogComponent } from "../random-dialog/random-dialog.component";
 import { DialogService } from "../../core/modal/dialog.service";
+import { RandomDialogResult } from "../random-dialog/random-dialog.model";
 
 @Component({
   templateUrl: "home.component.html",
@@ -23,16 +24,21 @@ export class HomeComponent {
     return this.authService.userInfo.firstName;
   }
 
-  openRandomDialog(): void {
-    this.dialogService.open(RandomDialogComponent, {
-      title: "Dialog Modal Title",
-      buttonText: "Show Welcome Alert",
+  async openRandomDialog(): Promise<void> {
+    let ref = this.dialogService.open(RandomDialogComponent, {
+      title: "Get Answer To Everything",
+      submitButtonText: "Submit",
+      cancelButtonText: "Cancel",
       content: `
-        Lorem ipsum dolor sit amet,
-        consectetur adipisicing elit.
-        Ad aliquam consectetur culpa cumque dicta dolorum error eum
-        fugit ipsam iusto maiores nam
-        perspiciatis porro qui quibusdam, rem sunt unde veniam.`,
+        In a vast universe filled with questions,
+        one answer stands as the key to everything.
+        After much searching and contemplation,
+        the truth is finally revealed — the answer to life,
+        the universe, and everything.`,
     });
+
+    let result = (await ref) as RandomDialogResult;
+
+    console.log("Got RandomDialog result: ", result);
   }
 }

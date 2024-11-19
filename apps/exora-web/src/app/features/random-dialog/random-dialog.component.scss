@@ -24,7 +24,7 @@
   }
 
   &__actions {
-    @include d-flex(flex-end, center);
+    @include d-flex(flex-end, center, 10px);
 
     padding: 10px;
 
