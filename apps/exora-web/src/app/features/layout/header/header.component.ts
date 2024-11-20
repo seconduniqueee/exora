@@ -12,7 +12,7 @@ import { HeaderAuthComponent } from "./header-auth/header-auth.component";
   imports: [RouterModule, HeaderNavigationComponent, HeaderAuthComponent],
 })
 export class HeaderComponent {
-  @Input() user: UserModel;
+  @Input() user: UserModel | null;
   @Input() isDarkTheme: boolean;
 
   @Output() logOut = new EventEmitter<void>();

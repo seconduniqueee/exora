@@ -10,7 +10,7 @@ import { RouterModule } from "@angular/router";
   imports: [RouterModule],
 })
 export class HeaderAuthComponent {
-  @Input() user: UserModel;
+  @Input() user: UserModel | null;
   @Input() isDarkTheme: boolean;
 
   @Output() logOut = new EventEmitter<void>();

@@ -1,9 +1,11 @@
-@if (user()) {
+@let user = authQuery.user$ | async;
+
+@if (user) {
   <div class="user-info">
-    <div class="info-item"><b>Name:</b> {{ user().firstName }} {{ user().lastName }}</div>
-    <div class="info-item"><b>Email:</b> {{ user().email }}</div>
-    <div class="info-item"><b>Phone Number:</b> {{ user().phone || "N/A" }}</div>
-    <div class="info-item"><b>Role: </b> {{ user().role.name }}</div>
+    <div class="info-item"><b>Name:</b> {{ user.firstName }} {{ user.lastName }}</div>
+    <div class="info-item"><b>Email:</b> {{ user.email }}</div>
+    <div class="info-item"><b>Phone Number:</b> {{ user.phone || "N/A" }}</div>
+    <div class="info-item"><b>Role: </b> {{ user.role.name }}</div>
   </div>
 } @else {
   <div>User info is not loaded for some reason</div>

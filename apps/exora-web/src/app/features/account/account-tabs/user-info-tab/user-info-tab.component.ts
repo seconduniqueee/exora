@@ -1,17 +1,13 @@
 import { Component } from "@angular/core";
-import { UserModel } from "@exora/shared-models";
-import { AuthRepository } from "../../../../core/auth/auth.repository";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { AuthQuery } from "../../../../core/auth/auth.repository";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
   templateUrl: "user-info-tab.component.html",
   styleUrl: "user-info-tab.component.scss",
+  imports: [AsyncPipe],
   standalone: true,
 })
 export class UserInfoTabComponent {
-  user: Signal<UserModel>;
-
-  constructor(private authRepository: AuthRepository) {
-    this.user = toSignal(authRepository.user$);
-  }
+  constructor(public authQuery: AuthQuery) {}
 }

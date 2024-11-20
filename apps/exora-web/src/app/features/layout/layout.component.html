@@ -1,7 +1,7 @@
 <div class="app-wrapper">
   <div class="header-wrapper">
     <app-header
-      [user]="user()"
+      [user]="query.user$ | async"
       [isDarkTheme]="isDarkTheme"
       (logOut)="logOut()"
       (toggleTheme)="toggleTheme()"
