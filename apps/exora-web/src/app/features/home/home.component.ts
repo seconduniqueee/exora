@@ -3,6 +3,7 @@ import { AuthService } from "../../core/auth/auth.service";
 import { RandomDialogComponent } from "../random-dialog/random-dialog.component";
 import { DialogService } from "../../core/dialog/dialog.service";
 import { RandomDialogResult } from "../random-dialog/random-dialog.model";
+import { firstValueFrom } from "rxjs";
 
 @Component({
   templateUrl: "home.component.html",
@@ -40,7 +41,7 @@ export class HomeComponent {
       },
     });
 
-    let result = (await ref) as RandomDialogResult;
+    let result = (await firstValueFrom(ref)) as RandomDialogResult;
 
     console.log("Got RandomDialog result: ", result);
   }
