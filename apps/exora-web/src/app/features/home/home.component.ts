@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { AuthService } from "../../core/auth/auth.service";
 import { RandomDialogComponent } from "../random-dialog/random-dialog.component";
-import { DialogService } from "../../core/modal/dialog.service";
+import { DialogService } from "../../core/dialog/dialog.service";
 import { RandomDialogResult } from "../random-dialog/random-dialog.model";
 
 @Component({

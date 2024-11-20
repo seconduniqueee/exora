@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { DIALOG_DATA } from "../../core/tokens/dialog-data.token";
 import { RandomDialogData, RandomDialogResult } from "./random-dialog.model";
-import { DialogRef } from "../../core/modal/dialog.model";
+import { DialogRef } from "../../core/dialog/dialog.model";
 
 @Component({
   selector: "app-random-dialog",
