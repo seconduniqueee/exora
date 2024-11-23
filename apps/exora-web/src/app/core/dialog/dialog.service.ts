@@ -48,7 +48,7 @@ export class DialogService {
 
     overlay.classList.add("app-dialog-overlay");
     dialogContainer.classList.add("app-dialog-wrapper");
-    dialogContainer.style.maxWidth = config.width || "";
+    dialogContainer.style.width = config.width || "";
     overlay.appendChild(dialogContainer);
 
     return { overlay, dialogContainer, onOverlayOpen };

@@ -1,9 +1,7 @@
 import { Component } from "@angular/core";
 import { AuthService } from "../../core/auth/auth.service";
-import { RandomDialogComponent } from "../random-dialog/random-dialog.component";
 import { DialogService } from "../../core/dialog/dialog.service";
-import { RandomDialogResult } from "../random-dialog/random-dialog.model";
-import { firstValueFrom } from "rxjs";
+import { ConfirmDialogService } from "@exora-web/shared/dialogs/confirm-dialog/confirm-dialog.service";
 
 @Component({
   templateUrl: "home.component.html",
@@ -14,7 +12,7 @@ import { firstValueFrom } from "rxjs";
 export class HomeComponent {
   constructor(
     private authService: AuthService,
-    private dialogService: DialogService,
+    private confirmDialogService: ConfirmDialogService,
   ) {}
 
   get isLoggedIn(): boolean {
@@ -25,24 +23,18 @@ export class HomeComponent {
     return this.authService.userInfo.firstName;
   }
 
-  async openRandomDialog(): Promise<void> {
-    let ref = this.dialogService.open(RandomDialogComponent, {
-      width: "500px",
-      data: {
-        title: "Get Answer To Everything",
-        submitButtonText: "Submit",
-        cancelButtonText: "Cancel",
-        content: `
-          In a vast universe filled with questions,
-          one answer stands as the key to everything.
-          After much searching and contemplation,
-          the truth is finally revealed — the answer to life,
-          the universe, and everything.`,
-      },
-    });
+  async confirmBuyingStonks(): Promise<void> {
+    let isConfirmed = await this.confirmDialogService.confirm(
+      "Confirm Buying Stonks",
+      "Are you sure you want to purchase 42 stonks?",
+      "Yes, please",
+      "No, never",
+    );
 
-    let result = (await firstValueFrom(ref)) as RandomDialogResult;
+    let outcome = isConfirmed
+      ? "Yey, it was a right call, you got $69 000 profit"
+      : "You fool, what have you done?";
 
-    console.log("Got RandomDialog result: ", result);
+    console.log(outcome);
   }
 }

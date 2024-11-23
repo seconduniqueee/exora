@@ -1,3 +1,4 @@
+@import "variables";
 @import "mixins";
 
 #dialog-host {
@@ -22,6 +23,47 @@
 
   .app-dialog-wrapper {
     margin: 0 10px;
-    max-width: min-content;
+    width: min-content;
+  }
+}
+
+// GENERAL DIALOG STYLES
+.app-dialog {
+  background-color: var(--background-color);
+  color: var(--text-color);
+
+  .dialog-title {
+    padding: 20px;
+    font-size: 18px;
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+  }
+
+  .dialog-content {
+    padding: 15px 20px 25px;
+    font-size: 15px;
+  }
+
+  .dialog-actions {
+    @include d-flex(flex-end, center, 10px);
+
+    padding: 10px 20px;
+
+    button {
+      padding: 8px 10px;
+      min-width: 120px;
+      background-color: var(--background-color-secondary);
+      color: var(--text-color-secondary);
+      font-size: 15px;
+      text-align: center;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--text-color);
+        transition:
+          background-color 0.2s ease-in-out,
+          color 0.2s ease-in-out;
+      }
+    }
   }
 }
