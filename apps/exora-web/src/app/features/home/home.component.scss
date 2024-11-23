@@ -9,23 +9,9 @@
     margin-bottom: 15px;
   }
 
-  .sub-title {
-    font-size: 22px;
-    color: var(--text-color-secondary);
-    font-weight: normal;
-  }
+  .test-date-picker {
+    @include d-flex(center, center);
 
-  .links {
-    @include d-flex(center, center, 40px);
-
-    .link {
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
+    padding: 50px 10px;
   }
 }
