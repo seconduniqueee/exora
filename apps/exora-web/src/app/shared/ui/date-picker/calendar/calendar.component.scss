@@ -2,6 +2,15 @@
 @import "mixins";
 
 .calendar {
+  .month {
+    text-align: center;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--background-color-secondary);
+  }
+
   .days-of-week {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -33,6 +42,20 @@
         font-weight: bold;
         border: 2px solid var(--border-color-muted);
       }
+    }
+  }
+
+  .controls {
+    @include d-flex(center, center, 30px);
+
+    padding: 20px 0;
+
+    .control {
+      flex-grow: 1;
+      font-size: 15px;
+      padding: 10px 0;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
     }
   }
 }
