@@ -20,7 +20,6 @@ export class CalendarComponent implements OnInit {
   state = signal<CalendarState>(null);
   days = computed<DaysOfMonth>(() => this.setDaysOfMonth(this.state()));
   daysOfWeek = DAYS_OF_WEEK;
-  months = MONTHS;
 
   get currentMonth(): Month {
     console.log("actually logged");
