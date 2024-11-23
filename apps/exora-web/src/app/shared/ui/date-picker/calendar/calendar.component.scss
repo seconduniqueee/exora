@@ -1,0 +1,38 @@
+@import "variables";
+@import "mixins";
+
+.calendar {
+  .days-of-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+
+    .day-of-week {
+      @include d-flex(center, center);
+
+      font-size: 14px;
+      width: 50px;
+      height: 20px;
+    }
+  }
+
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+
+    .day {
+      @include d-flex(center, center);
+
+      width: 50px;
+      height: 50px;
+      background-color: var(--background-color-secondary);
+      color: var(--text-color-primary);
+
+      &.selected {
+        font-weight: bold;
+        border: 2px solid var(--border-color-muted);
+      }
+    }
+  }
+}

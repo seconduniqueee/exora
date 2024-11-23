@@ -1,0 +1,17 @@
+<div class="calendar">
+  <div class="days-of-week">
+    @for (day of daysOfWeek; track day.index) {
+      <div class="day-of-week">{{ day.shortName }}</div>
+    }
+  </div>
+
+  <div class="days">
+    @for (day of days; track day) {
+      @if (day) {
+        <div class="day" [ngClass]="{ selected: day.isSelected }">{{ day.value }}</div>
+      } @else {
+        <div class="day empty"></div>
+      }
+    }
+  </div>
+</div>
