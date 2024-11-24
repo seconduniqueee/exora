@@ -20,6 +20,7 @@ export class DatePickerComponent implements OnInit {
 
   control = input<FormControl | AbstractControl>();
   controlName = input<string>();
+  dateMask = input<string>("MMM d, yyyy");
 
   constructor(
     private formGroupDirective: FormGroupDirective,
@@ -48,7 +49,7 @@ export class DatePickerComponent implements OnInit {
 
   private setInnerControlUpdates(): void {
     this.sourceControl.valueChanges.pipe(untilDestroyed(this)).subscribe((date) => {
-      let dateStr = date && this.datePipe.transform(date, "MMM d, yyyy");
+      let dateStr = date && this.datePipe.transform(date, this.dateMask());
       this.innerControl.setValue(dateStr);
     });
   }
