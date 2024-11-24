@@ -3,7 +3,6 @@ import {
   CalendarState,
   DAYS_OF_WEEK,
   DaysOfMonth,
-  Month,
   MONTHS,
 } from "@exora-web/shared/ui/date-picker/calendar/calendar.model";
 import { CalendarHelper } from "@exora-web/shared/ui/date-picker/calendar/calendar.helper";
@@ -21,9 +20,9 @@ export class CalendarComponent implements OnInit {
   days = computed<DaysOfMonth>(() => this.setDaysOfMonth(this.state()));
   daysOfWeek = DAYS_OF_WEEK;
 
-  get currentMonth(): Month {
-    console.log("actually logged");
-    return MONTHS.find((m) => m.index === this.state().month);
+  get calendarTitle(): string {
+    let { month, year } = this.state();
+    return `${MONTHS[month].fullName} ${year}`;
   }
 
   ngOnInit(): void {
@@ -32,7 +31,7 @@ export class CalendarComponent implements OnInit {
 
   prev(): void {
     let { month, year } = this.state();
-    let newState = month == 0 ? { month: 1, year: --year } : { month: --month, year };
+    let newState = month == 0 ? { month: 11, year: --year } : { month: --month, year };
 
     this.state.set(newState);
   }
