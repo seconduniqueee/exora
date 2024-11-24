@@ -1,6 +1,7 @@
-import { Component, computed, OnInit, signal } from "@angular/core";
+import { Component, computed, input, OnInit, output, signal } from "@angular/core";
 import {
   CalendarState,
+  Day,
   DAYS_OF_WEEK,
   DaysOfMonth,
   MONTHS,
@@ -18,6 +19,8 @@ import { CommonModule } from "@angular/common";
 export class CalendarComponent implements OnInit {
   state = signal<CalendarState>(null);
   days = computed<DaysOfMonth>(() => this.setDaysOfMonth(this.state()));
+  selectedDate = input<Date>();
+  dateSelected = output<Date>();
   daysOfWeek = DAYS_OF_WEEK;
 
   get calendarTitle(): string {
@@ -27,6 +30,14 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.setInitialState();
+  }
+
+  selectDate(day: Day): void {
+    if (day.isSelected) return;
+
+    let selectedDate = CalendarHelper.stateToDate(this.state(), day);
+
+    this.dateSelected.emit(selectedDate);
   }
 
   prev(): void {
@@ -49,6 +60,6 @@ export class CalendarComponent implements OnInit {
   }
 
   private setDaysOfMonth(state: CalendarState): DaysOfMonth {
-    return CalendarHelper.getDays(state);
+    return CalendarHelper.getDays(state, this.selectedDate());
   }
 }

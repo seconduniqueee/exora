@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { CalendarComponent } from "@exora-web/shared/ui/date-picker/calendar/calendar.component";
 
 @Component({
@@ -7,4 +7,7 @@ import { CalendarComponent } from "@exora-web/shared/ui/date-picker/calendar/cal
   imports: [CalendarComponent],
   standalone: true,
 })
-export class DatePickerComponent {}
+export class DatePickerComponent {
+  selectedDate = input<Date>();
+  dateSelected = output<Date>();
+}
