@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from "@angular/core";
+import { Component, input, OnInit, signal } from "@angular/core";
 import { CalendarComponent } from "@exora-web/shared/ui/date-picker/calendar/calendar.component";
 import { FormControl, FormGroupDirective, ReactiveFormsModule } from "@angular/forms";
 import { InputErrorComponent } from "@exora-web/shared/ui";
@@ -20,7 +20,9 @@ export class DatePickerComponent implements OnInit {
 
   control = input<FormControl | AbstractControl>();
   controlName = input<string>();
+  placeholder = input<string>("Enter Date");
   dateMask = input<string>("MMM d, yyyy");
+  calendarOpened = signal(false);
 
   constructor(
     private formGroupDirective: FormGroupDirective,
@@ -34,6 +36,11 @@ export class DatePickerComponent implements OnInit {
 
   updateValue(selectedDate: Date): void {
     this.sourceControl.setValue(selectedDate);
+    this.calendarOpened.set(false);
+  }
+
+  toggleCalendar(): void {
+    this.calendarOpened.set(!this.calendarOpened());
   }
 
   private setSourceFormControl(): void {

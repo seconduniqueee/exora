@@ -1,2 +1,28 @@
 .date-picker-wrapper {
+  position: relative;
+
+  .input-wrapper {
+    position: relative;
+
+    .picker-trigger {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    input {
+      cursor: pointer;
+    }
+  }
+
+  .calendar-wrapper {
+    position: absolute;
+    padding: 10px;
+    background-color: var(--background-color-secondary);
+    top: calc(100% - 10px);
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
 }

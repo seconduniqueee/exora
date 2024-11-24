@@ -1,6 +1,8 @@
 <div class="calendar">
-  <div class="month">
-    {{ calendarTitle }}
+  <div class="header">
+    <button type="button" class="control prev" (click)="selectPreviousMonth()">←</button>
+    <div class="month-title">{{ calendarTitle }}</div>
+    <button type="button" class="control next" (click)="selectNextMonth()">→</button>
   </div>
 
   <div class="days-of-week">
@@ -19,10 +21,5 @@
         <div class="day empty"></div>
       }
     }
-  </div>
-
-  <div class="controls">
-    <button class="control prev" (click)="selectPreviousMonth()">← previous</button>
-    <button class="control next" (click)="selectNextMonth()">next →</button>
   </div>
 </div>

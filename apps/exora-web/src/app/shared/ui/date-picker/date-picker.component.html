@@ -1,12 +1,25 @@
 @if (sourceControl) {
   <div class="date-picker-wrapper">
     <div class="form-control">
-      <input [formControl]="innerControl" />
+      <div class="input-wrapper">
+        <input
+          readonly
+          [formControl]="innerControl"
+          [placeholder]="placeholder()"
+          (click)="toggleCalendar()"
+        />
+        <div class="picker-trigger">
+          {{ calendarOpened() ? "X" : ">" }}
+        </div>
+      </div>
+
       <app-input-error [control]="sourceControl" />
     </div>
 
-    <div class="calendar-wrapper">
-      <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
-    </div>
+    @if (calendarOpened()) {
+      <div class="calendar-wrapper">
+        <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
+      </div>
+    }
   </div>
 }

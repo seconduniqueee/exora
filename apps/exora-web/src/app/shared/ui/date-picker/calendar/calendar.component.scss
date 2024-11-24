@@ -2,13 +2,18 @@
 @import "mixins";
 
 .calendar {
-  .month {
-    text-align: center;
-    padding: 5px 0;
-    margin-bottom: 10px;
+  $cell-width: 40px;
+
+  .header {
+    @include d-flex(space-between, center, 10px);
+
+    padding: 10px 10px 20px;
     font-size: 18px;
-    font-weight: 600;
-    border-bottom: 1px solid var(--background-color-secondary);
+
+    .month-title {
+      text-align: center;
+      font-weight: 600;
+    }
   }
 
   .days-of-week {
@@ -20,8 +25,8 @@
       @include d-flex(center, center);
 
       font-size: 14px;
-      width: 50px;
-      height: 20px;
+      width: $cell-width;
+      height: calc($cell-width * 0.7);
     }
   }
 
@@ -33,9 +38,9 @@
     .day {
       @include d-flex(center, center);
 
-      width: 50px;
-      height: 50px;
-      background-color: var(--background-color-secondary);
+      width: $cell-width;
+      height: $cell-width;
+      background-color: var(--background-color);
       color: var(--text-color-secondary);
       cursor: pointer;
 
