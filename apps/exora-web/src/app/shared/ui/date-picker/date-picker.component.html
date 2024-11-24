@@ -1,3 +1,5 @@
-<div>
-  <app-calendar [selectedDate]="selectedDate()" (dateSelected)="dateSelected.emit($event)" />
-</div>
+@if (sourceControl) {
+  <div>
+    <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
+  </div>
+}

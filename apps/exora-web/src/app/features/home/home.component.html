@@ -5,13 +5,15 @@
     <h1 class="title">Welcome to Exora! 🖐️</h1>
   }
 
-  <div class="test-date-picker">
-    <app-date-picker [selectedDate]="selectedDate()" (dateSelected)="selectedDate.set($event)" />
-  </div>
+  @if (dateForm) {
+    <form [formGroup]="dateForm" (formSubmit)="submitForm()">
+      <div class="test-date-picker">
+        <app-date-picker controlName="testDate" />
+      </div>
 
-  <div style="padding: 20px; text-align: center">
-    @if (selectedDate()) {
-      {{ selectedDate() | date: "dd MMMM yyyy" }}
-    }
-  </div>
+      <div style="text-align: center">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  }
 </div>

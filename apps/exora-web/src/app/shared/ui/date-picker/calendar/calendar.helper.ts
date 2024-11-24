@@ -13,7 +13,6 @@ export class CalendarHelper {
 
     for (let i = 1; i <= daysOfMonth; ++i) {
       let isSelected = i === date?.getDate() && selectedInCurrentMonth;
-      isSelected && console.log("really selected");
       result.push({ value: i, isSelected });
     }
 

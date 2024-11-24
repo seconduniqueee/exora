@@ -1,4 +1,14 @@
-import { Component, computed, input, OnInit, output, signal } from "@angular/core";
+import {
+  Component,
+  computed,
+  input,
+  OnChanges,
+  OnInit,
+  output,
+  signal,
+  SimpleChange,
+  SimpleChanges,
+} from "@angular/core";
 import {
   CalendarState,
   Day,
@@ -16,7 +26,7 @@ import { CommonModule } from "@angular/common";
   imports: [CommonModule],
   standalone: true,
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnChanges {
   state = signal<CalendarState>(null);
   days = computed<DaysOfMonth>(() => this.setDaysOfMonth(this.state()));
   selectedDate = input<Date>();
@@ -32,6 +42,10 @@ export class CalendarComponent implements OnInit {
     this.setInitialState();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.updateAfterInputDateChange(changes["selectedDate"]);
+  }
+
   selectDate(day: Day): void {
     if (day.isSelected) return;
 
@@ -40,14 +54,14 @@ export class CalendarComponent implements OnInit {
     this.dateSelected.emit(selectedDate);
   }
 
-  prev(): void {
+  selectPreviousMonth(): void {
     let { month, year } = this.state();
     let newState = month == 0 ? { month: 11, year: --year } : { month: --month, year };
 
     this.state.set(newState);
   }
 
-  next(): void {
+  selectNextMonth(): void {
     let { month, year } = this.state();
     let newState = month == 11 ? { month: 0, year: ++year } : { month: ++month, year };
 
@@ -61,5 +75,18 @@ export class CalendarComponent implements OnInit {
 
   private setDaysOfMonth(state: CalendarState): DaysOfMonth {
     return CalendarHelper.getDays(state, this.selectedDate());
+  }
+
+  private updateAfterInputDateChange(change: SimpleChange): void {
+    let { currentValue, previousValue } = change;
+    let state = this.state();
+    let selectedDateChanged = currentValue !== previousValue;
+    let month = currentValue?.getMonth();
+    let year = currentValue?.getFullYear();
+    let sameDate = year == state?.year && month === state?.month;
+
+    if (!currentValue || !selectedDateChanged || sameDate) return;
+
+    this.state.set({ year, month });
   }
 }
