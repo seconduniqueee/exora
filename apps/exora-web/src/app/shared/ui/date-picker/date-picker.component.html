@@ -1,5 +1,12 @@
 @if (sourceControl) {
-  <div>
-    <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
+  <div class="date-picker-wrapper">
+    <div class="form-control">
+      <input [formControl]="innerControl" />
+      <app-input-error [control]="sourceControl" />
+    </div>
+
+    <div class="calendar-wrapper">
+      <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
+    </div>
   </div>
 }

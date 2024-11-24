@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from "@angular/core";
-import { AbstractControl, FormControl, FormGroupDirective } from "@angular/forms";
+import { AbstractControl, FormGroupDirective } from "@angular/forms";
 import {
   COMMON_ERROR_MESSAGES,
   InputErrors,
@@ -15,7 +15,7 @@ export class InputErrorComponent implements OnInit {
   private _errorVisible = false;
 
   @Input() controlName: string;
-  @Input() control: FormControl;
+  @Input() control: AbstractControl | FormControl;
   @Input() customErrors: InputErrors;
 
   constructor(

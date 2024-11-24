@@ -11,8 +11,9 @@
         <app-date-picker controlName="testDate" />
       </div>
 
-      <div style="text-align: center">
+      <div style="text-align: center; display: flex; gap: 20px; justify-content: center">
         <button type="submit">Submit</button>
+        <button type="button" (click)="dateForm.reset()">Reset</button>
       </div>
     </form>
   }
