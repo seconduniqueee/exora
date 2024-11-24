@@ -4,13 +4,14 @@ import { FormControl, FormGroupDirective, ReactiveFormsModule } from "@angular/f
 import { InputErrorComponent } from "@exora-web/shared/ui";
 import { DatePipe } from "@angular/common";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ClickOutsideDirective } from "@exora-web/shared/directives/click-outside.directive";
 
 @UntilDestroy()
 @Component({
   selector: "app-date-picker",
   templateUrl: "date-picker.component.html",
   styleUrl: "date-picker.component.scss",
-  imports: [CalendarComponent, InputErrorComponent, ReactiveFormsModule],
+  imports: [CalendarComponent, InputErrorComponent, ReactiveFormsModule, ClickOutsideDirective],
   providers: [DatePipe],
   standalone: true,
 })
@@ -39,8 +40,8 @@ export class DatePickerComponent implements OnInit {
     this.calendarOpened.set(false);
   }
 
-  toggleCalendar(): void {
-    this.calendarOpened.set(!this.calendarOpened());
+  toggleCalendar(value?: boolean): void {
+    this.calendarOpened.set(value ?? !this.calendarOpened());
   }
 
   private setSourceFormControl(): void {

@@ -8,16 +8,14 @@
           [placeholder]="placeholder()"
           (click)="toggleCalendar()"
         />
-        <div class="picker-trigger">
-          {{ calendarOpened() ? "X" : ">" }}
-        </div>
+        <div class="picker-trigger">></div>
       </div>
 
       <app-input-error [control]="sourceControl" />
     </div>
 
     @if (calendarOpened()) {
-      <div class="calendar-wrapper">
+      <div class="calendar-wrapper" (clickOutside)="toggleCalendar(false)">
         <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
       </div>
     }
