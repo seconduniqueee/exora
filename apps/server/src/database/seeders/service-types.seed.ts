@@ -2,12 +2,12 @@ import { PrismaClient } from "@prisma/client";
 
 export async function seedServiceTypes(prisma: PrismaClient) {
   let serviceTypes = [
-    { id: 1, name: "catering" },
-    { id: 2, name: "photography" },
-    { id: 3, name: "venue" },
-    { id: 4, name: "decorations" },
-    { id: 5, name: "entertainment" },
-    { id: 6, name: "other" },
+    { id: 1, name: "Catering" },
+    { id: 2, name: "Photography" },
+    { id: 3, name: "Venue" },
+    { id: 4, name: "Decorations" },
+    { id: 5, name: "Entertainment" },
+    { id: 6, name: "Other" },
   ].map((st) => prisma.serviceType.upsert({ where: { id: st.id }, update: {}, create: st }));
 
   await Promise.all(serviceTypes);
