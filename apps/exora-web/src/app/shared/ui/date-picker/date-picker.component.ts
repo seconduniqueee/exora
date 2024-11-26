@@ -17,6 +17,9 @@ import { getSourceControl } from "../../../core/utils";
   standalone: true,
 })
 export class DatePickerComponent implements OnInit {
+  // TODO: Convert calendar positioning to fixed
+  // TODO: Set proper calendar position based on picker placement on the screen
+
   sourceControl: AbstractControl;
   innerControl = new FormControl<string>(null);
 

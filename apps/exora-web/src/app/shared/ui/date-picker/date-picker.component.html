@@ -1,5 +1,5 @@
 @if (sourceControl) {
-  <div class="date-picker-wrapper">
+  <div class="date-picker-wrapper" (clickOutside)="toggleCalendar(false)">
     <div class="form-control">
       <div class="input-wrapper">
         <input
@@ -15,7 +15,7 @@
     </div>
 
     @if (calendarOpened()) {
-      <div class="calendar-wrapper" (clickOutside)="toggleCalendar(false)">
+      <div class="calendar-wrapper">
         <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
       </div>
     }
