@@ -1,1 +1,11 @@
-<div>Create Service</div>
+<div class="new-service">
+  <h1 class="page-title">Create Service</h1>
+
+  <div class="new-service__form">
+    <app-new-service-form
+      [newServiceForm]="newServiceForm"
+      [serviceTypes]="query.serviceTypes$ | async"
+      (createNewService)="createNewService()"
+    />
+  </div>
+</div>

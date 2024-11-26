@@ -1,0 +1,40 @@
+@let form = newServiceForm();
+
+@if (form) {
+  <form class="new-service-form" [formGroup]="form" (formSubmit)="createNewService.emit()">
+    <div class="form-controls">
+      <div class="form-control">
+        <label>Service Name</label>
+        <input formControlName="name" />
+        <app-input-error controlName="name" />
+      </div>
+
+      <div class="form-control">
+        <label>Service Description</label>
+        <input formControlName="description" />
+        <app-input-error controlName="description" />
+      </div>
+
+      <div class="form-control">
+        <label class="dropdown-label">Service Type</label>
+        <select formControlName="serviceTypeID">
+          @for (type of serviceTypes(); track type.id) {
+            <option [value]="type.id">{{ type.name }}</option>
+          }
+        </select>
+        <app-input-error controlName="serviceTypeID" />
+      </div>
+
+      <div class="form-control">
+        <label>Price</label>
+        <input formControlName="price" type="number" [min]="0" />
+        <app-input-error controlName="price" />
+      </div>
+    </div>
+
+    <div class="form-submit">
+      <button>Create Service</button>
+      <button type="button" (click)="cancel.emit()">Cancel</button>
+    </div>
+  </form>
+}
