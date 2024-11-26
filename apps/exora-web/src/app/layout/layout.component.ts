@@ -1,10 +1,10 @@
 import { Component, OnInit, signal } from "@angular/core";
 import { HeaderComponent } from "./header/header.component";
-import { AuthService } from "../../core/auth/auth.service";
 import { BootOverlayComponent } from "./boot-overlay/boot-overlay.component";
-import { AuthQuery } from "../../core/auth/auth.repository";
 import { ThemeService } from "@exora-web/shared/services";
 import { AsyncPipe } from "@angular/common";
+import { AuthService } from "../core/auth/auth.service";
+import { AuthQuery } from "../core/auth/auth.repository";
 
 @Component({
   selector: "app-layout",

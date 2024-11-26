@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { LayoutComponent } from "./features/layout/layout.component";
+import { LayoutComponent } from "./layout/layout.component";
 import { RouterModule } from "@angular/router";
 import { ThemeService } from "./shared";
 

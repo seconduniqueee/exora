@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { LoadingSpinnerComponent } from "../../../shared";
+import { LoadingSpinnerComponent } from "../../shared";
 
 @Component({
   selector: "app-boot-overlay",
