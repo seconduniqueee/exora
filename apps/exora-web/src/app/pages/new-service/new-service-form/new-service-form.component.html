@@ -17,11 +17,19 @@
 
       <div class="form-control">
         <label class="dropdown-label">Service Type</label>
-        <select formControlName="serviceTypeID">
+        <!--        <select formControlName="serviceTypeID">-->
+        <!--          @for (type of serviceTypes(); track type.id) {-->
+        <!--            <option [value]="type.id">{{ type.name }}</option>-->
+        <!--          }-->
+        <!--        </select>-->
+        <app-select controlName="serviceTypeID">
           @for (type of serviceTypes(); track type.id) {
-            <option [value]="type.id">{{ type.name }}</option>
+            <app-option [value]="type.id">
+              {{ type.name }}
+            </app-option>
           }
-        </select>
+        </app-select>
+
         <app-input-error controlName="serviceTypeID" />
       </div>
 
@@ -35,6 +43,7 @@
     <div class="form-submit">
       <button>Create Service</button>
       <button type="button" (click)="cancel.emit()">Cancel</button>
+      <button type="button" (click)="removeService()">Remove Service</button>
     </div>
   </form>
 }

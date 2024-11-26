@@ -5,6 +5,7 @@ import { InputErrorComponent } from "@exora-web/shared/ui";
 import { DatePipe } from "@angular/common";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ClickOutsideDirective } from "@exora-web/shared/directives/click-outside.directive";
+import { getSourceControl } from "../../../core/utils";
 
 @UntilDestroy()
 @Component({
@@ -45,14 +46,11 @@ export class DatePickerComponent implements OnInit {
   }
 
   private setSourceFormControl(): void {
-    this.sourceControl =
-      this.control() ||
-      this.formGroupDirective?.control.get(this.controlName()) ||
-      this.formGroupDirective.form.get(this.controlName());
-
-    if (!this.sourceControl) {
-      throw new Error("Source control is not found. Make sure controlName or control is provided");
-    }
+    this.sourceControl = getSourceControl(
+      this.controlName(),
+      this.control(),
+      this.formGroupDirective,
+    );
   }
 
   private setInnerControlUpdates(): void {

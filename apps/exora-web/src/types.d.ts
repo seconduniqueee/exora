@@ -1,5 +1,9 @@
 import { Observable as ObservableType } from "rxjs";
-import { Signal as SignalType, WritableSignal as WritableSignalType } from "@angular/core";
+import {
+  ElementRef as ElementRefType,
+  Signal as SignalType,
+  WritableSignal as WritableSignalType,
+} from "@angular/core";
 import {
   AbstractControl as AbstractControlType,
   FormControl as FormControlType,
@@ -14,6 +18,7 @@ declare global {
   type FormControl = FormControlType;
   type AbstractControl = AbstractControlType;
   type AbstractControlTyped<T> = AbstractControlType<T>;
+  type ElementRef = ElementRefType;
   type FormGroupTyped<T> = FormGroupType<{
     [K in keyof T]: FormControlType<T[K]>;
   }>;
