@@ -1,6 +1,5 @@
 import {
   Component,
-  computed,
   input,
   OnChanges,
   OnInit,
@@ -13,7 +12,6 @@ import {
   CalendarState,
   Day,
   DAYS_OF_WEEK,
-  DaysOfMonth,
   MONTHS,
 } from "@exora-web/shared/ui/date-picker/calendar/calendar.model";
 import { CalendarHelper } from "@exora-web/shared/ui/date-picker/calendar/calendar.helper";
@@ -28,7 +26,6 @@ import { CommonModule } from "@angular/common";
 })
 export class CalendarComponent implements OnInit, OnChanges {
   state = signal<CalendarState>(null);
-  days = computed<DaysOfMonth>(() => this.setDaysOfMonth(this.state()));
   selectedDate = input<Date>();
   dateSelected = output<Date>();
   daysOfWeek = DAYS_OF_WEEK;
@@ -49,32 +46,38 @@ export class CalendarComponent implements OnInit, OnChanges {
   selectDate(day: Day): void {
     if (day.isSelected) return;
 
-    let selectedDate = CalendarHelper.stateToDate(this.state(), day);
+    let { month, year } = this.state();
+    let selectedDate = CalendarHelper.stateToDate(month, year, day);
+    let days = CalendarHelper.getDays(month, year, selectedDate);
 
     this.dateSelected.emit(selectedDate);
+    this.state.set({ month, year, days });
   }
 
   selectPreviousMonth(): void {
     let { month, year } = this.state();
-    let newState = month == 0 ? { month: 11, year: --year } : { month: --month, year };
+    let updatedMonth = month == 0 ? 11 : --month;
+    let updatedYear = month == 0 ? --year : year;
+    let days = CalendarHelper.getDays(month, year, this.selectedDate());
 
-    this.state.set(newState);
+    this.state.set({ month: updatedMonth, year: updatedYear, days });
   }
 
   selectNextMonth(): void {
     let { month, year } = this.state();
-    let newState = month == 11 ? { month: 0, year: ++year } : { month: ++month, year };
+    let updatedMonth = month == 11 ? 0 : ++month;
+    let updatedYear = month == 11 ? ++year : year;
+    let days = CalendarHelper.getDays(month, year, this.selectedDate());
 
-    this.state.set(newState);
+    this.state.set({ month: updatedMonth, year: updatedYear, days });
   }
 
   private setInitialState(): void {
-    let now = new Date();
-    this.state.set({ month: now.getMonth(), year: now.getFullYear() });
-  }
+    let month = new Date().getMonth();
+    let year = new Date().getFullYear();
+    let days = CalendarHelper.getDays(month, year, this.selectedDate());
 
-  private setDaysOfMonth(state: CalendarState): DaysOfMonth {
-    return CalendarHelper.getDays(state, this.selectedDate());
+    this.state.set({ month, year, days });
   }
 
   private updateAfterInputDateChange(change: SimpleChange): void {
@@ -87,6 +90,6 @@ export class CalendarComponent implements OnInit, OnChanges {
 
     if (!currentValue || !selectedDateChanged || sameDate) return;
 
-    this.state.set({ year, month });
+    this.state.set({ year, month, days: CalendarHelper.getDays(month, year, currentValue) });
   }
 }

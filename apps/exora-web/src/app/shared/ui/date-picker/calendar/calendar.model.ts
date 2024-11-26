@@ -7,6 +7,7 @@ export interface DayOfWeek {
 export interface CalendarState {
   month: number;
   year: number;
+  days?: Days;
 }
 
 export interface Day {
@@ -21,7 +22,7 @@ export interface Month {
 }
 
 export type Months = Month[];
-export type DaysOfMonth = Day[];
+export type Days = Day[];
 
 export const DAYS_OF_WEEK: DayOfWeek[] = [
   { name: "Monday", shortName: "Mo", index: 1 },

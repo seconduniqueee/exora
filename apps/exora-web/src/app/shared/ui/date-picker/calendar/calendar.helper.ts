@@ -1,8 +1,7 @@
-import { CalendarState, Day } from "@exora-web/shared/ui/date-picker/calendar/calendar.model";
+import { Day } from "@exora-web/shared/ui/date-picker/calendar/calendar.model";
 
 export class CalendarHelper {
-  static getDays(state: CalendarState, date: Date): Day[] {
-    let { month, year } = state;
+  static getDays(month: number, year: number, date: Date): Day[] {
     let first = new Date(year, month, 0);
     let last = new Date(year, month + 1, 0);
     let daysOfMonth = last.getDate();
@@ -21,8 +20,7 @@ export class CalendarHelper {
     return result;
   }
 
-  static stateToDate(state: CalendarState, day: Day): Date {
-    let result = new Date(state.year, state.month, day.value);
-    return result;
+  static stateToDate(month: number, year: number, day: Day): Date {
+    return new Date(year, month, day.value);
   }
 }
