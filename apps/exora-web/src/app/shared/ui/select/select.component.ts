@@ -15,6 +15,8 @@ import { OptionComponent } from "@exora-web/shared/ui/select/option/option.compo
 import { Subscription } from "rxjs";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { EmittedDataOnClick } from "@exora-web/shared/ui/select/select.model";
+import { ClickOutsideDirective } from "@exora-web/shared/directives/click-outside.directive";
+import { NgClass } from "@angular/common";
 
 @UntilDestroy()
 @Component({
@@ -22,7 +24,7 @@ import { EmittedDataOnClick } from "@exora-web/shared/ui/select/select.model";
   templateUrl: "select.component.html",
   styleUrl: "select.component.scss",
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ClickOutsideDirective, NgClass],
 })
 export class SelectComponent<T> implements OnInit, AfterViewInit {
   sourceControl: FormControl;
@@ -31,7 +33,9 @@ export class SelectComponent<T> implements OnInit, AfterViewInit {
   projectedContent = signal<HTMLElement>(null);
   controlName = input<string>();
   control = input<AbstractControl>();
-  subscription = new Subscription();
+  placeholder = input<string>("Select value");
+  dropdownOpened = signal(false);
+  subscriptions = new Subscription();
 
   @ContentChildren(OptionComponent) options: QueryList<OptionComponent<T>>;
 
@@ -45,6 +49,19 @@ export class SelectComponent<T> implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.options.changes.subscribe((options) => this.subscribeToOptionsClick(options));
     this.subscribeToOptionsClick(this.options);
+  }
+
+  toggleDropdown(toOpen?: boolean): void {
+    let value = toOpen ?? !this.dropdownOpened();
+    this.dropdownOpened.set(value);
+  }
+
+  processKeyDown(event: KeyboardEvent): void {
+    if (event.key !== "Enter" || this.dropdownOpened()) return;
+
+    this.dropdownOpened.set(true);
+
+    // TODO: work on accessibility (key arrows, Esc, moving focus back to select component)
   }
 
   private setSourceControl(): void {
@@ -63,18 +80,19 @@ export class SelectComponent<T> implements OnInit, AfterViewInit {
   }
 
   private subscribeToOptionsClick(options: QueryList<OptionComponent<T>>): void {
-    this.subscription.unsubscribe();
-    this.subscription = new Subscription();
+    this.subscriptions.unsubscribe();
+    this.subscriptions = new Subscription();
 
     options.forEach((option) => {
       let sub = option.optionSelected.subscribe((v) => this.processClickedOption(v));
-      this.subscription.add(sub);
+      this.subscriptions.add(sub);
     });
   }
 
   private processClickedOption(event: EmittedDataOnClick<T>): void {
     this.sourceControl.setValue(event.value);
     this.setContent(event.projectedContent);
+    this.dropdownOpened.set(false);
   }
 
   private setContent(ref: ElementRef): void {
@@ -82,6 +100,6 @@ export class SelectComponent<T> implements OnInit, AfterViewInit {
 
     this.projectedContent()?.remove();
     this.projectedContent.set(content);
-    this.projectionWrapper().nativeElement.innerHTML = content;
+    content && this.projectionWrapper().nativeElement.appendChild(content);
   }
 }

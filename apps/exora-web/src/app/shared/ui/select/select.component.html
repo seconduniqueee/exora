@@ -1,9 +1,21 @@
-<div class="">
-  <div class="input-wrapper">
-    <div #projectionWrapper></div>
+<div
+  class="app-select"
+  tabindex="0"
+  (keydown)="processKeyDown($event)"
+  (clickOutside)="toggleDropdown(false)"
+>
+  <div class="select-input-wrapper" (click)="toggleDropdown()">
+    <div #projectionWrapper class="selected-option-projection">
+      @if (!projectedContent()) {
+        <div class="placeholder">{{ placeholder() }}</div>
+      }
+    </div>
+    <div class="toggle" [ngClass]="{ opened: dropdownOpened() }">></div>
   </div>
 
-  <div class="dropdown-wrapper">
-    <ng-content />
-  </div>
+  @if (dropdownOpened()) {
+    <div class="dropdown-wrapper">
+      <ng-content />
+    </div>
+  }
 </div>

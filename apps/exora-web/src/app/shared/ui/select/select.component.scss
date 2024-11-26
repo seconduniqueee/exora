@@ -1,0 +1,44 @@
+@import "mixins";
+@import "variables";
+
+.app-select {
+  position: relative;
+
+  .select-input-wrapper {
+    position: relative;
+
+    .selected-option-projection {
+      @include d-flex(flex-start, center);
+      height: 100%;
+    }
+
+    .toggle {
+      @include d-flex(center, center);
+
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: calc(50% - 9px);
+      right: 5px;
+      transition: transform 0.2s ease-in-out;
+      transform-origin: center;
+      font-size: 16px;
+
+      &.opened {
+        transform: rotate(90deg);
+      }
+    }
+
+    cursor: pointer;
+  }
+
+  .dropdown-wrapper {
+    max-width: 100%;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--background-color-secondary);
+    z-index: $z-dropdown;
+  }
+}

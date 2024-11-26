@@ -5,24 +5,20 @@
     <div class="form-controls">
       <div class="form-control">
         <label>Service Name</label>
-        <input formControlName="name" />
+        <input formControlName="name" placeholder="Enter Service Name" />
         <app-input-error controlName="name" />
       </div>
 
       <div class="form-control">
         <label>Service Description</label>
-        <input formControlName="description" />
+        <input formControlName="description" placeholder="Enter Service Description" />
         <app-input-error controlName="description" />
       </div>
 
       <div class="form-control">
         <label class="dropdown-label">Service Type</label>
-        <!--        <select formControlName="serviceTypeID">-->
-        <!--          @for (type of serviceTypes(); track type.id) {-->
-        <!--            <option [value]="type.id">{{ type.name }}</option>-->
-        <!--          }-->
-        <!--        </select>-->
-        <app-select controlName="serviceTypeID">
+
+        <app-select controlName="serviceTypeID" placeholder="Select Service Type">
           @for (type of serviceTypes(); track type.id) {
             <app-option [value]="type.id">
               {{ type.name }}
@@ -35,7 +31,7 @@
 
       <div class="form-control">
         <label>Price</label>
-        <input formControlName="price" type="number" [min]="0" />
+        <input formControlName="price" type="number" placeholder="Enter Service Price" [min]="0" />
         <app-input-error controlName="price" />
       </div>
     </div>

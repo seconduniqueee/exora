@@ -1,0 +1,17 @@
+@import "mixins";
+
+.select-option {
+  @include d-flex(flex-start, center);
+
+  height: 40px;
+  padding: 0 15px;
+  border-bottom: 1px solid var(--background-color);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+
+  &:hover,
+  &.selected {
+    background-color: var(--background-color);
+    color: var(--text-color-primary);
+  }
+}

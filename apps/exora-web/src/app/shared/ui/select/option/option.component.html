@@ -1,4 +1,4 @@
-<div class="select-option" (click)="selectOption()">
+<div class="select-option" tabindex="0" (click)="selectOption()" (keydown)="processKeyDown($event)">
   <div #projection>
     <ng-content />
   </div>
