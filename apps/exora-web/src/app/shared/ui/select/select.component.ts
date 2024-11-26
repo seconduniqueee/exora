@@ -27,6 +27,10 @@ import { NgClass } from "@angular/common";
   imports: [ReactiveFormsModule, ClickOutsideDirective, NgClass],
 })
 export class SelectComponent<T> implements OnInit, AfterViewInit {
+  // TODO: Configure max height of the dropdown to avoid offscreen render
+  // TODO: Configure proper dropdown positioning (top/bottom, (?) right/left)
+  // TODO: Improve accessibility (option arrow keys, Esc, moving focus back to select wrapper)
+
   sourceControl: FormControl;
 
   projectionWrapper = viewChild<ElementRef>("projectionWrapper");
@@ -60,8 +64,6 @@ export class SelectComponent<T> implements OnInit, AfterViewInit {
     if (event.key !== "Enter" || this.dropdownOpened()) return;
 
     this.dropdownOpened.set(true);
-
-    // TODO: work on accessibility (key arrows, Esc, moving focus back to select component)
   }
 
   private setSourceControl(): void {
