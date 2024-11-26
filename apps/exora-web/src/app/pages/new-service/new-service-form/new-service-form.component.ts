@@ -6,6 +6,7 @@ import { InputErrorComponent } from "@exora-web/shared/ui";
 import { NamedEntityModel } from "@exora/shared-models";
 import { SelectComponent } from "@exora-web/shared/ui/select/select.component";
 import { OptionComponent } from "@exora-web/shared/ui/select/option/option.component";
+import { DatePickerComponent } from "@exora-web/shared/ui/date-picker/date-picker.component";
 
 @Component({
   selector: "app-new-service-form",
@@ -18,6 +19,7 @@ import { OptionComponent } from "@exora-web/shared/ui/select/option/option.compo
     InputErrorComponent,
     SelectComponent,
     OptionComponent,
+    DatePickerComponent,
   ],
 })
 export class NewServiceFormComponent {

@@ -36,6 +36,7 @@ export class NewServiceComponent implements OnInit {
       description: [null, required],
       serviceTypeID: [null, required],
       price: [null, required],
+      date: [null],
     }) as FormGroupTyped<NewServiceForm>;
   }
 

@@ -12,7 +12,7 @@
   </div>
 
   <div class="days">
-    @for (day of days(); track day || $index) {
+    @for (day of state().days; track day || $index) {
       @if (day) {
         <div class="day" [ngClass]="{ selected: day.isSelected }" (click)="selectDate(day)">
           {{ day.value }}
