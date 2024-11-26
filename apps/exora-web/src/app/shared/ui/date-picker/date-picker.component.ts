@@ -1,4 +1,4 @@
-import { Component, input, OnInit, signal } from "@angular/core";
+import { AfterViewInit, Component, input, OnInit, signal } from "@angular/core";
 import { CalendarComponent } from "@exora-web/shared/ui/date-picker/calendar/calendar.component";
 import { FormControl, FormGroupDirective, ReactiveFormsModule } from "@angular/forms";
 import { InputErrorComponent } from "@exora-web/shared/ui";
@@ -16,12 +16,13 @@ import { getSourceControl } from "../../../core/utils";
   providers: [DatePipe],
   standalone: true,
 })
-export class DatePickerComponent implements OnInit {
+export class DatePickerComponent implements OnInit, AfterViewInit {
   // TODO: Convert calendar positioning to fixed
   // TODO: Set proper calendar position based on picker placement on the screen
 
   sourceControl: AbstractControl;
   innerControl = new FormControl<string>(null);
+  wrapper: HTMLElement;
 
   control = input<FormControl | AbstractControl>();
   controlName = input<string>();
@@ -34,9 +35,24 @@ export class DatePickerComponent implements OnInit {
     private datePipe: DatePipe,
   ) {}
 
+  // TODO: rework this piece of art >.>
+  get styling(): string {
+    let rect = this.wrapper.getBoundingClientRect();
+    let enoughBottom = window.innerHeight - rect.y > 380;
+    let topStr = enoughBottom ? `${rect.y + rect.height}px` : "";
+    let bottomStr = !enoughBottom ? `${window.innerHeight - rect.y + 3}px` : "";
+    let leftStr = `${rect.x}px`;
+
+    return `top: ${topStr}; bottom: ${bottomStr}; left: ${leftStr};`;
+  }
+
   ngOnInit(): void {
     this.setSourceFormControl();
     this.setInnerControlUpdates();
+  }
+
+  ngAfterViewInit(): void {
+    this.wrapper = document.querySelector(".date-picker-wrapper");
   }
 
   updateValue(selectedDate: Date): void {

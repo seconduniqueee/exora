@@ -15,7 +15,7 @@
     </div>
 
     @if (calendarOpened()) {
-      <div class="calendar-wrapper">
+      <div class="calendar-wrapper" style="{{ styling }}">
         <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
       </div>
     }
