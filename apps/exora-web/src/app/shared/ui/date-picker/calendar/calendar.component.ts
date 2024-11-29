@@ -25,6 +25,7 @@ import { CommonModule } from "@angular/common";
   standalone: true,
 })
 export class CalendarComponent implements OnInit, OnChanges {
+  // TODO: selected date is not prepopulated on init
   state = signal<CalendarState>(null);
   selectedDate = input<Date>();
   dateSelected = output<Date>();
@@ -37,6 +38,7 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.setInitialState();
+    console.log(this.selectedDate());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -67,14 +69,15 @@ export class CalendarComponent implements OnInit, OnChanges {
     let { month, year } = this.state();
     let updatedMonth = month == 11 ? 0 : month + 1;
     let updatedYear = month == 11 ? year + 1 : year;
-    let days = CalendarHelper.getDays(month, year, this.selectedDate());
+    let days = CalendarHelper.getDays(updatedMonth, updatedYear, this.selectedDate());
 
     this.state.set({ month: updatedMonth, year: updatedYear, days });
   }
 
   private setInitialState(): void {
-    let month = new Date().getMonth();
-    let year = new Date().getFullYear();
+    let date = this.selectedDate() ?? new Date();
+    let month = date.getMonth();
+    let year = date.getFullYear();
     let days = CalendarHelper.getDays(month, year, this.selectedDate());
 
     this.state.set({ month, year, days });

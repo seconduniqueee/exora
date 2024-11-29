@@ -10,7 +10,7 @@
     </div>
 
     @if (calendarOpened()) {
-      <div class="calendar-wrapper" [attachedTo]="datePickerControl">
+      <div class="calendar-wrapper" [attachedTo]="datePickerControl" [matchParentWidth]="'never'">
         <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
       </div>
     }
