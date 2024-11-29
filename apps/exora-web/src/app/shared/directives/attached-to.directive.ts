@@ -7,7 +7,7 @@ import { Directive, ElementRef, HostListener, inject, input, OnInit } from "@ang
 export class AttachedToDirective implements OnInit {
   attachedTo = input<HTMLElement>();
   minHeight = input<number>();
-  matchParentWidth = input<boolean>(true);
+  matchParentWidth = input<"always" | "overflow" | "never">("always");
   elementRef = inject(ElementRef);
 
   @HostListener("window:resize", ["$event"])
@@ -38,7 +38,15 @@ export class AttachedToDirective implements OnInit {
     elem.style.left = position.left;
     elem.style.top = position.top ? position.top + "px" : "";
     elem.style.bottom = position.bottom ? position.bottom + "px" : "";
-    elem.style.maxWidth = this.matchParentWidth() ? width + "px" : "";
+
+    if (this.matchParentWidth() == "always") {
+      elem.style.width = this.matchParentWidth() ? width + "px" : "";
+      elem.style.maxWidth = this.matchParentWidth() ? width + "px" : "";
+    }
+
+    if (this.matchParentWidth() == "overflow") {
+      elem.style.maxWidth = this.matchParentWidth() ? width + "px" : "";
+    }
   }
 
   private calculateAttachmentPosition(): Position {

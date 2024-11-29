@@ -28,8 +28,6 @@ import { AttachedToDirective } from "@exora-web/shared/directives";
   imports: [ReactiveFormsModule, ClickOutsideDirective, NgClass, AttachedToDirective],
 })
 export class SelectComponent<T> implements OnInit, AfterViewInit {
-  // TODO: Configure max height of the dropdown to avoid offscreen render
-  // TODO: Configure proper dropdown positioning (top/bottom, (?) right/left)
   // TODO: Improve accessibility (option arrow keys, Esc, moving focus back to select wrapper)
 
   sourceControl: FormControl;
