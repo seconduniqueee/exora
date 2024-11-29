@@ -15,7 +15,15 @@
     </div>
 
     @if (calendarOpened()) {
-      <div class="calendar-wrapper" style="{{ styling }}">
+      @let placement = calendarPlacement();
+
+      <div
+        class="calendar-wrapper"
+        [ngClass]="{ 'position-above': placement.position === positionEnum.Above }"
+        [style.top]="placement.top ? placement.top + 'px' : ''"
+        [style.left]="placement.left + 'px'"
+        [style.bottom]="placement.bottom ? placement.bottom + 'px' : placement.bottom"
+      >
         <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
       </div>
     }

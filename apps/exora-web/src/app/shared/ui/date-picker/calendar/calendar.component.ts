@@ -56,8 +56,8 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   selectPreviousMonth(): void {
     let { month, year } = this.state();
-    let updatedMonth = month == 0 ? 11 : --month;
-    let updatedYear = month == 0 ? --year : year;
+    let updatedMonth = month == 0 ? 11 : month - 1;
+    let updatedYear = month == 0 ? year - 1 : year;
     let days = CalendarHelper.getDays(month, year, this.selectedDate());
 
     this.state.set({ month: updatedMonth, year: updatedYear, days });
@@ -65,8 +65,8 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   selectNextMonth(): void {
     let { month, year } = this.state();
-    let updatedMonth = month == 11 ? 0 : ++month;
-    let updatedYear = month == 11 ? ++year : year;
+    let updatedMonth = month == 11 ? 0 : month + 1;
+    let updatedYear = month == 11 ? year + 1 : year;
     let days = CalendarHelper.getDays(month, year, this.selectedDate());
 
     this.state.set({ month: updatedMonth, year: updatedYear, days });

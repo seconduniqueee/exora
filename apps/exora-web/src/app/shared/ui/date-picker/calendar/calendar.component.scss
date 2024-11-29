@@ -2,13 +2,13 @@
 @import "mixins";
 
 .calendar {
-  $cell-width: 40px;
+  $cell-width: 35px;
 
   .header {
     @include d-flex(space-between, center, 10px);
 
-    padding: 10px 10px 20px;
-    font-size: 18px;
+    padding: 5px 10px 10px;
+    font-size: 16px;
 
     .month-title {
       text-align: center;
@@ -19,12 +19,12 @@
   .days-of-week {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    margin-bottom: 10px;
+    //margin-bottom: 10px;
 
     .day-of-week {
       @include d-flex(center, center);
 
-      font-size: 14px;
+      font-size: 13px;
       width: $cell-width;
       height: calc($cell-width * 0.7);
     }
@@ -40,6 +40,7 @@
 
       width: $cell-width;
       height: $cell-width;
+      font-size: 13px;
       background-color: var(--background-color);
       color: var(--text-color-secondary);
       cursor: pointer;
@@ -54,20 +55,6 @@
         border: 2px solid var(--text-color-primary);
         color: var(--text-color-primary);
       }
-    }
-  }
-
-  .controls {
-    @include d-flex(center, center, 30px);
-
-    padding: 20px 0;
-
-    .control {
-      flex-grow: 1;
-      font-size: 15px;
-      padding: 10px 0;
-      cursor: pointer;
-      border: 1px solid var(--border-color);
     }
   }
 }
