@@ -25,7 +25,6 @@ import { CommonModule } from "@angular/common";
   standalone: true,
 })
 export class CalendarComponent implements OnInit, OnChanges {
-  // TODO: selected date is not prepopulated on init
   state = signal<CalendarState>(null);
   selectedDate = input<Date>();
   dateSelected = output<Date>();
