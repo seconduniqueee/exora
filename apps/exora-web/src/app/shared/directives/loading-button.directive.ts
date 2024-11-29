@@ -1,11 +1,11 @@
-import { Directive, ElementRef, HostBinding, Input } from "@angular/core";
+import { Directive, ElementRef, HostBinding, input } from "@angular/core";
 
 @Directive({
   selector: "[loadingButton]",
   standalone: true,
 })
 export class LoadingButtonDirective {
-  @Input() loadingButton = false;
+  loadingButton = input<boolean>(false);
 
   constructor(private elementRef: ElementRef) {
     this.elementRef.nativeElement.classList.add("loading-button");
@@ -13,6 +13,6 @@ export class LoadingButtonDirective {
 
   @HostBinding("class.is-loading")
   get isLoading(): boolean {
-    return this.loadingButton;
+    return this.loadingButton();
   }
 }

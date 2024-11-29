@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostListener, Output } from "@angular/core";
+import { Directive, HostListener, output } from "@angular/core";
 import { FormGroupDirective } from "@angular/forms";
 
 @Directive({
@@ -6,7 +6,7 @@ import { FormGroupDirective } from "@angular/forms";
   standalone: true,
 })
 export class FormSubmitDirective {
-  @Output() formSubmit = new EventEmitter<void>();
+  formSubmit = output<void>();
 
   constructor(private formGroupDirective: FormGroupDirective) {}
 
