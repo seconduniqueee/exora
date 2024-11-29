@@ -15,5 +15,7 @@
 - [x] **FE -- Setup Auth guards and interceptors; implement JWT access/refresh flow**
 - [x] **FE -- Configure Elf store infrastructure**
 - [x] **FE -- Implement Sign In, Sign Up, Log Out**
-- [ ] **FE -- Implement basic Account page with Change Password functionality**
+- [x] **FE -- Implement custom Select and DatePicker components**
+- [x] **FE -- Implement custom Modal Dialog with direct component injection**
+- [ ] **FE -- Implement Account page with Change Password functionality**
 - [ ] **FE -- Implement Forget Password functionality**
