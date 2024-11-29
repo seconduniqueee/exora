@@ -4,7 +4,7 @@
   (keydown)="processKeyDown($event)"
   (clickOutside)="toggleDropdown(false)"
 >
-  <div class="select-input-wrapper" (click)="toggleDropdown()">
+  <div class="select-input-wrapper" #selectInputWrapper (click)="toggleDropdown()">
     <div #projectionWrapper class="selected-option-projection">
       @if (!projectedContent()) {
         <div class="placeholder">{{ placeholder() }}</div>
@@ -14,7 +14,7 @@
   </div>
 
   @if (dropdownOpened()) {
-    <div class="dropdown-wrapper">
+    <div class="dropdown-wrapper" [attachedTo]="selectInputWrapper">
       <ng-content />
     </div>
   }

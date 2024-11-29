@@ -1,13 +1,8 @@
 @if (sourceControl) {
   <div class="date-picker-wrapper" (clickOutside)="toggleCalendar(false)">
-    <div class="form-control">
+    <div #datePickerControl class="form-control" (click)="toggleCalendar()">
       <div class="input-wrapper">
-        <input
-          readonly
-          [formControl]="innerControl"
-          [placeholder]="placeholder()"
-          (click)="toggleCalendar()"
-        />
+        <input readonly [formControl]="innerControl" [placeholder]="placeholder()" />
         <div class="picker-trigger">></div>
       </div>
 
@@ -15,15 +10,7 @@
     </div>
 
     @if (calendarOpened()) {
-      @let placement = calendarPlacement();
-
-      <div
-        class="calendar-wrapper"
-        [ngClass]="{ 'position-above': placement.position === positionEnum.Above }"
-        [style.top]="placement.top ? placement.top + 'px' : ''"
-        [style.left]="placement.left + 'px'"
-        [style.bottom]="placement.bottom ? placement.bottom + 'px' : placement.bottom"
-      >
+      <div class="calendar-wrapper" [attachedTo]="datePickerControl">
         <app-calendar [selectedDate]="sourceControl.value" (dateSelected)="updateValue($event)" />
       </div>
     }

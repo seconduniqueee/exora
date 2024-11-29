@@ -17,6 +17,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { EmittedDataOnClick } from "@exora-web/shared/ui/select/select.model";
 import { ClickOutsideDirective } from "@exora-web/shared/directives/click-outside.directive";
 import { NgClass } from "@angular/common";
+import { AttachedToDirective } from "@exora-web/shared/directives";
 
 @UntilDestroy()
 @Component({
@@ -24,7 +25,7 @@ import { NgClass } from "@angular/common";
   templateUrl: "select.component.html",
   styleUrl: "select.component.scss",
   standalone: true,
-  imports: [ReactiveFormsModule, ClickOutsideDirective, NgClass],
+  imports: [ReactiveFormsModule, ClickOutsideDirective, NgClass, AttachedToDirective],
 })
 export class SelectComponent<T> implements OnInit, AfterViewInit {
   // TODO: Configure max height of the dropdown to avoid offscreen render

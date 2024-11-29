@@ -19,11 +19,8 @@
 
   .calendar-wrapper {
     position: fixed;
+    transition: opacity 0.2s ease;
     padding: 10px;
     background-color: var(--background-color-secondary);
-
-    .position-above {
-      transform: translateY(-100%);
-    }
   }
 }

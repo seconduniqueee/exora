@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, input, OnInit, signal } from "@angular/core";
+import { Component, input, OnInit, signal } from "@angular/core";
 import { CalendarComponent } from "@exora-web/shared/ui/date-picker/calendar/calendar.component";
 import { FormControl, FormGroupDirective, ReactiveFormsModule } from "@angular/forms";
 import { InputErrorComponent } from "@exora-web/shared/ui";
@@ -6,11 +6,7 @@ import { DatePipe, NgClass } from "@angular/common";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ClickOutsideDirective } from "@exora-web/shared/directives/click-outside.directive";
 import { getSourceControl } from "../../../core/utils";
-import {
-  AttachedPlacementHelper,
-  Placement,
-  PositionEnum,
-} from "@exora-web/shared/helpers/attached-placement.helper";
+import { AttachedToDirective } from "@exora-web/shared/directives";
 
 @UntilDestroy()
 @Component({
@@ -23,18 +19,14 @@ import {
     ReactiveFormsModule,
     ClickOutsideDirective,
     NgClass,
+    AttachedToDirective,
   ],
   providers: [DatePipe],
   standalone: true,
 })
-export class DatePickerComponent implements OnInit, AfterViewInit {
-  // TODO: Set proper calendar position based on picker placement on the screen
-
+export class DatePickerComponent implements OnInit {
   sourceControl: AbstractControl;
   innerControl = new FormControl<string>(null);
-  inputElem: HTMLElement;
-  positionEnum = PositionEnum;
-  calendarPlacement = signal<Placement>(null);
 
   control = input<FormControl | AbstractControl>();
   controlName = input<string>();
@@ -47,23 +39,9 @@ export class DatePickerComponent implements OnInit, AfterViewInit {
     private datePipe: DatePipe,
   ) {}
 
-  @HostListener("window:resize", ["$event"])
-  handleResizeEvent(): void {
-    this.setCalendarPosition();
-  }
-
-  @HostListener("window:scroll", ["$event"])
-  handleScrollEvent(): void {
-    this.setCalendarPosition();
-  }
-
   ngOnInit(): void {
     this.setSourceFormControl();
     this.setInnerControlUpdates();
-  }
-
-  ngAfterViewInit(): void {
-    this.setCalendarPosition();
   }
 
   updateValue(selectedDate: Date): void {
@@ -73,7 +51,6 @@ export class DatePickerComponent implements OnInit, AfterViewInit {
 
   toggleCalendar(value?: boolean): void {
     this.calendarOpened.set(value ?? !this.calendarOpened());
-    this.calendarOpened() && this.setCalendarPosition();
   }
 
   private setSourceFormControl(): void {
@@ -89,13 +66,5 @@ export class DatePickerComponent implements OnInit, AfterViewInit {
       let dateStr = date && this.datePipe.transform(date, this.dateMask());
       this.innerControl.setValue(dateStr);
     });
-  }
-
-  private setCalendarPosition(): void {
-    this.inputElem = this.inputElem || document.querySelector(".date-picker-wrapper");
-
-    let newPlacement = AttachedPlacementHelper.getPlacement(this.inputElem, 320);
-
-    this.calendarPlacement.set(newPlacement);
   }
 }
