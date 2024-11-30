@@ -4,12 +4,12 @@ import { ServiceTypesService } from "../services/service-types.service";
 import { NamedEntityDto } from "../../../common";
 
 @ApiTags("ServiceTypes")
-@Controller("service-types")
+@Controller("service-type")
 export class ServiceTypesController {
   constructor(private service: ServiceTypesService) {}
 
   @Get("")
-  getServiceById(): Promise<NamedEntityDto[]> {
+  getServiceTypes(): Promise<NamedEntityDto[]> {
     return this.service.getServiceTypes();
   }
 }

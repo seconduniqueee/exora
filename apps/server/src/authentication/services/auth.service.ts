@@ -12,16 +12,13 @@ import * as argon from "argon2";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 import { MAX_PASSWORDS_STORED } from "../models";
-import { Base64Helper } from "../../common/helpers/base64.helper";
-import { ActionResultDto } from "../../common/dto";
-import { MappingService } from "../../common/mapping";
+import { ActionResultDto, Base64Helper } from "../../common";
 
 @Injectable()
 export class AuthService {
   constructor(
     private dbService: DataAccessService,
     private jwtService: JwtService,
-    private authMapper: MappingService,
     private configService: ConfigService,
   ) {}
 

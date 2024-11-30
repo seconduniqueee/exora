@@ -29,7 +29,8 @@ export class NewServiceComponent implements OnInit {
   }
 
   async createNewService(): Promise<void> {
-    console.log(this.newServiceForm.value);
+    let formValue = this.newServiceForm.getRawValue();
+    void this.service.createService(formValue);
   }
 
   private initNewServiceForm(): void {
