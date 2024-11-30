@@ -5,4 +5,21 @@
   <div class="service-page__content">
     <a routerLink="/new-service">Create New Service</a>
   </div>
+
+  @let services = query.services$ | async;
+
+  @for (service of services; track service.id) {
+    <div>
+      <div><b>Name</b>: {{ service.name }}</div>
+      <div><b>Description</b>: {{ service.description }}</div>
+      <div><b>Service Type</b>: {{ service.serviceType.name }}</div>
+      <div><b>Price</b>: ${{ service.price }}</div>
+    </div>
+  } @empty {
+    @if (services !== null && services !== undefined) {
+      <div>There are no services created...</div>
+    } @else {
+      <app-loading-spinner />
+    }
+  }
 </div>

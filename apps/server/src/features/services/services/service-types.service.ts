@@ -9,7 +9,7 @@ export class ServiceTypesService {
     private mapper: MappingService,
   ) {}
 
-  async getServiceTypes(): Promise<NamedEntityDto[]> {
+  async getAll(): Promise<NamedEntityDto[]> {
     let serviceTypes = await this.dbService.serviceType.findMany({ orderBy: { name: "asc" } });
     return this.mapper.mapMany(NamedEntityDto, serviceTypes);
   }

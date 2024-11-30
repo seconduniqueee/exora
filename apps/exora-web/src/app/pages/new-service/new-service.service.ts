@@ -36,7 +36,7 @@ export class NewServiceService {
   }
 
   private async loadServiceTypes(): Promise<void> {
-    let request = this.serviceTypesClient.serviceType();
+    let request = this.serviceTypesClient.serviceTypes();
     let result = await firstValueFrom(request);
 
     this.repository.setServiceTypes(result);

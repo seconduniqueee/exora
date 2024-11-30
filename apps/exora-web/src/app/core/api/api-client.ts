@@ -511,8 +511,8 @@ export class ServiceTypesClient {
     this.baseUrl = baseUrl ?? "";
   }
 
-  serviceType(): Observable<NamedEntityDto[]> {
-    let url_ = this.baseUrl + "/api/service-type";
+  serviceTypes(): Observable<NamedEntityDto[]> {
+    let url_ = this.baseUrl + "/api/service-types";
     url_ = url_.replace(/[?&]$/, "");
 
     let options_: any = {
@@ -527,14 +527,14 @@ export class ServiceTypesClient {
       .request("get", url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
-          return this.processServiceType(response_);
+          return this.processServiceTypes(response_);
         }),
       )
       .pipe(
         _observableCatch((response_: any) => {
           if (response_ instanceof HttpResponseBase) {
             try {
-              return this.processServiceType(response_ as any);
+              return this.processServiceTypes(response_ as any);
             } catch (e) {
               return _observableThrow(e) as any as Observable<NamedEntityDto[]>;
             }
@@ -543,7 +543,7 @@ export class ServiceTypesClient {
       );
   }
 
-  protected processServiceType(response: HttpResponseBase): Observable<NamedEntityDto[]> {
+  protected processServiceTypes(response: HttpResponseBase): Observable<NamedEntityDto[]> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
@@ -599,6 +599,79 @@ export class ServicesClient {
   ) {
     this.http = http;
     this.baseUrl = baseUrl ?? "";
+  }
+
+  services(): Observable<ServiceDto[]> {
+    let url_ = this.baseUrl + "/api/services";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        Accept: "application/json",
+      }),
+    };
+
+    return this.http
+      .request("get", url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processServices(response_);
+        }),
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processServices(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ServiceDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ServiceDto[]>;
+        }),
+      );
+  }
+
+  protected processServices(response: HttpResponseBase): Observable<ServiceDto[]> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+          ? (response as any).error
+          : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ""
+              ? null
+              : (JSON.parse(_responseText, this.jsonParseReviver) as ServiceDto[]);
+          return _observableOf(result200);
+        }),
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          return throwException(
+            "An unexpected server error occurred.",
+            status,
+            _responseText,
+            _headers,
+          );
+        }),
+      );
+    }
+    return _observableOf(null as any);
   }
 
   service(body: CreateServiceRequestDto): Observable<ServiceDto> {
@@ -744,21 +817,21 @@ export interface UserDto {
   [key: string]: any;
 }
 
-export interface CreateServiceRequestDto {
-  name: string;
-  description: string;
-  serviceTypeID: number;
-  price: number;
-
-  [key: string]: any;
-}
-
 export interface ServiceDto {
   id: number;
   name: string;
   description: string;
   serviceTypeID: number;
   serviceType: NamedEntityDto;
+  price: number;
+
+  [key: string]: any;
+}
+
+export interface CreateServiceRequestDto {
+  name: string;
+  description: string;
+  serviceTypeID: number;
   price: number;
 
   [key: string]: any;

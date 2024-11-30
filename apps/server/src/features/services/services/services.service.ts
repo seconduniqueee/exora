@@ -11,8 +11,21 @@ export class ServicesService {
     private mapper: MappingService,
   ) {}
 
+  async getAll(): Promise<ServiceDto[]> {
+    let services = await this.dbService.service.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { serviceType: true },
+    });
+
+    return this.mapper.mapMany(ServiceDto, services);
+  }
+
   async createService(request: CreateServiceRequestDto): Promise<ServiceDto> {
-    let service: Service = await this.dbService.service.create({ data: { ...request } });
+    let service: Service = await this.dbService.service.create({
+      data: { ...request },
+      include: { serviceType: true },
+    });
+
     return this.mapper.map(ServiceDto, service);
   }
 }
