@@ -34,18 +34,11 @@
         <input formControlName="price" type="number" placeholder="Enter Service Price" [min]="0" />
         <app-input-error controlName="price" />
       </div>
-
-      <div class="form-control">
-        <label>Test Date</label>
-        <app-date-picker controlName="date" />
-        <app-input-error controlName="date" />
-      </div>
     </div>
 
     <div class="form-submit">
       <button>Create Service</button>
       <button type="button" (click)="cancel.emit()">Cancel</button>
-      <button type="button" (click)="removeService()">Remove Service</button>
     </div>
   </form>
 }

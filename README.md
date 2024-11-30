@@ -16,6 +16,6 @@
 - [x] **FE -- Configure Elf store infrastructure**
 - [x] **FE -- Implement Sign In, Sign Up, Log Out**
 - [x] **FE -- Implement custom Select and DatePicker components**
-- [x] **FE -- Implement custom Modal Dialog with direct component injection**
+- [x] **FE -- Implement custom Modal Dialog Service with direct component injection (material like flow)**
 - [ ] **FE -- Implement Account page with Change Password functionality**
 - [ ] **FE -- Implement Forget Password functionality**

@@ -5,7 +5,6 @@ export interface NewServiceForm {
   description: string;
   serviceTypeID: number;
   price: number;
-  date: Date;
 }
 
 export interface NewServiceState {
