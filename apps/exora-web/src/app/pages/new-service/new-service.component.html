@@ -6,6 +6,7 @@
       [newServiceForm]="newServiceForm"
       [serviceTypes]="query.serviceTypes$ | async"
       (createNewService)="createNewService()"
+      (cancel)="backToServices()"
     />
   </div>
 </div>

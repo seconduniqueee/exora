@@ -37,6 +37,10 @@ export class NewServiceComponent implements OnInit {
     result && (await this.router.navigate(["services"]));
   }
 
+  async backToServices(): Promise<void> {
+    await this.router.navigate(["services"]);
+  }
+
   private initNewServiceForm(): void {
     let { required } = Validators;
 
