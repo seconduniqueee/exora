@@ -4,13 +4,14 @@ import { RouterLink } from "@angular/router";
 import { ServicesQuery, ServicesRepository } from "./services.repository";
 import { AsyncPipe } from "@angular/common";
 import { LoadingSpinnerComponent } from "@exora-web/shared/ui";
+import { ServiceCardComponent } from "./service-card/service-card.component";
 
 @Component({
   templateUrl: "services.component.html",
   styleUrl: "services.component.scss",
   standalone: true,
   providers: [ServicesService, ServicesRepository, ServicesQuery],
-  imports: [RouterLink, AsyncPipe, LoadingSpinnerComponent],
+  imports: [RouterLink, AsyncPipe, LoadingSpinnerComponent, ServiceCardComponent],
 })
 export class ServicesComponent implements OnInit {
   constructor(

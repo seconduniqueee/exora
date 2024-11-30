@@ -1,3 +1,6 @@
+@import "variables";
+@import "mixins";
+
 .services-page {
   padding-top: 30px;
 
@@ -8,10 +11,21 @@
     font-weight: 600;
   }
 
-  .subtitle {
-    color: var(--font-color-secondary);
-    font-size: 16px;
-    text-align: center;
-    font-weight: normal;
+  &__content {
+    padding-top: 30px;
+
+    .create-new {
+      text-align: center;
+    }
+
+    .services-list {
+      @include d-flex(center, stretch, 10px);
+
+      margin-top: 20px;
+
+      &__service {
+        width: 250px;
+      }
+    }
   }
 }

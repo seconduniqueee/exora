@@ -5,6 +5,7 @@ import { NewServiceFormComponent } from "./new-service-form/new-service-form.com
 import { NewServiceForm } from "./new-service.model";
 import { FormBuilder, Validators } from "@angular/forms";
 import { AsyncPipe } from "@angular/common";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-new-service",
@@ -20,6 +21,7 @@ export class NewServiceComponent implements OnInit {
   constructor(
     public query: NewServiceQuery,
     private service: NewServiceService,
+    private router: Router,
     private fb: FormBuilder,
   ) {}
 
@@ -30,7 +32,9 @@ export class NewServiceComponent implements OnInit {
 
   async createNewService(): Promise<void> {
     let formValue = this.newServiceForm.getRawValue();
-    void this.service.createService(formValue);
+    let result = await this.service.createService(formValue);
+
+    result && (await this.router.navigate(["services"]));
   }
 
   private initNewServiceForm(): void {

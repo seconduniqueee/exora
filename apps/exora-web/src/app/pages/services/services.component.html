@@ -1,25 +1,25 @@
 <div class="services-page">
   <h1 class="title">Services</h1>
-  <h2 class="subtitle">This page is in development...</h2>
 
-  <div class="service-page__content">
-    <a routerLink="/new-service">Create New Service</a>
-  </div>
+  <div class="services-page__content">
+    @let services = query.services$ | async;
 
-  @let services = query.services$ | async;
-
-  @for (service of services; track service.id) {
-    <div>
-      <div><b>Name</b>: {{ service.name }}</div>
-      <div><b>Description</b>: {{ service.description }}</div>
-      <div><b>Service Type</b>: {{ service.serviceType.name }}</div>
-      <div><b>Price</b>: ${{ service.price }}</div>
+    <div class="create-new">
+      <a routerLink="/new-service">Create New Service</a>
     </div>
-  } @empty {
-    @if (services !== null && services !== undefined) {
-      <div>There are no services created...</div>
-    } @else {
-      <app-loading-spinner />
-    }
-  }
+
+    <div class="services-list">
+      @for (service of services; track service.id) {
+        <div class="services-list__service">
+          <app-service-card [service]="service" />
+        </div>
+      } @empty {
+        @if (services !== null) {
+          <div class="no-services">There are no services created...</div>
+        } @else {
+          <app-loading-spinner />
+        }
+      }
+    </div>
+  </div>
 </div>

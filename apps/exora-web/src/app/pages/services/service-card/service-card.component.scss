@@ -1,0 +1,24 @@
+@import "variables";
+@import "mixins";
+
+.service-card {
+  padding: 15px;
+  border: 1px solid var(--border-color);
+
+  &__info {
+    @include d-flex(flex-start, flex-start, 2px, column);
+
+    margin-bottom: 10px;
+
+    .label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-color-secondary);
+    }
+
+    .data {
+      font-size: 15px;
+      padding-left: 10px;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+@let item = service();
+
+<div class="service-card">
+  <div class="service-card__info">
+    <div class="label">Name:</div>
+    <div class="data">{{ item.name }}</div>
+  </div>
+
+  <div class="service-card__info">
+    <div class="label">Description:</div>
+    <div class="data">{{ item.description }}</div>
+  </div>
+
+  <div class="service-card__info">
+    <div class="label">Service Type:</div>
+    <div class="data">{{ item.serviceType.name }}</div>
+  </div>
+
+  <div class="service-card__info">
+    <div class="label">Price:</div>
+    <div class="data">${{ item.price }}</div>
+  </div>
+</div>

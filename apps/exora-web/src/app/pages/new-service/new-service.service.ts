@@ -3,6 +3,7 @@ import { ServicesClient, ServiceTypesClient } from "../../core/api/api-client";
 import { NewServiceRepository } from "./new-service.repository";
 import { firstValueFrom } from "rxjs";
 import { NewServiceForm } from "./new-service.model";
+import { ServiceModel } from "@exora/shared-models";
 
 @Injectable()
 export class NewServiceService {
@@ -24,12 +25,12 @@ export class NewServiceService {
     }
   }
 
-  async createService(formValue: NewServiceForm): Promise<void> {
+  async createService(formValue: NewServiceForm): Promise<ServiceModel> {
     try {
       let request = this.servicesClient.service(formValue);
       let result = await firstValueFrom(request);
 
-      console.log(result);
+      return result;
     } catch (error) {
       console.error(error);
     }
